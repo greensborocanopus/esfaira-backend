@@ -7,52 +7,38 @@ const crypto = require('crypto');
 const { AppError, handleError } = require('../utils/errorHandler');
 
 const register = async (req, res) => {
-    const { ecode, gender, category_subcategory, place, dob, name, jersey_no, email, password } = req.body;
+    const { gender, category_subcategory, place, dob, name, jersey_no, email, password } = req.body;
 
     const errors = {};
 
-    // Validate ecode
-    if (!ecode) {
-        return handleError(new AppError('Ecode is required.', 400), res);
+    // Validate category_subcategory as an array
+    if (!category_subcategory || !Array.isArray(category_subcategory) || category_subcategory.length === 0) {
+        errors.category_subcategory = 'Category/subcategory is required and must be an array.';
+    } else {
+        const invalidCategories = category_subcategory.filter(c => !allowedCategories.includes(c));
+        if (invalidCategories.length > 0) {
+            errors.category_subcategory = `Invalid categories: ${invalidCategories.join(', ')}. Allowed values are ${allowedCategories.join(', ')}.`;
+        }
+    }
+
+    // Validate other fields
+    if (!gender) errors.gender = 'Gender is required.';
+    if (!place) errors.place = 'Place is required.';
+    if (!dob) errors.dob = 'Date of birth is required.';
+    if (!name) errors.name = 'Name is required.';
+    if (!jersey_no) errors.jersey_no = 'Jersey number is required.';
+    if (!email) errors.email = 'Email is required.';
+    if (!password) errors.password = 'Password is required.';
+
+    if (Object.keys(errors).length > 0) {
+        // Return detailed validation errors
+        return res.status(400).json({
+            message: 'Validation errors',
+            errors
+        });
     }
 
     try {
-        // Check if the ecode exists and is unused
-        const [ecodeRows] = await db.query('SELECT * FROM ecode WHERE ecode = ?', [ecode]);
-        if (ecodeRows.length === 0) {
-            throw new AppError('Invalid ecode.', 400);
-        }
-
-        const ecodeEntry = ecodeRows[0];
-        if (ecodeEntry.is_used === 1) {
-            throw new AppError('Ecode is already used.', 400);
-        }
-
-        
-
-        // Validate each field
-        if (!gender) errors.gender = 'Gender is required.';
-        if (!category_subcategory) {
-            errors.category_subcategory = 'Category/subcategory is required.';
-        } else {
-            const selectedCategories = category_subcategory.split(',').map(c => c.trim());
-            const invalidCategories = selectedCategories.filter(c => !allowedCategories.includes(c));
-            if (invalidCategories.length > 0) {
-                errors.category_subcategory = `Invalid categories: ${invalidCategories.join(', ')}. Allowed values are ${allowedCategories.join(', ')}.`;
-            }
-        }
-        if (!place) errors.place = 'Place is required.';
-        if (!dob) errors.dob = 'Date of birth is required.';
-        if (!name) errors.name = 'Name is required.';
-        if (!jersey_no) errors.jersey_no = 'Jersey number is required.';
-        if (!email) errors.email = 'Email is required.';
-        if (!password) errors.password = 'Password is required.';
-
-        // If there are validation errors, return them
-        if (Object.keys(errors).length > 0) {
-            return handleError(new AppError('Validation errors', 400), res);
-        }
-
         // Check if the email already exists
         const [existingUser] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
         if (existingUser.length > 0) {
@@ -62,16 +48,16 @@ const register = async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Convert category_subcategory array to a comma-separated string
+        const categoryString = category_subcategory.join(', ');
+
         // Insert the new user into the database
         await db.query(`
             INSERT INTO users (gender, category_subcategory, place, dob, name, jersey_no, email, password)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `, [gender, category_subcategory, place, dob, name, jersey_no, email, hashedPassword]);
+        `, [gender, categoryString, place, dob, name, jersey_no, email, hashedPassword]);
 
-        // Mark the ecode as used
-        await db.query('UPDATE ecode SET is_used = 1, used_datetime = NOW() WHERE ecode_id = ?', [ecodeEntry.ecode_id]);
-
-        // Return a success response
+        // Success response
         res.status(201).json({ message: 'User registered successfully.' });
     } catch (error) {
         handleError(error, res);
@@ -155,7 +141,7 @@ const updatePassword = async (req, res) => {
     }
 
     try {
-        // Get the current user and password from the database
+        // Get the current user and password fr0om the database
         const [user] = await db.query('SELECT * FROM users WHERE id = ?', [userId]);
         if (user.length === 0) {
             throw new AppError('User not found.', 404);
@@ -222,6 +208,42 @@ const requestEcode = async (req, res) => {
     }
 };
 
+const verifyEcode = async (req, res) => {
+    const { ecode } = req.body;
+
+    // Validate input
+    if (!ecode) {
+        return res.status(400).json({ message: 'Ecode is required.' });
+    }
+
+    try {
+        // Check if the ecode exists
+        const [ecodeRows] = await db.query('SELECT * FROM ecode WHERE ecode = ?', [ecode]);
+        if (ecodeRows.length === 0) {
+            return res.status(400).json({ message: 'Invalid ecode.' });
+        }
+
+        const ecodeEntry = ecodeRows[0];
+
+        // Check if the ecode is already used
+        if (ecodeEntry.is_used === 1) {
+            return res.status(400).json({ message: 'Ecode is already used.' });
+        }
+
+        // Mark the ecode as used and update the used_datetime
+        await db.query(
+            'UPDATE ecode SET is_used = 1, used_datetime = NOW() WHERE ecode_id = ?',
+            [ecodeEntry.ecode_id]
+        );
+
+        // Send success response
+        res.status(200).json({ message: 'Ecode is valid.', ecode_id: ecodeEntry.ecode_id });
+    } catch (error) {
+        console.error('Error verifying ecode:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
 
 
-module.exports = { login, register, forgotPassword, updatePassword, requestEcode };
+
+module.exports = { login, register, forgotPassword, updatePassword, requestEcode, verifyEcode };
