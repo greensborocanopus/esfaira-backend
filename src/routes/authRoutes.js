@@ -1,5 +1,5 @@
 const express = require('express');
-const { login, register, forgotPassword, updatePassword, requestEcode, verifyEcode } = require('../controllers/authController');
+const { login, register, forgotPassword, updatePassword, requestEcode, verifyEcode, addEcode } = require('../controllers/authController');
 const authMiddleware = require('../middleware/authMiddleware'); // Ensure the user is logged in for updatePassword
 
 const router = express.Router();
@@ -10,6 +10,7 @@ router.post('/register', register);
 router.post('/forgot-password', forgotPassword); // Public route
 router.post('/update-password', authMiddleware, updatePassword); // Protected route
 
+router.post('/add-ecode', authMiddleware, addEcode); // Add an ecode
 router.post('/request-ecode', requestEcode); // Request an ecode
 router.post('/verify-ecode', verifyEcode); // New ecode verification route
 
