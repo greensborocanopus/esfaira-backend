@@ -228,9 +228,6 @@ const requestEcode = async (req, res) => {
             text: `Here is your ecode: ${ecode.ecode}`,
         });
 
-        // Optionally mark the ecode as reserved/used
-        await ecode.update({ is_used: true });
-
         res.status(200).json({ message: 'Ecode sent to your email.' });
     } catch (error) {
         console.error(error);
