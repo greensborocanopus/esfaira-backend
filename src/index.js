@@ -9,11 +9,13 @@ dotenv.config();
 const app = express();
 
 // Configure CORS
-app.use(cors({
-    origin: 'http://localhost:3000', // Replace with your frontend's URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true, // Allow credentials (e.g., cookies, authorization headers)
-}));
+// app.use(cors({
+//     origin: 'http://localhost:3000', // Replace with your frontend's URL
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     credentials: true, // Allow credentials (e.g., cookies, authorization headers)
+// }));
+
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use('/api', apiRouter);
