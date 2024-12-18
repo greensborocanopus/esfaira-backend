@@ -2,10 +2,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const apiRouter = require('./routes'); // Import the main router
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 dotenv.config();
 
 const app = express();
+
+// Configure CORS
+app.use(cors({
+    origin: 'http://localhost:3000', // Replace with your frontend's URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true, // Allow credentials (e.g., cookies, authorization headers)
+}));
 
 app.use(bodyParser.json());
 app.use('/api', apiRouter);
