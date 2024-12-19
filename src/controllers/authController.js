@@ -9,12 +9,13 @@ const { User } = require('../models'); // Import the User model
 
 
 const register = async (req, res) => {
-    const { gender, category_subcategory, place, dob, name, jersey_no, email, password } = req.body;
+    const { ecode, gender, category_subcategory, place, dob, name, jersey_no, email, password } = req.body;
   
     // Validation errors
     const errors = {};
   
     // Validate fields
+    if (!ecode) errors.ecode = 'Ecode is required.';
     if (!gender) errors.gender = 'Gender is required.';
     if (!Array.isArray(category_subcategory) || category_subcategory.length === 0) {
       errors.category_subcategory = 'Category/subcategory is required and must be an array.';
@@ -37,6 +38,15 @@ const register = async (req, res) => {
     }
   
     try {
+
+        const ecodeEntry = await Ecode.findOne({ where: { ecode } });
+        if (!ecodeEntry) {
+            return res.status(400).json({ message: 'Invalid ecode.' });
+        }
+
+        if (ecodeEntry.is_used) {
+            return res.status(400).json({ message: 'Ecode is already used.' });
+        }
       // Check if email already exists
       const existingUser = await User.findOne({ where: { email } });
       if (existingUser) {
@@ -57,6 +67,17 @@ const register = async (req, res) => {
         email,
         password: hashedPassword,
       });
+
+      const newUser = await User.findOne({ where: { email } }); // Find the user by email
+      if (!newUser) {
+          return res.status(500).json({ message: 'User registration failed. Could not retrieve user details.' });
+      }
+
+        // Mark the ecode as used
+        ecodeEntry.is_used = true;
+        ecodeEntry.used_datetime = new Date();
+        ecodeEntry.user_id = newUser.id;
+        await ecodeEntry.save();
   
       return res.status(201).json({ message: 'User registered successfully.', user });
     } catch (error) {
@@ -204,34 +225,37 @@ const addEcode = async (req, res) => {
 };
 
 const requestEcode = async (req, res) => {
-    const { email } = req.body;
+    const { email } = req.body; // Assume user sends their email and name
 
     if (!email) {
-        return res.status(400).json({ message: 'Email is required.' });
+        return handleError(new AppError('email is required.', 400), res);
     }
 
     try {
-        const ecode = await Ecode.findOne({ where: { is_used: false } });
-        if (!ecode) {
-            return res.status(404).json({ message: 'No unused ecodes available.' });
-        }
-
+        // Email the admin about the ecode request
         const transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+            service: 'Gmail', // Use your email service provider
+            auth: {
+                user: process.env.ADMIN_EMAIL_USER, // Admin email credentials
+                pass: process.env.ADMIN_EMAIL_PASS,
+            },
         });
 
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: 'Your Ecode',
-            text: `Here is your ecode: ${ecode.ecode}`,
-        });
+        const adminEmail = process.env.ADMIN_EMAIL; // Admin's email address
 
-        res.status(200).json({ message: 'Ecode sent to your email.' });
+        const mailOptions = {
+            from: process.env.ADMIN_EMAIL_USER,
+            to: adminEmail,
+            subject: 'Ecode Request',
+            text: `User Requesting Ecode:\nEmail: ${email}`,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json({ message: 'Your ecode request has been sent to the admin.' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error.' });
+        console.error('Error sending email to admin:', error);
+        handleError(new AppError('Failed to send email to the admin.', 500), res);
     }
 };
 
@@ -252,11 +276,6 @@ const verifyEcode = async (req, res) => {
     if (ecodeEntry.is_used) {
       return res.status(400).json({ message: 'Ecode is already used.' });
     }
-
-    // Mark the ecode as used
-    ecodeEntry.is_used = true;
-    ecodeEntry.used_datetime = new Date();
-    await ecodeEntry.save();
 
     return res.status(200).json({ message: 'Ecode is valid.' });
   } catch (error) {
