@@ -253,6 +253,54 @@ const getCityById = async (req, res) => {
     }
 };
 
+const getStateByCountry = async (req, res) => {
+    const { countryId } = req.params;
+
+    if (!countryId) {
+        return res.status(400).json({ message: 'countryId is required.' });
+    }
+
+    try {
+        const states = await State.findAll({
+            where: { country_id: countryId },
+            attributes: ['state_id', 'name', 'country_id', 'iso2', 'status'],
+        });
+
+        if (states.length === 0) {
+            return res.status(404).json({ message: 'No states found for the given country.' });
+        }
+
+        res.status(200).json(states);
+    } catch (error) {
+        console.error('Error fetching states:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
+const getCityByState = async (req, res) => {
+    const { stateId } = req.params;
+
+    if (!stateId) {
+        return res.status(400).json({ message: 'stateId is required.' });
+    }
+
+    try {
+        const cities = await City.findAll({
+            where: { state_id: stateId },
+            attributes: ['city_id', 'name', 'state_id', 'country_id', 'latitude', 'longitude', 'status'],
+        });
+
+        if (cities.length === 0) {
+            return res.status(404).json({ message: 'No cities found for the given state.' });
+        }
+
+        res.status(200).json(cities);
+    } catch (error) {
+        console.error('Error fetching cities:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
   
-module.exports = { updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById };
+module.exports = { updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState };
 
