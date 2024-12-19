@@ -136,6 +136,51 @@ const addCity = async (req, res) => {
       res.status(500).json({ message: 'Server error.', error });
     }
 };
+
+const getCountries = async (req, res) => {
+    try {
+        const countries = await Country.findAll({
+            attributes: ['id', 'shortname', 'name', 'phonecode'], // Select only required fields
+        });
+        res.status(200).json(countries);
+    } catch (error) {
+        console.error('Error fetching countries:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
+const getStates = async (req, res) => {
+    const { country_id } = req.query; // Optional query parameter to filter by country
+    try {
+        const whereClause = country_id ? { where: { country_id } } : {};
+        const states = await State.findAll({
+            ...whereClause,
+            attributes: ['state_id', 'name', 'country_id', 'iso2', 'status'], // Select only required fields
+        });
+        res.status(200).json(states);
+    } catch (error) {
+        console.error('Error fetching states:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
+const getCities = async (req, res) => {
+    const { state_id, country_id } = req.query; // Optional query parameters to filter
+    try {
+        const whereClause = {};
+        if (state_id) whereClause.state_id = state_id;
+        if (country_id) whereClause.country_id = country_id;
+
+        const cities = await City.findAll({
+            where: whereClause,
+            attributes: ['city_id', 'name', 'state_id', 'country_id', 'latitude', 'longitude', 'status'], // Select only required fields
+        });
+        res.status(200).json(cities);
+    } catch (error) {
+        console.error('Error fetching cities:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
   
-module.exports = { updateUser, addCountry, addState, addCity };
+module.exports = { updateUser, addCountry, addState, addCity, getCountries, getStates, getCities };
 
