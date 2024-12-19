@@ -131,7 +131,16 @@ const forgotPassword = async (req, res) => {
         const resetTokenExpiry = new Date(Date.now() + 15 * 60 * 1000); // Token valid for 15 minutes
 
         // Save the token and expiry to the user's record
-        await user.update({ reset_token: resetToken, reset_token_expiry: resetTokenExpiry });
+        try {
+            await user.update({ reset_token: resetToken, reset_token_expiry: resetTokenExpiry });
+        } catch (error) {
+            console.error('Error updating user token:', error);
+            return res.status(500).json({ message: 'Unable to update reset token.' });
+        }
+
+        // Confirm database update
+        const updatedUser = await User.findOne({ where: { email } });
+        console.log('Updated User:', updatedUser);
 
         // Generate the reset link pointing to the backend
         const resetLink = `http://localhost:3100/api/auth/reset-password-form?token=${resetToken}`;
