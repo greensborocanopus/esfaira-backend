@@ -1,10 +1,11 @@
 const allowedCategories = [
-    'Goalkeeper',
-    'Defender',
-    'MidFielder',
-    'Forwarder',
-    'Coach',
-    'Freestyle',
+    'fan',
+    'goalkeeper',
+    'defender',
+    'midFielder',
+    'forwarder',
+    'coach',
+    'freestyle',
   ];
   
   module.exports = { allowedCategories };

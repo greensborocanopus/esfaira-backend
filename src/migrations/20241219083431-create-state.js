@@ -1,54 +1,42 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('States', {
       state_id: {
-        type: Sequelize.INTEGER.UNSIGNED,
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       country_id: {
-        type: Sequelize.INTEGER.UNSIGNED,
-        allowNull: false,
+        type: Sequelize.INTEGER, // Ensure this matches Countries' id
         references: {
           model: 'Countries',
           key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       iso2: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
         allowNull: true,
       },
       updated_at: {
-        type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.NOW,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       },
       status: {
-        type: Sequelize.TINYINT,
+        type: Sequelize.TINYINT(1),
         allowNull: false,
         defaultValue: 1,
       },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.NOW,
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.NOW,
-      },
     });
   },
-
-  down: async (queryInterface) => {
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('States');
   },
 };

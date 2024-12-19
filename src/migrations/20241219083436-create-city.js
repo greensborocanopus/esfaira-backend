@@ -1,35 +1,33 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Cities', {
       city_id: {
-        type: Sequelize.INTEGER.UNSIGNED,
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       state_id: {
-        type: Sequelize.INTEGER.UNSIGNED,
-        allowNull: false,
+        type: Sequelize.INTEGER, // Ensure this matches States' state_id
         references: {
           model: 'States',
           key: 'state_id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       country_id: {
-        type: Sequelize.INTEGER.UNSIGNED,
-        allowNull: false,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Countries',
           key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       latitude: {
         type: Sequelize.DECIMAL(10, 8),
@@ -40,29 +38,18 @@ module.exports = {
         allowNull: false,
       },
       updated_on: {
-        type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.NOW,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       },
       status: {
-        type: Sequelize.TINYINT,
+        type: Sequelize.TINYINT(1),
         allowNull: false,
         defaultValue: 1,
       },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.NOW,
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.NOW,
-      },
     });
   },
-
-  down: async (queryInterface) => {
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Cities');
   },
 };
