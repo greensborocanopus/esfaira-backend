@@ -181,6 +181,78 @@ const getCities = async (req, res) => {
         res.status(500).json({ message: 'Server error.', error });
     }
 };
+
+const getCountryById = async (req, res) => {
+    const { countryId } = req.query;
+
+    if (!countryId) {
+        return res.status(400).json({ message: 'countryId is required.' });
+    }
+
+    try {
+        const country = await Country.findByPk(countryId, {
+            attributes: ['id', 'shortname', 'name', 'phonecode'],
+        });
+
+        if (!country) {
+            return res.status(404).json({ message: 'Country not found.' });
+        }
+
+        res.status(200).json(country);
+    } catch (error) {
+        console.error('Error fetching country:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
+// Fetch a single state by ID
+const getStateById = async (req, res) => {
+    const { stateId } = req.query;
+
+    if (!stateId) {
+        return res.status(400).json({ message: 'stateId is required.' });
+    }
+
+    try {
+        const state = await State.findByPk(stateId, {
+            attributes: ['state_id', 'name', 'country_id', 'iso2', 'status'],
+        });
+
+        if (!state) {
+            return res.status(404).json({ message: 'State not found.' });
+        }
+
+        res.status(200).json(state);
+    } catch (error) {
+        console.error('Error fetching state:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
+// Fetch a single city by ID
+const getCityById = async (req, res) => {
+    const { cityId } = req.query;
+
+    if (!cityId) {
+        return res.status(400).json({ message: 'cityId is required.' });
+    }
+
+    try {
+        const city = await City.findByPk(cityId, {
+            attributes: ['city_id', 'name', 'state_id', 'country_id', 'latitude', 'longitude', 'status'],
+        });
+
+        if (!city) {
+            return res.status(404).json({ message: 'City not found.' });
+        }
+
+        res.status(200).json(city);
+    } catch (error) {
+        console.error('Error fetching city:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
   
-module.exports = { updateUser, addCountry, addState, addCity, getCountries, getStates, getCities };
+module.exports = { updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById };
 
