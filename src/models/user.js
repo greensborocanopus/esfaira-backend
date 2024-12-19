@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     jersey_no: { type: DataTypes.INTEGER, allowNull: false },
     email: { type: DataTypes.STRING, allowNull: false, unique: true },
     password: { type: DataTypes.STRING, allowNull: false },
+    reset_token: { type: DataTypes.STRING, allowNull: true }, // To store the reset token
+    reset_token_expiry: { type: DataTypes.DATE, allowNull: true }, // To store token expiration time
   });
   return User;
 };

@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const { AppError, handleError } = require('../utils/errorHandler');
 const { Ecode } = require('../models'); // Import the Ecode model
 const { User } = require('../models'); // Import the User model
+const { Op } = require('sequelize');
 
 
 const register = async (req, res) => {
@@ -125,24 +126,143 @@ const forgotPassword = async (req, res) => {
             return res.status(404).json({ message: 'Email not found.' });
         }
 
-        const temporaryPassword = crypto.randomBytes(8).toString('hex');
-        const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
+        // Generate a password reset token
+        const resetToken = crypto.randomBytes(32).toString('hex');
+        const resetTokenExpiry = new Date(Date.now() + 15 * 60 * 1000); // Token valid for 15 minutes
 
-        await user.update({ password: hashedPassword });
+        // Save the token and expiry to the user's record
+        await user.update({ reset_token: resetToken, reset_token_expiry: resetTokenExpiry });
 
+        // Generate the reset link pointing to the backend
+        const resetLink = `http://localhost:3100/api/auth/reset-password-form?token=${resetToken}`;
+
+        // Send the reset link via email
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
-            auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+            auth: { user: process.env.ADMIN_EMAIL_USER, pass: process.env.ADMIN_EMAIL_PASS },
         });
 
         await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+            from: process.env.ADMIN_EMAIL_USER,
             to: email,
-            subject: 'Password Reset',
-            text: `Your new temporary password is: ${temporaryPassword}`,
+            subject: 'Password Reset Request',
+            text: `You requested a password reset. Click the link below to reset your password:\n\n${resetLink}\n\nIf you did not request this, please ignore this email.`,
         });
 
-        res.status(200).json({ message: 'Temporary password sent to your email.' });
+        res.status(200).json({ message: 'Password reset link sent to your email.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error.' });
+    }
+};
+
+const resetPasswordForm = async (req, res) => {
+    const { token } = req.query;
+
+    if (!token) {
+        return res.status(400).send('Invalid or missing reset token.');
+    }
+
+    // Serve the password reset form
+    res.send(`
+        <html>
+            <head>
+                <title>Reset Your Password</title>
+                <script>
+                    function validateForm(event) {
+                        event.preventDefault(); // Prevent form submission
+                        
+                        const newPassword = document.getElementById('newPassword').value;
+                        const confirmPassword = document.getElementById('confirmPassword').value;
+                        const errorMessage = document.getElementById('errorMessage');
+                        
+                        // Clear any previous error messages
+                        errorMessage.textContent = '';
+                        
+                        // Validation rules
+                        if (!newPassword || !confirmPassword) {
+                            errorMessage.textContent = 'All fields are required.';
+                            return;
+                        }
+                        
+                        if (newPassword === confirmPassword) {
+                            if (newPassword.length < 6) {
+                                errorMessage.textContent = 'Password must be at least 6 characters long.';
+                                return;
+                            }
+                            if (newPassword === 'oldPasswordExample') { // Replace with dynamic old password check
+                                errorMessage.textContent = 'New password cannot be the same as the old password.';
+                                return;
+                            }
+                            // Submit form after all validations pass
+                            document.getElementById('resetPasswordForm').submit();
+                        } else {
+                            errorMessage.textContent = 'New password and confirm password do not match.';
+                        }
+                    }
+                </script>
+            </head>
+            <body>
+                <h2>Reset Your Password</h2>
+                <div id="errorMessage" style="color: red; font-weight: bold; margin-bottom: 10px;"></div>
+                <form id="resetPasswordForm" action="http://localhost:3100/api/auth/reset-password" method="POST" onsubmit="validateForm(event)">
+                    <input type="hidden" name="token" value="${token}" />
+                    <div>
+                        <label for="newPassword">New Password:</label>
+                        <input type="password" id="newPassword" name="newPassword" required />
+                    </div>
+                    <div>
+                        <label for="confirmPassword">Confirm Password:</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required />
+                    </div>
+                    <button type="submit">Reset Password</button>
+                </form>
+            </body>
+        </html>
+    `);
+};
+
+const resetPassword = async (req, res) => {
+    const { token, newPassword, confirmPassword } = req.body;
+    console.log("token, newPassword, confirmPassword==>>> ", token, newPassword, confirmPassword);
+
+    if (!token || !newPassword || !confirmPassword) {
+        return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    if (newPassword !== confirmPassword) {
+        return res.status(400).json({ message: 'New password and confirm password do not match.' });
+    }
+
+    try {
+        const user = await User.findOne({
+            where: {
+                reset_token: token,
+                reset_token_expiry: { [Op.gt]: new Date() }, // Ensure token is valid
+            },
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid or expired token.' });
+        }
+
+        // Check if the new password matches the old password
+        const isNewPasswordSameAsOld = await bcrypt.compare(newPassword, user.password);
+        if (isNewPasswordSameAsOld) {
+            return res.status(400).json({ message: 'New password cannot be the same as the old password.' });
+        }
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Update the user's password and clear the reset token
+        await user.update({
+            password: hashedPassword,
+            reset_token: null,
+            reset_token_expiry: null,
+        });
+
+        res.status(200).json({ message: 'Password updated successfully.' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error.' });
@@ -286,4 +406,4 @@ const verifyEcode = async (req, res) => {
 
 
 
-module.exports = { login, register, forgotPassword, updatePassword, requestEcode, verifyEcode, addEcode };
+module.exports = { login, register, forgotPassword, resetPasswordForm, resetPassword, updatePassword, requestEcode, verifyEcode, addEcode };
