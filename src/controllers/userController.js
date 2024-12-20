@@ -82,7 +82,7 @@ const addCountry = async (req, res) => {
   };
   
 const addState = async (req, res) => {
-    const { state_id, name, country_id, iso2 } = req.body;
+    const { state_id, name, country_id } = req.body;
   
     if (!state_id || !name || !country_id) {
       return res.status(400).json({ message: 'state_id, name, and country_id are required.' });
@@ -105,18 +105,13 @@ const addState = async (req, res) => {
 const addCity = async (req, res) => {
     const { city_id, name, state_id, country_id, latitude, longitude } = req.body;
   
-    if (!city_id || !name || !state_id || !country_id || !latitude || !longitude) {
+    if (!city_id || !name || !state_id) {
       return res.status(400).json({
-        message: 'city_id, name, state_id, country_id, latitude, and longitude are required.',
+        message: 'city_id, name and state_id are required',
       });
     }
   
     try {
-      const countryExists = await Country.findByPk(country_id);
-      if (!countryExists) {
-        return res.status(404).json({ message: 'Country not found.' });
-      }
-  
       const stateExists = await State.findByPk(state_id);
       if (!stateExists) {
         return res.status(404).json({ message: 'State not found.' });
@@ -173,7 +168,7 @@ const getCities = async (req, res) => {
 
         const cities = await City.findAll({
             where: whereClause,
-            attributes: ['city_id', 'name', 'state_id', 'country_id', 'latitude', 'longitude', 'status'], // Select only required fields
+            attributes: ['city_id', 'name', 'state_id'], // Select only required fields
         });
         res.status(200).json(cities);
     } catch (error) {
@@ -239,7 +234,7 @@ const getCityById = async (req, res) => {
 
     try {
         const city = await City.findByPk(cityId, {
-            attributes: ['city_id', 'name', 'state_id', 'country_id', 'latitude', 'longitude', 'status'],
+            attributes: ['city_id', 'name', 'state_id'],
         });
 
         if (!city) {
