@@ -7,6 +7,8 @@ const { AppError, handleError } = require('../utils/errorHandler');
 const { Ecode } = require('../models'); // Import the Ecode model
 const { User } = require('../models'); // Import the User model
 const { Op } = require('sequelize');
+const path = require('path');
+
 
 const generateUniqueId = async (name, dob, email) => {
     const baseId = `${name.substring(0, 3)}${dob.split(' ')[1]}${email.split('@')[0].substring(0, 3)}`;
@@ -184,68 +186,19 @@ const forgotPassword = async (req, res) => {
 
 const resetPasswordForm = async (req, res) => {
     const { token } = req.query;
+    console.log('token==> ', token);
 
     if (!token) {
         return res.status(400).send('Invalid or missing reset token.');
     }
 
-    // Serve the password reset form
-    res.send(`
-        <html>
-            <head>
-                <title>Reset Your Password</title>
-                <script>
-                    function validateForm(event) {
-                        event.preventDefault(); // Prevent form submission
-                        
-                        const newPassword = document.getElementById('newPassword').value;
-                        const confirmPassword = document.getElementById('confirmPassword').value;
-                        const errorMessage = document.getElementById('errorMessage');
-                        
-                        // Clear any previous error messages
-                        errorMessage.textContent = '';
-                        
-                        // Validation rules
-                        if (!newPassword || !confirmPassword) {
-                            errorMessage.textContent = 'All fields are required.';
-                            return;
-                        }
-                        
-                        if (newPassword === confirmPassword) {
-                            if (newPassword.length < 6) {
-                                errorMessage.textContent = 'Password must be at least 6 characters long.';
-                                return;
-                            }
-                            if (newPassword === 'oldPasswordExample') { // Replace with dynamic old password check
-                                errorMessage.textContent = 'New password cannot be the same as the old password.';
-                                return;
-                            }
-                            // Submit form after all validations pass
-                            document.getElementById('resetPasswordForm').submit();
-                        } else {
-                            errorMessage.textContent = 'New password and confirm password do not match.';
-                        }
-                    }
-                </script>
-            </head>
-            <body>
-                <h2>Reset Your Password</h2>
-                <div id="errorMessage" style="color: red; font-weight: bold; margin-bottom: 10px;"></div>
-                <form id="resetPasswordForm" action="http://localhost:3100/api/auth/reset-password" method="POST" onsubmit="validateForm(event)">
-                    <input type="hidden" name="token" value="${token}" />
-                    <div>
-                        <label for="newPassword">New Password:</label>
-                        <input type="password" id="newPassword" name="newPassword" required />
-                    </div>
-                    <div>
-                        <label for="confirmPassword">Confirm Password:</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" required />
-                    </div>
-                    <button type="submit">Reset Password</button>
-                </form>
-            </body>
-        </html>
-    `);
+    const htmlFilePath = path.join(__dirname, '../public/html/resetPassword.html');
+    res.sendFile(htmlFilePath, (err) => {
+        if (err) {
+            console.error('Error serving the reset password form:', err);
+            res.status(500).send('Error serving the reset password form.');
+        }
+    });
 };
 
 const resetPassword = async (req, res) => {

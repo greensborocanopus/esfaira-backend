@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const apiRouter = require('./routes'); // Import the main router
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('path');
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ const app = express();
 // }));
 
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // For URL-encoded form data
