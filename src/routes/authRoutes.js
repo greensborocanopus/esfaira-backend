@@ -12,7 +12,7 @@ router.get('/reset-password-form', resetPasswordForm);
 router.post('/reset-password', resetPassword);
 router.post('/update-password', authMiddleware, updatePassword); // Protected route
 
-router.post('/add-ecode', authMiddleware, addEcode); // Add an ecode
+router.post('/add-ecode', addEcode); // Add an ecode
 router.post('/request-ecode', requestEcode); // Request an ecode
 router.post('/verify-ecode', verifyEcode); // New ecode verification route
 

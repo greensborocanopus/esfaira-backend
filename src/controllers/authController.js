@@ -8,7 +8,20 @@ const { Ecode } = require('../models'); // Import the Ecode model
 const { User } = require('../models'); // Import the User model
 const { Op } = require('sequelize');
 
-
+const generateUniqueId = async (name, dob, email) => {
+    const baseId = `${name.substring(0, 3)}${dob.split(' ')[1]}${email.split('@')[0].substring(0, 3)}`;
+    let uniqueId = baseId;
+    let counter = 1;
+  
+    // Check for uniqueness
+    while (await User.findOne({ where: { unique_id: uniqueId } })) {
+      uniqueId = `${baseId}${counter}`;
+      counter++;
+    }
+  
+    return uniqueId;
+};
+  
 const register = async (req, res) => {
     const { ecode, gender, category_subcategory, place, dob, name, jersey_no, email, password } = req.body;
   
@@ -53,12 +66,16 @@ const register = async (req, res) => {
       if (existingUser) {
         return res.status(400).json({ message: 'Email already in use.' });
       }
+
+       // Generate a unique ID
+      const unique_id = await generateUniqueId(name, dob, email);
   
       // Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
   
       // Create a new user
       const user = await User.create({
+        unique_id: unique_id,
         gender,
         category_subcategory: category_subcategory.join(', '), // Save as comma-separated string
         place,
@@ -415,4 +432,4 @@ const verifyEcode = async (req, res) => {
 
 
 
-module.exports = { login, register, forgotPassword, resetPasswordForm, resetPassword, updatePassword, requestEcode, verifyEcode, addEcode };
+module.exports = { generateUniqueId, login, register, forgotPassword, resetPasswordForm, resetPassword, updatePassword, requestEcode, verifyEcode, addEcode };

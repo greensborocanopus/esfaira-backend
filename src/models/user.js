@@ -1,5 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
+    unique_id: { type: DataTypes.STRING, allowNull: false, unique: true }, // Add unique_id field
     gender: { type: DataTypes.STRING, allowNull: false },
     category_subcategory: { type: DataTypes.STRING, allowNull: false },
     place: { type: DataTypes.STRING, allowNull: false },
