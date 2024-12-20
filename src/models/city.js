@@ -1,44 +1,36 @@
 module.exports = (sequelize, DataTypes) => {
-  const City = sequelize.define('City', {
-    city_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      primaryKey: true,
+  const City = sequelize.define(
+    'City',
+    {
+      city_id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+        autoIncrement: true, // Ensure auto-increment for city_id
+      },
+      name: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+      },
+      state_id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      updated_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    name: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    state_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
-    },
-    country_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
-    },
-    latitude: {
-      type: DataTypes.DECIMAL(10, 8),
-      allowNull: false,
-    },
-    longitude: {
-      type: DataTypes.DECIMAL(11, 8),
-      allowNull: false,
-    },
-    updated_on: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    status: {
-      type: DataTypes.TINYINT,
-      allowNull: false,
-      defaultValue: 1,
-    },
-  });
+    {
+      tableName: 'Cities', // Explicitly mention table name
+      timestamps: false, // Disable Sequelize timestamps
+      underscored: true, // Use snake_case for database field names
+    }
+  );
 
   City.associate = (models) => {
-    City.belongsTo(models.State, { foreignKey: 'state_id' });
-    City.belongsTo(models.Country, { foreignKey: 'country_id' });
+    // Define the relationship with the 'State' model
+    City.belongsTo(models.State, { foreignKey: 'state_id', as: 'state' });
   };
 
   return City;

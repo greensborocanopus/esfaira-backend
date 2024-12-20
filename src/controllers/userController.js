@@ -155,7 +155,7 @@ const getStates = async (req, res) => {
         const whereClause = country_id ? { where: { country_id } } : {};
         const states = await State.findAll({
             ...whereClause,
-            attributes: ['state_id', 'name', 'country_id', 'iso2', 'status'], // Select only required fields
+            attributes: ['state_id', 'name', 'country_id'], // Select only required fields
         });
         res.status(200).json(states);
     } catch (error) {
@@ -215,7 +215,7 @@ const getStateById = async (req, res) => {
 
     try {
         const state = await State.findByPk(stateId, {
-            attributes: ['state_id', 'name', 'country_id', 'iso2', 'status'],
+            attributes: ['state_id', 'name', 'country_id'],
         });
 
         if (!state) {
@@ -263,7 +263,7 @@ const getStateByCountry = async (req, res) => {
     try {
         const states = await State.findAll({
             where: { country_id: countryId },
-            attributes: ['state_id', 'name', 'country_id', 'iso2', 'status'],
+            attributes: ['state_id', 'name', 'country_id'],
         });
 
         if (states.length === 0) {

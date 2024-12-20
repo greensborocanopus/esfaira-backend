@@ -1,18 +1,19 @@
+'use strict';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Cities', {
       city_id: {
+        type: Sequelize.STRING, // Ensure city_id is a string
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
       },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       state_id: {
-        type: Sequelize.INTEGER, // Ensure this matches States' state_id
+        type: Sequelize.STRING, // Match this type with the States table
         references: {
           model: 'States',
           key: 'state_id',
@@ -20,35 +21,14 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
-      country_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Countries',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
-      },
-      latitude: {
-        type: Sequelize.DECIMAL(10, 8),
-        allowNull: false,
-      },
-      longitude: {
-        type: Sequelize.DECIMAL(11, 8),
-        allowNull: false,
-      },
-      updated_on: {
-        allowNull: false,
+      updated_at: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
-      },
-      status: {
-        type: Sequelize.TINYINT(1),
         allowNull: false,
-        defaultValue: 1,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
     });
   },
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Cities');
   },

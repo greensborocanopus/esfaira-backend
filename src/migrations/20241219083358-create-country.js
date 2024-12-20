@@ -3,9 +3,8 @@ module.exports = {
     await queryInterface.createTable('Countries', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER, // Ensure this matches States' country_id
+        type: Sequelize.STRING, // Use STRING for country ID
       },
       shortname: {
         type: Sequelize.STRING(3),
@@ -16,7 +15,7 @@ module.exports = {
         allowNull: false,
       },
       phonecode: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING, // Use STRING for phone code
         allowNull: false,
       },
       createdAt: {
