@@ -287,7 +287,7 @@ const getCityByState = async (req, res) => {
     try {
         const cities = await City.findAll({
             where: { state_id: stateId },
-            attributes: ['city_id', 'name', 'state_id', 'country_id', 'latitude', 'longitude', 'status'],
+            attributes: ['city_id', 'name', 'state_id'],
         });
 
         if (cities.length === 0) {
