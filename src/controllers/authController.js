@@ -4,8 +4,7 @@ const { allowedCategories } = require('../constants'); // Import allowed categor
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const { AppError, handleError } = require('../utils/errorHandler');
-const { Ecode } = require('../models'); // Import the Ecode model
-const { User } = require('../models'); // Import the User model
+const { Ecode, User } = require('../models'); // Import the Ecode model
 const { Op } = require('sequelize');
 const path = require('path');
 

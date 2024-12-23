@@ -1,7 +1,6 @@
 const { allowedCategories } = require('../constants'); // Import allowed categories
 const bcrypt = require('bcryptjs');
-const { User } = require('../models'); // Import User model
-const { Country, State, City } = require('../models'); // Import models
+const { User, Country, State, City } = require('../models'); // Import models
 
 
 const updateUser = async (req, res) => {

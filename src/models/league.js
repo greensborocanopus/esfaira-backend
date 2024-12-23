@@ -1,23 +1,24 @@
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  const League = sequelize.define('League', {
-      organization: DataTypes.STRING,
-      league: DataTypes.STRING,
-      sports_complex: DataTypes.STRING,
-      venue: DataTypes.STRING,
-      season: DataTypes.STRING,
-      website: DataTypes.STRING,
-      category: DataTypes.STRING,
-      game_format: DataTypes.STRING,
-      minimum_players_per_team: DataTypes.INTEGER,
-      league_price_per_team: DataTypes.DECIMAL(10, 2),
-      match_duration: DataTypes.STRING,
-      type_of_league: DataTypes.STRING,
-      number_of_fields_available: DataTypes.INTEGER,
-      number_of_teams_competing: DataTypes.INTEGER,
-      bank_name: DataTypes.STRING,
-      beneficiary_bank_account_number: DataTypes.STRING,
-      company_name: DataTypes.STRING,
-      email: DataTypes.STRING,
-  });
+  class League extends Model {
+    static associate(models) {
+      // Define associations here
+      League.hasMany(models.Subleague, { foreignKey: 'league_id', as: 'subleagues' });
+    }
+  }
+  League.init(
+    {
+      league_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false },
+      league_name: { type: DataTypes.STRING(100), allowNull: false },
+      reg_id: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
+    },
+    {
+      sequelize,
+      modelName: 'League',
+      tableName: 'Leagues',
+      timestamps: false,
+    }
+  );
   return League;
 };
