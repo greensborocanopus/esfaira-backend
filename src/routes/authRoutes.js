@@ -1,5 +1,5 @@
 const express = require('express');
-const { login, register, forgotPassword, resetPasswordForm, resetPassword, updatePassword, requestEcode, verifyEcode, addEcode } = require('../controllers/authController');
+const { login, register, forgotPassword, resetPasswordForm, resetPassword, resetPasswordSuccess, invalidToken,  updatePassword, requestEcode, verifyEcode, addEcode } = require('../controllers/authController');
 const authMiddleware = require('../middleware/authMiddleware'); // Ensure the user is logged in for updatePassword
 
 const router = express.Router();
@@ -10,6 +10,8 @@ router.post('/register', register);
 router.post('/forgot-password', forgotPassword); // Public route
 router.get('/reset-password-form', resetPasswordForm); 
 router.post('/reset-password', resetPassword);
+router.get('/reset-password-success', resetPasswordSuccess);
+router.get('/invalid-token', invalidToken);
 router.post('/update-password', authMiddleware, updatePassword); // Protected route
 
 router.post('/add-ecode', addEcode); // Add an ecode
