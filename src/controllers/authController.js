@@ -222,7 +222,61 @@ const resetPassword = async (req, res) => {
         });
 
         if (!user) {
-            return res.status(400).json({ message: 'Invalid or expired token.' });
+            return         res.send(`
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Password Reset Success</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f4f4f9;
+                            color: #333;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                        }
+                        .container {
+                            text-align: center;
+                            background: #fff;
+                            padding: 20px 40px;
+                            border-radius: 8px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        }
+                        h1 {
+                            color: #4CAF50;
+                        }
+                        p {
+                            font-size: 1.2em;
+                            margin: 10px 0;
+                        }
+                        .button {
+                            display: inline-block;
+                            margin-top: 20px;
+                            padding: 10px 20px;
+                            background-color: #4CAF50;
+                            color: #fff;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            font-size: 1em;
+                            transition: background-color 0.3s ease;
+                        }
+                        .button:hover {
+                            background-color: #45a049;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <h1>Invalid or expired token</h1>
+                    </div>
+                </body>
+                </html>
+            `);
         }
 
         // Check if the new password matches the old password
@@ -241,7 +295,64 @@ const resetPassword = async (req, res) => {
             reset_token_expiry: null,
         });
 
-        res.status(200).json({ message: 'Password updated successfully.' });
+        res.send(`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Password Reset Success</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f4f4f9;
+                        color: #333;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        margin: 0;
+                    }
+                    .container {
+                        text-align: center;
+                        background: #fff;
+                        padding: 20px 40px;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    }
+                    h1 {
+                        color: #4CAF50;
+                    }
+                    p {
+                        font-size: 1.2em;
+                        margin: 10px 0;
+                    }
+                    .button {
+                        display: inline-block;
+                        margin-top: 20px;
+                        padding: 10px 20px;
+                        background-color: #4CAF50;
+                        color: #fff;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        font-size: 1em;
+                        transition: background-color 0.3s ease;
+                    }
+                    .button:hover {
+                        background-color: #45a049;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h1>Password Updated</h1>
+                    <p>Your password has been updated successfully.</p>
+                    
+                </div>
+            </body>
+            </html>
+        `);
+        
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error.' });
