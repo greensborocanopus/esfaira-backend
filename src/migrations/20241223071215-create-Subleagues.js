@@ -1,5 +1,5 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Subleagues', {
@@ -8,7 +8,16 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
       },
-      org_id: { type: Sequelize.INTEGER, allowNull: false },
+      org_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Organizations', // Name of the referenced table
+          key: 'org_id', // Key in the referenced table
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
       league_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -71,6 +80,7 @@ module.exports = {
       league_expired_date: { type: Sequelize.DATE, allowNull: true },
     });
   },
+
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Subleagues');
   },

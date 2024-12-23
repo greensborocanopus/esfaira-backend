@@ -1,5 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Subleague extends Model {
     static associate(models) {
@@ -10,8 +11,24 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       });
+
+      // Define association with the Organization model
+      Subleague.belongsTo(models.Organization, {
+        foreignKey: 'org_id',
+        as: 'organization',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      });
+
+      Subleague.hasMany(models.Gameplay, {
+        foreignKey: 'sub_league_id',
+        as: 'gameplays', // Alias for the association
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      });
     }
   }
+
   Subleague.init(
     {
       sub_league_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false },
@@ -75,5 +92,6 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
+
   return Subleague;
 };
