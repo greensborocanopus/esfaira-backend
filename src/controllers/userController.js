@@ -2,6 +2,11 @@ const { allowedCategories } = require('../constants'); // Import allowed categor
 const bcrypt = require('bcryptjs');
 const { User, Country, State, City } = require('../models'); // Import models
 const jwt = require('jsonwebtoken');
+const ffmpeg = require('fluent-ffmpeg'); // For processing video
+const { Video, VideoCategory } = require('../models');
+const fs = require('fs');
+const path = require('path');
+const upload = require('../middleware/upload'); // Adjust the path as per your project structure
 
 const getUser = async (req, res) => {
     try {
@@ -327,6 +332,155 @@ const getCityByState = async (req, res) => {
     }
 };
 
+const addVideo = async (req, res) => {
+    try {
+        const { category_id, title, description } = req.body;
+        const videoFile = req.file;
+        console.log('category_id, title, description', category_id, title, description);
+
+        if (!videoFile) {
+            return res.status(400).json({ message: 'No video file uploaded.' });
+        }
+
+        const tempVideoPath = videoFile.path;
+        const finalVideoDir = path.join(__dirname, '../../uploads/videos');
+        const finalVideoPath = path.join(finalVideoDir, videoFile.filename);
+
+        // Ensure the final directory exists
+        if (!fs.existsSync(finalVideoDir)) {
+            fs.mkdirSync(finalVideoDir, { recursive: true });
+        }
+
+        // Check video duration
+        ffmpeg.ffprobe(tempVideoPath, async (err, metadata) => {
+            if (err) {
+                console.error('Error reading video metadata:', err);
+                return res.status(500).json({ message: 'Error reading video metadata.' });
+            }
+
+            const duration = Math.floor(metadata.format.duration); // Duration in seconds
+            if (duration > 32) {
+                fs.unlinkSync(tempVideoPath); // Delete the temporary file
+                return res.status(400).json({ message: 'Video exceeds the 32-second limit.' });
+            }
+
+            // Move video to the final location
+            fs.renameSync(tempVideoPath, finalVideoPath);
+
+            // Save video information in the database
+            const newVideo = await Video.create({
+                category_id,
+                title,
+                description,
+                path: `/uploads/videos/${videoFile.filename}`,
+                total_time: duration,
+            });
+
+            // Update the number of videos in the category
+            const category = await VideoCategory.findOne({ where: { videocategory_id: category_id } });
+            if (category) {
+                await category.update({ no_of_videos: category.no_of_videos + 1 });
+            } else {
+                console.error('Category not found for the provided category_id');
+            }
+
+            res.status(201).json({ message: 'Video uploaded successfully.', video: newVideo });
+        });
+    } catch (error) {
+        console.error('Error adding video:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
+const getCategoryById = async (req, res) => {
+    try {
+        const categoryId = req.params.id;
+
+        // Check if the ID is valid
+        if (!categoryId) {
+            return res.status(400).json({ message: 'Category ID is required.' });
+        }
+
+        const category = await VideoCategory.findOne({
+            where: { videocategory_id: categoryId },
+            include: [
+                {
+                    model: Video,
+                    as: 'videos',
+                    attributes: ['video_id', 'title', 'description', 'path', 'total_time', 'cover_photo'],
+                },
+            ],
+            attributes: ['videocategory_id', 'category_name', 'image', 'no_of_videos'],
+        });
+
+        if (!category) {
+            return res.status(404).json({ message: 'Category not found.' });
+        }
+
+        res.status(200).json(category);
+    } catch (error) {
+        console.error('Error fetching category by ID:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
+const getAllCategories = async (req, res) => {
+    try {
+        // Fetch all categories
+        const categories = await VideoCategory.findAll({
+            attributes: ['videocategory_id', 'category_name', 'image', 'no_of_videos'], // Fetch only required fields
+        });
+
+        // Return response
+        res.status(200).json(categories);
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
+const addCategory = async (req, res) => {
+    try {
+      upload.single('image')(req, res, async (err) => {
+        if (err) {
+          console.error('File upload error:', err);
+          return res.status(400).json({ message: 'File upload failed.', error: err });
+        }
   
-module.exports = { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState };
+        const { category_name } = req.body;
+  
+        // Validate required fields
+        if (!category_name) {
+          return res.status(400).json({ message: 'Category name is required.' });
+        }
+  
+        // Ensure image is uploaded
+        if (!req.file) {
+          return res.status(400).json({ message: 'Category image is required.' });
+        }
+  
+        // Move the uploaded file to the correct directory
+        const finalDir = path.join(__dirname, '../../uploads/categories');
+        if (!fs.existsSync(finalDir)) {
+          fs.mkdirSync(finalDir, { recursive: true });
+        }
+        const finalPath = path.join(finalDir, req.file.filename);
+        fs.renameSync(req.file.path, finalPath);
+  
+        // Save the new category to the database
+        const newCategory = await VideoCategory.create({
+          category_name,
+          image: `/uploads/categories/${req.file.filename}`,
+          no_of_videos: 0, // Default value
+        });
+  
+        res.status(201).json({ message: 'Category added successfully.', category: newCategory });
+      });
+    } catch (error) {
+      console.error('Error adding category:', error);
+      res.status(500).json({ message: 'Server error.', error });
+    }
+};
+  
+module.exports = { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory };
 
