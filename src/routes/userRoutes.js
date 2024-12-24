@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware'); // Ensure the user is logged in for updatePassword
-const { updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState } = require('../controllers/userController');
+const { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState } = require('../controllers/userController');
 
+router.get('/', getUser);
 router.put('/update/:id', authMiddleware, updateUser);
 
 router.post('/add-country', addCountry); // Add a new country

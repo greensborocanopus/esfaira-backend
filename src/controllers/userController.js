@@ -1,7 +1,39 @@
 const { allowedCategories } = require('../constants'); // Import allowed categories
 const bcrypt = require('bcryptjs');
 const { User, Country, State, City } = require('../models'); // Import models
+const jwt = require('jsonwebtoken');
 
+const getUser = async (req, res) => {
+    try {
+        // Extract the token from the authorization header
+        const token = req.headers.authorization?.split(' ')[1]; // "Bearer <token>"
+        if (!token) {
+            return res.status(401).json({ message: 'Token missing or invalid.' });
+        }
+
+        // Verify and decode the token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Use your JWT secret
+
+        // Fetch the user using the ID from the token payload
+        const user = await User.findByPk(decoded.id); // `decoded.id` was included in the token
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error fetching user:', error);
+
+        // Handle token verification errors explicitly
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ message: 'Invalid token.' });
+        } else if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ message: 'Token has expired.' });
+        }
+
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
 
 const updateUser = async (req, res) => {
     const userId = req.params.id; // Get the user ID from the URL
@@ -78,8 +110,8 @@ const addCountry = async (req, res) => {
       console.error('Error adding country:', error);
       res.status(500).json({ message: 'Server error.', error });
     }
-  };
-  
+};
+
 const addState = async (req, res) => {
     const { state_id, name, country_id } = req.body;
   
@@ -296,5 +328,5 @@ const getCityByState = async (req, res) => {
 };
 
   
-module.exports = { updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState };
+module.exports = { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState };
 
