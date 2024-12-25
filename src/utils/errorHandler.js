@@ -15,7 +15,7 @@ const handleError = (err, res) => {
     res.status(statusCode).json({
         status: 'error',
         message,
-        ...(process.env.NODE_ENV === 'development' ? { stack: err.stack } : {}), // Include stack trace only in development
+        ...(process.env.NODE_ENV === 'production' ? { stack: err.stack } : {}), // Include stack trace only in development
     });
 };
 

@@ -22,5 +22,6 @@ module.exports = {
     database: process.env.PROD_DB_NAME || 'database_production',
     host: process.env.PROD_DB_HOST || '127.0.0.1',
     dialect: 'mysql',
+    logging: false,
   },
 };
