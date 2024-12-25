@@ -4,6 +4,7 @@ const apiRouter = require('./routes'); // Import the main router
 const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
+const errorHandler = require('./middleware/errorHandler');
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(errorHandler);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // For URL-encoded form data

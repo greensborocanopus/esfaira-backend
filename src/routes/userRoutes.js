@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
+const fs = require('fs');
+const ffmpeg = require('fluent-ffmpeg');
+const upload = require('../middleware/upload');
 const authMiddleware = require('../middleware/authMiddleware'); // Ensure the user is logged in for updatePassword
-const { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState } = require('../controllers/userController');
+const { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory } = require('../controllers/userController');
 
 router.get('/', getUser);
 router.put('/update/:id', authMiddleware, updateUser);
@@ -20,5 +24,10 @@ router.get('/city', getCityById); // Fetch a single city by ID
 
 router.get('/states/:countryId', getStateByCountry); // Fetch states by country
 router.get('/cities/:stateId', getCityByState); // Fetch cities by state
+
+router.post('/add-video', upload.single('video'), addVideo); //add videos
+router.get('/category/:id', getCategoryById); // get all videos associated with this category
+router.get('/categories', getAllCategories); //get all categories
+router.post('/add-categories', addCategory); //get all categories
 
 module.exports = router;
