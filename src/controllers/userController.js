@@ -3,10 +3,11 @@ const bcrypt = require('bcryptjs');
 const { User, Country, State, City } = require('../models'); // Import models
 const jwt = require('jsonwebtoken');
 const ffmpeg = require('fluent-ffmpeg'); // For processing video
-const { Video, VideoCategory } = require('../models');
+const { Video, VideoCategory, Invitation } = require('../models');
 const fs = require('fs');
 const path = require('path');
 const upload = require('../middleware/upload'); // Adjust the path as per your project structure
+const nodemailer = require('nodemailer');
 
 const getUser = async (req, res) => {
     try {
@@ -481,6 +482,53 @@ const addCategory = async (req, res) => {
       res.status(500).json({ message: 'Server error.', error });
     }
 };
+
+const sendInvitation = async (req, res) => {
+    const { email } = req.body;
   
-module.exports = { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory };
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+  
+    try {
+      // Check if the email is already invited
+      const existingInvitation = await Invitation.findOne({ where: { email } });
+      if (!existingInvitation) {
+        //return res.status(409).json({ message: 'Invitation already sent to this email.' });
+        // Save the invitation in the database
+        const newInvitation = await Invitation.create({ email });
+      }  
+      // Nodemailer configuration
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: { user: process.env.ADMIN_EMAIL_USER, pass: process.env.ADMIN_EMAIL_PASS },
+      });
+  
+      const invitationLink = `https://huarisnaque.com/esfaira/index.php/register`;
+      const mailOptions = {
+        from: process.env.ADMIN_EMAIL_USER,
+        to: email,
+        subject: 'Invitation to Join Esfaira',
+        text: `Hi,
+  
+  You have been invited to join Esfaira. Please click on the link below to register:
+  
+  ${invitationLink}
+  
+  Thank you,
+  The Esfaira Team`,
+      };
+  
+      // Send the email
+      await transporter.sendMail(mailOptions);
+      
+  
+      res.status(200).json({ message: 'Invitation sent successfully', invitation: newInvitation });
+    } catch (error) {
+      console.error('Error sending invitation:', error);
+      res.status(500).json({ message: 'Failed to send invitation', error: error.message });
+    }
+};
+  
+module.exports = { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, sendInvitation };
 
