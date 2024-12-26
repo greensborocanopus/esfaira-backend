@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { User, Country, State, City } = require('../models'); // Import models
 const jwt = require('jsonwebtoken');
 const ffmpeg = require('fluent-ffmpeg'); // For processing video
-const { Video, VideoCategory, Invitation } = require('../models');
+const { Video, VideoCategory, Invitation, VideoRating } = require('../models');
 const fs = require('fs');
 const path = require('path');
 const upload = require('../middleware/upload'); // Adjust the path as per your project structure
@@ -529,6 +529,44 @@ const sendInvitation = async (req, res) => {
       res.status(500).json({ message: 'Failed to send invitation', error: error.message });
     }
 };
+
+const rateVideo = async (req, res) => {
+    const { rating, video_id, user_id } = req.body;
+    //const user_id = req.user.id; // Assuming the user is authenticated and their ID is available.
   
-module.exports = { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, sendInvitation };
+    // Validate the rating
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+      return res.status(400).json({ message: 'Rating must be an integer between 1 and 5' });
+    }
+  
+    try {
+      // Check if the video exists
+      const video = await Video.findByPk(video_id);
+      if (!video) {
+        return res.status(404).json({ message: 'Video not found' });
+      }
+  
+      const isLiked = rating >= 4; // Consider it "liked" if the rating is 4 or 5
+
+      // Check if the user has already rated the video
+      const existingRating = await VideoRating.findOne({ where: { video_id, user_id } });
+      if (existingRating) {
+        // Update the existing rating
+        existingRating.rating = rating;
+        existingRating.is_liked = isLiked ? 1 : 0; // Update is_liked based on the rating
+        await existingRating.save();
+        return res.status(200).json({ message: 'Rating updated successfully', rating: existingRating });
+      }
+  
+      // Create a new rating
+      await VideoRating.create({ video_id, user_id, rating, is_liked: isLiked ? 1 : 0 });
+      return res.status(201).json({ message: 'Rating added successfully' });
+    } catch (error) {
+      console.error('Error while rating video:', error);
+      return res.status(500).json({ message: 'An error occurred while rating the video' });
+    }
+};
+  
+  
+module.exports = { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, sendInvitation, rateVideo };
 

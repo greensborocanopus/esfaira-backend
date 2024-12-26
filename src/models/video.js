@@ -64,7 +64,17 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
+
+    // Association with VideoRatings
+    Video.hasMany(models.VideoRating, {
+      foreignKey: 'video_id',
+      as: 'videoRatings', // Alias for video's ratings
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    });
+        
   };
 
+  
   return Video;
 };
