@@ -6,18 +6,42 @@ module.exports = {
     // Read and parse the JSON file
     const jsonData = JSON.parse(fs.readFileSync('./data/countries.json', 'utf8'));
 
-    // Map the JSON data to match the table schema
-    const countries = jsonData.countries.map(country => ({
-      id: country.id.toString(), // Convert id to string if not already
-      shortname: country.shortname, // JSON key must match DB column
+    // Fetch valid currency codes from the Currencies table
+    const validCurrencies = await queryInterface.sequelize.query(
+      'SELECT code FROM Currencies;',
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+
+    const validCurrencyCodes = validCurrencies.map((currency) => currency.code);
+
+    // Filter and validate countries
+    const countries = jsonData.countries.filter((country) => {
+      if (!country.currency || validCurrencyCodes.includes(country.currency)) {
+        return true; // Valid country
+      } else {
+        console.warn(`Skipping country with invalid currency: ${country.name} (${country.currency})`);
+        return false; // Skip invalid country
+      }
+    }).map((country) => ({
+      id: country.id.toString(),
+      shortname: country.shortname,
       name: country.name,
-      phonecode: country.phoneCode.toString(), // Convert phoneCode to string if not already
-    }));    
+      phonecode: country.phoneCode.toString(),
+      currency: validCurrencyCodes.includes(country.currency) ? country.currency : null,
+    }));
 
-    console.log('Data being inserted:', countries);
+    if (countries.length === 0) {
+      console.error('No valid countries to insert. Please check the input data.');
+      return;
+    }
 
-    // Insert the data into the database
-    await queryInterface.bulkInsert('Countries', countries);
+    // Insert validated data
+    try {
+      await queryInterface.bulkInsert('Countries', countries);
+      console.log(`${countries.length} countries inserted successfully.`);
+    } catch (error) {
+      console.error('Error inserting countries:', error);
+    }
   },
 
   down: async (queryInterface, Sequelize) => {

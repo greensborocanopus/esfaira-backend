@@ -17,9 +17,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    currency: {
+      type: DataTypes.STRING(3),
+      allowNull: true,
+    },
   });
 
   Country.associate = (models) => {
+    Country.belongsTo(models.Currency, { foreignKey: 'currency', as: 'currencyDetails' });
     Country.hasMany(models.State, { foreignKey: 'country_id' });
     Country.hasMany(models.City, { foreignKey: 'country_id' });
   };

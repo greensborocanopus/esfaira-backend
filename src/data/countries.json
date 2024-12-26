@@ -4,1477 +4,1723 @@
       "id": 1,
       "shortname": "AF",
       "name": "Afghanistan",
-      "phoneCode": 93
+      "phoneCode": 93,
+      "currency": "AFN"
     },
     {
-      "id": 2,
-      "shortname": "AL",
-      "name": "Albania",
-      "phoneCode": 355
+        "id": 2,
+        "shortname": "AL",
+        "name": "Albania",
+        "phoneCode": 355,
+        "currency": "ALL"
     },
     {
-      "id": 3,
-      "shortname": "DZ",
-      "name": "Algeria",
-      "phoneCode": 213
+        "id": 3,
+        "shortname": "DZ",
+        "name": "Algeria",
+        "phoneCode": 213,
+        "currency": "DZD"
     },
     {
-      "id": 4,
-      "shortname": "AS",
-      "name": "American Samoa",
-      "phoneCode": 1684
+        "id": 4,
+        "shortname": "AS",
+        "name": "American Samoa",
+        "phoneCode": 1684,
+        "currency": "USD"
     },
     {
-      "id": 5,
-      "shortname": "AD",
-      "name": "Andorra",
-      "phoneCode": 376
+        "id": 5,
+        "shortname": "AD",
+        "name": "Andorra",
+        "phoneCode": 376,
+        "currency": "EUR"
     },
     {
-      "id": 6,
-      "shortname": "AO",
-      "name": "Angola",
-      "phoneCode": 244
+        "id": 6,
+        "shortname": "AO",
+        "name": "Angola",
+        "phoneCode": 244,
+        "currency": "AOA"
     },
     {
-      "id": 7,
-      "shortname": "AI",
-      "name": "Anguilla",
-      "phoneCode": 1264
+        "id": 7,
+        "shortname": "AI",
+        "name": "Anguilla",
+        "phoneCode": 1264,
+        "currency": "XCD"
     },
     {
-      "id": 8,
-      "shortname": "AQ",
-      "name": "Antarctica",
-      "phoneCode": 0
+        "id": 8,
+        "shortname": "AQ",
+        "name": "Antarctica",
+        "phoneCode": 0,
+        "currency": null
     },
     {
-      "id": 9,
-      "shortname": "AG",
-      "name": "Antigua And Barbuda",
-      "phoneCode": 1268
+        "id": 9,
+        "shortname": "AG",
+        "name": "Antigua And Barbuda",
+        "phoneCode": 1268,
+        "currency": "XCD"
     },
     {
-      "id": 10,
-      "shortname": "AR",
-      "name": "Argentina",
-      "phoneCode": 54
+        "id": 10,
+        "shortname": "AR",
+        "name": "Argentina",
+        "phoneCode": 54,
+        "currency": "ARS"
     },
     {
-      "id": 11,
-      "shortname": "AM",
-      "name": "Armenia",
-      "phoneCode": 374
+        "id": 11,
+        "shortname": "AM",
+        "name": "Armenia",
+        "phoneCode": 374,
+        "currency": "AMD"
     },
     {
-      "id": 12,
-      "shortname": "AW",
-      "name": "Aruba",
-      "phoneCode": 297
+        "id": 12,
+        "shortname": "AW",
+        "name": "Aruba",
+        "phoneCode": 297,
+        "currency": "AWG"
     },
     {
-      "id": 13,
-      "shortname": "AU",
-      "name": "Australia",
-      "phoneCode": 61
+        "id": 13,
+        "shortname": "AU",
+        "name": "Australia",
+        "phoneCode": 61,
+        "currency": "AUD"
     },
     {
-      "id": 14,
-      "shortname": "AT",
-      "name": "Austria",
-      "phoneCode": 43
+        "id": 14,
+        "shortname": "AT",
+        "name": "Austria",
+        "phoneCode": 43,
+        "currency": "EUR"
     },
     {
-      "id": 15,
-      "shortname": "AZ",
-      "name": "Azerbaijan",
-      "phoneCode": 994
+        "id": 15,
+        "shortname": "AZ",
+        "name": "Azerbaijan",
+        "phoneCode": 994,
+        "currency": "AZN"
     },
     {
-      "id": 16,
-      "shortname": "BS",
-      "name": "Bahamas The",
-      "phoneCode": 1242
+        "id": 16,
+        "shortname": "BS",
+        "name": "Bahamas The",
+        "phoneCode": 1242,
+        "currency": "BSD"
     },
     {
-      "id": 17,
-      "shortname": "BH",
-      "name": "Bahrain",
-      "phoneCode": 973
+        "id": 17,
+        "shortname": "BH",
+        "name": "Bahrain",
+        "phoneCode": 973,
+        "currency": "BHD"
     },
     {
-      "id": 18,
-      "shortname": "BD",
-      "name": "Bangladesh",
-      "phoneCode": 880
+        "id": 18,
+        "shortname": "BD",
+        "name": "Bangladesh",
+        "phoneCode": 880,
+        "currency": "BDT"
     },
     {
-      "id": 19,
-      "shortname": "BB",
-      "name": "Barbados",
-      "phoneCode": 1246
+        "id": 19,
+        "shortname": "BB",
+        "name": "Barbados",
+        "phoneCode": 1246,
+        "currency": "BBD"
     },
     {
-      "id": 20,
-      "shortname": "BY",
-      "name": "Belarus",
-      "phoneCode": 375
+        "id": 20,
+        "shortname": "BY",
+        "name": "Belarus",
+        "phoneCode": 375,
+        "currency": "BYR"
     },
     {
-      "id": 21,
-      "shortname": "BE",
-      "name": "Belgium",
-      "phoneCode": 32
+        "id": 21,
+        "shortname": "BE",
+        "name": "Belgium",
+        "phoneCode": 32,
+        "currency": "EUR"
     },
     {
-      "id": 22,
-      "shortname": "BZ",
-      "name": "Belize",
-      "phoneCode": 501
+        "id": 22,
+        "shortname": "BZ",
+        "name": "Belize",
+        "phoneCode": 501,
+        "currency": "BZD"
     },
     {
-      "id": 23,
-      "shortname": "BJ",
-      "name": "Benin",
-      "phoneCode": 229
+        "id": 23,
+        "shortname": "BJ",
+        "name": "Benin",
+        "phoneCode": 229,
+        "currency": "XOF"
     },
     {
-      "id": 24,
-      "shortname": "BM",
-      "name": "Bermuda",
-      "phoneCode": 1441
+        "id": 24,
+        "shortname": "BM",
+        "name": "Bermuda",
+        "phoneCode": 1441,
+        "currency": "BMD"
     },
     {
-      "id": 25,
-      "shortname": "BT",
-      "name": "Bhutan",
-      "phoneCode": 975
+        "id": 25,
+        "shortname": "BT",
+        "name": "Bhutan",
+        "phoneCode": 975,
+        "currency": "BTN"
     },
     {
-      "id": 26,
-      "shortname": "BO",
-      "name": "Bolivia",
-      "phoneCode": 591
+        "id": 26,
+        "shortname": "BO",
+        "name": "Bolivia",
+        "phoneCode": 591,
+        "currency": "BOB"
     },
     {
-      "id": 27,
-      "shortname": "BA",
-      "name": "Bosnia and Herzegovina",
-      "phoneCode": 387
+        "id": 27,
+        "shortname": "BA",
+        "name": "Bosnia and Herzegovina",
+        "phoneCode": 387,
+        "currency": "BAM"
     },
     {
-      "id": 28,
-      "shortname": "BW",
-      "name": "Botswana",
-      "phoneCode": 267
+        "id": 28,
+        "shortname": "BW",
+        "name": "Botswana",
+        "phoneCode": 267,
+        "currency": "BWP"
     },
     {
-      "id": 29,
-      "shortname": "BV",
-      "name": "Bouvet Island",
-      "phoneCode": 0
+        "id": 29,
+        "shortname": "BV",
+        "name": "Bouvet Island",
+        "phoneCode": 0,
+        "currency": "NOK"
     },
     {
-      "id": 30,
-      "shortname": "BR",
-      "name": "Brazil",
-      "phoneCode": 55
+        "id": 30,
+        "shortname": "BR",
+        "name": "Brazil",
+        "phoneCode": 55,
+        "currency": "BRL"
     },
     {
-      "id": 31,
-      "shortname": "IO",
-      "name": "British Indian Ocean Territory",
-      "phoneCode": 246
+        "id": 31,
+        "shortname": "IO",
+        "name": "British Indian Ocean Territory",
+        "phoneCode": 246,
+        "currency": "USD"
     },
     {
-      "id": 32,
-      "shortname": "BN",
-      "name": "Brunei",
-      "phoneCode": 673
+        "id": 32,
+        "shortname": "BN",
+        "name": "Brunei",
+        "phoneCode": 673,
+        "currency": "BND"
     },
     {
-      "id": 33,
-      "shortname": "BG",
-      "name": "Bulgaria",
-      "phoneCode": 359
+        "id": 33,
+        "shortname": "BG",
+        "name": "Bulgaria",
+        "phoneCode": 359,
+        "currency": "BGN"
     },
     {
-      "id": 34,
-      "shortname": "BF",
-      "name": "Burkina Faso",
-      "phoneCode": 226
+        "id": 34,
+        "shortname": "BF",
+        "name": "Burkina Faso",
+        "phoneCode": 226,
+        "currency": "XOF"
     },
     {
-      "id": 35,
-      "shortname": "BI",
-      "name": "Burundi",
-      "phoneCode": 257
+        "id": 35,
+        "shortname": "BI",
+        "name": "Burundi",
+        "phoneCode": 257,
+        "currency": "BIF"
     },
     {
-      "id": 36,
-      "shortname": "KH",
-      "name": "Cambodia",
-      "phoneCode": 855
+        "id": 36,
+        "shortname": "KH",
+        "name": "Cambodia",
+        "phoneCode": 855,
+        "currency": "KHR"
     },
     {
-      "id": 37,
-      "shortname": "CM",
-      "name": "Cameroon",
-      "phoneCode": 237
+        "id": 37,
+        "shortname": "CM",
+        "name": "Cameroon",
+        "phoneCode": 237,
+        "currency": "XAF"
     },
     {
-      "id": 38,
-      "shortname": "CA",
-      "name": "Canada",
-      "phoneCode": 1
+        "id": 38,
+        "shortname": "CA",
+        "name": "Canada",
+        "phoneCode": 1,
+        "currency": "CAD"
     },
     {
-      "id": 39,
-      "shortname": "CV",
-      "name": "Cape Verde",
-      "phoneCode": 238
+        "id": 39,
+        "shortname": "CV",
+        "name": "Cape Verde",
+        "phoneCode": 238,
+        "currency": "CVE"
     },
     {
-      "id": 40,
-      "shortname": "KY",
-      "name": "Cayman Islands",
-      "phoneCode": 1345
+        "id": 40,
+        "shortname": "KY",
+        "name": "Cayman Islands",
+        "phoneCode": 1345,
+        "currency": "KYD"
     },
     {
-      "id": 41,
-      "shortname": "CF",
-      "name": "Central African Republic",
-      "phoneCode": 236
+        "id": 41,
+        "shortname": "CF",
+        "name": "Central African Republic",
+        "phoneCode": 236,
+        "currency": "XAF"
     },
     {
-      "id": 42,
-      "shortname": "TD",
-      "name": "Chad",
-      "phoneCode": 235
+        "id": 42,
+        "shortname": "TD",
+        "name": "Chad",
+        "phoneCode": 235,
+        "currency": "XAF"
     },
     {
-      "id": 43,
-      "shortname": "CL",
-      "name": "Chile",
-      "phoneCode": 56
+        "id": 43,
+        "shortname": "CL",
+        "name": "Chile",
+        "phoneCode": 56,
+        "currency": "CLP"
     },
     {
-      "id": 44,
-      "shortname": "CN",
-      "name": "China",
-      "phoneCode": 86
+        "id": 44,
+        "shortname": "CN",
+        "name": "China",
+        "phoneCode": 86,
+        "currency": "CNY"
     },
     {
-      "id": 45,
-      "shortname": "CX",
-      "name": "Christmas Island",
-      "phoneCode": 61
+        "id": 45,
+        "shortname": "CX",
+        "name": "Christmas Island",
+        "phoneCode": 61,
+        "currency": "AUD"
     },
     {
-      "id": 46,
-      "shortname": "CC",
-      "name": "Cocos (Keeling) Islands",
-      "phoneCode": 672
+        "id": 46,
+        "shortname": "CC",
+        "name": "Cocos (Keeling) Islands",
+        "phoneCode": 672,
+        "currency": "AUD"
     },
     {
-      "id": 47,
-      "shortname": "CO",
-      "name": "Colombia",
-      "phoneCode": 57
+        "id": 47,
+        "shortname": "CO",
+        "name": "Colombia",
+        "phoneCode": 57,
+        "currency": "COP"
     },
     {
-      "id": 48,
-      "shortname": "KM",
-      "name": "Comoros",
-      "phoneCode": 269
+        "id": 48,
+        "shortname": "KM",
+        "name": "Comoros",
+        "phoneCode": 269,
+        "currency": "KMF"
     },
     {
-      "id": 49,
-      "shortname": "CG",
-      "name": "Republic Of The Congo",
-      "phoneCode": 242
+        "id": 49,
+        "shortname": "CG",
+        "name": "Republic Of The Congo",
+        "phoneCode": 242,
+        "currency": "XAF"
     },
     {
-      "id": 50,
-      "shortname": "CD",
-      "name": "Democratic Republic Of The Congo",
-      "phoneCode": 242
+        "id": 50,
+        "shortname": "CD",
+        "name": "Democratic Republic Of The Congo",
+        "phoneCode": 242,
+        "currency": "CDF"
     },
     {
       "id": 51,
       "shortname": "CK",
       "name": "Cook Islands",
-      "phoneCode": 682
+      "phoneCode": 682,
+      "currency": "NZD"
     },
     {
-      "id": 52,
-      "shortname": "CR",
-      "name": "Costa Rica",
-      "phoneCode": 506
+        "id": 52,
+        "shortname": "CR",
+        "name": "Costa Rica",
+        "phoneCode": 506,
+        "currency": "CRC"
     },
     {
-      "id": 53,
-      "shortname": "CI",
-      "name": "Cote D''Ivoire (Ivory Coast)",
-      "phoneCode": 225
+        "id": 53,
+        "shortname": "CI",
+        "name": "Cote D''Ivoire (Ivory Coast)",
+        "phoneCode": 225,
+        "currency": "XOF"
     },
     {
-      "id": 54,
-      "shortname": "HR",
-      "name": "Croatia (Hrvatska)",
-      "phoneCode": 385
+        "id": 54,
+        "shortname": "HR",
+        "name": "Croatia (Hrvatska)",
+        "phoneCode": 385,
+        "currency": "HRK"
     },
     {
-      "id": 55,
-      "shortname": "CU",
-      "name": "Cuba",
-      "phoneCode": 53
+        "id": 55,
+        "shortname": "CU",
+        "name": "Cuba",
+        "phoneCode": 53,
+        "currency": "CUP"
     },
     {
-      "id": 56,
-      "shortname": "CY",
-      "name": "Cyprus",
-      "phoneCode": 357
+        "id": 56,
+        "shortname": "CY",
+        "name": "Cyprus",
+        "phoneCode": 357,
+        "currency": "EUR"
     },
     {
-      "id": 57,
-      "shortname": "CZ",
-      "name": "Czech Republic",
-      "phoneCode": 420
+        "id": 57,
+        "shortname": "CZ",
+        "name": "Czech Republic",
+        "phoneCode": 420,
+        "currency": "CZK"
     },
     {
-      "id": 58,
-      "shortname": "DK",
-      "name": "Denmark",
-      "phoneCode": 45
+        "id": 58,
+        "shortname": "DK",
+        "name": "Denmark",
+        "phoneCode": 45,
+        "currency": "DKK"
     },
     {
-      "id": 59,
-      "shortname": "DJ",
-      "name": "Djibouti",
-      "phoneCode": 253
+        "id": 59,
+        "shortname": "DJ",
+        "name": "Djibouti",
+        "phoneCode": 253,
+        "currency": "DJF"
     },
     {
-      "id": 60,
-      "shortname": "DM",
-      "name": "Dominica",
-      "phoneCode": 1767
+        "id": 60,
+        "shortname": "DM",
+        "name": "Dominica",
+        "phoneCode": 1767,
+        "currency": "XCD"
     },
     {
-      "id": 61,
-      "shortname": "DO",
-      "name": "Dominican Republic",
-      "phoneCode": 1809
+        "id": 61,
+        "shortname": "DO",
+        "name": "Dominican Republic",
+        "phoneCode": 1809,
+        "currency": "DOP"
     },
     {
-      "id": 62,
-      "shortname": "TP",
-      "name": "East Timor",
-      "phoneCode": 670
+        "id": 62,
+        "shortname": "TP",
+        "name": "East Timor",
+        "phoneCode": 670,
+        "currency": "USD"
     },
     {
-      "id": 63,
-      "shortname": "EC",
-      "name": "Ecuador",
-      "phoneCode": 593
+        "id": 63,
+        "shortname": "EC",
+        "name": "Ecuador",
+        "phoneCode": 593,
+        "currency": "USD"
     },
     {
-      "id": 64,
-      "shortname": "EG",
-      "name": "Egypt",
-      "phoneCode": 20
+        "id": 64,
+        "shortname": "EG",
+        "name": "Egypt",
+        "phoneCode": 20,
+        "currency": "EGP"
     },
     {
-      "id": 65,
-      "shortname": "SV",
-      "name": "El Salvador",
-      "phoneCode": 503
+        "id": 65,
+        "shortname": "SV",
+        "name": "El Salvador",
+        "phoneCode": 503,
+        "currency": "USD"
     },
     {
-      "id": 66,
-      "shortname": "GQ",
-      "name": "Equatorial Guinea",
-      "phoneCode": 240
+        "id": 66,
+        "shortname": "GQ",
+        "name": "Equatorial Guinea",
+        "phoneCode": 240,
+        "currency": "XAF"
     },
     {
-      "id": 67,
-      "shortname": "ER",
-      "name": "Eritrea",
-      "phoneCode": 291
+        "id": 67,
+        "shortname": "ER",
+        "name": "Eritrea",
+        "phoneCode": 291,
+        "currency": "ERN"
     },
     {
-      "id": 68,
-      "shortname": "EE",
-      "name": "Estonia",
-      "phoneCode": 372
+        "id": 68,
+        "shortname": "EE",
+        "name": "Estonia",
+        "phoneCode": 372,
+        "currency": "EUR"
     },
     {
-      "id": 69,
-      "shortname": "ET",
-      "name": "Ethiopia",
-      "phoneCode": 251
+        "id": 69,
+        "shortname": "ET",
+        "name": "Ethiopia",
+        "phoneCode": 251,
+        "currency": "ETB"
     },
     {
-      "id": 70,
-      "shortname": "XA",
-      "name": "External Territories of Australia",
-      "phoneCode": 61
+        "id": 70,
+        "shortname": "XA",
+        "name": "External Territories of Australia",
+        "phoneCode": 61,
+        "currency": "AUD"
     },
     {
-      "id": 71,
-      "shortname": "FK",
-      "name": "Falkland Islands",
-      "phoneCode": 500
+        "id": 71,
+        "shortname": "FK",
+        "name": "Falkland Islands",
+        "phoneCode": 500,
+        "currency": "FKP"
     },
     {
-      "id": 72,
-      "shortname": "FO",
-      "name": "Faroe Islands",
-      "phoneCode": 298
+        "id": 72,
+        "shortname": "FO",
+        "name": "Faroe Islands",
+        "phoneCode": 298,
+        "currency": "DKK"
     },
     {
-      "id": 73,
-      "shortname": "FJ",
-      "name": "Fiji Islands",
-      "phoneCode": 679
+        "id": 73,
+        "shortname": "FJ",
+        "name": "Fiji Islands",
+        "phoneCode": 679,
+        "currency": "FJD"
     },
     {
-      "id": 74,
-      "shortname": "FI",
-      "name": "Finland",
-      "phoneCode": 358
+        "id": 74,
+        "shortname": "FI",
+        "name": "Finland",
+        "phoneCode": 358,
+        "currency": "EUR"
     },
     {
-      "id": 75,
-      "shortname": "FR",
-      "name": "France",
-      "phoneCode": 33
+        "id": 75,
+        "shortname": "FR",
+        "name": "France",
+        "phoneCode": 33,
+        "currency": "EUR"
     },
     {
-      "id": 76,
-      "shortname": "GF",
-      "name": "French Guiana",
-      "phoneCode": 594
+        "id": 76,
+        "shortname": "GF",
+        "name": "French Guiana",
+        "phoneCode": 594,
+        "currency": "EUR"
     },
     {
-      "id": 77,
-      "shortname": "PF",
-      "name": "French Polynesia",
-      "phoneCode": 689
+        "id": 77,
+        "shortname": "PF",
+        "name": "French Polynesia",
+        "phoneCode": 689,
+        "currency": "XPF"
     },
     {
-      "id": 78,
-      "shortname": "TF",
-      "name": "French Southern Territories",
-      "phoneCode": 0
+        "id": 78,
+        "shortname": "TF",
+        "name": "French Southern Territories",
+        "phoneCode": 0,
+        "currency": "EUR"
     },
     {
-      "id": 79,
-      "shortname": "GA",
-      "name": "Gabon",
-      "phoneCode": 241
+        "id": 79,
+        "shortname": "GA",
+        "name": "Gabon",
+        "phoneCode": 241,
+        "currency": "XAF"
     },
     {
-      "id": 80,
-      "shortname": "GM",
-      "name": "Gambia The",
-      "phoneCode": 220
+        "id": 80,
+        "shortname": "GM",
+        "name": "Gambia The",
+        "phoneCode": 220,
+        "currency": "GMD"
     },
     {
-      "id": 81,
-      "shortname": "GE",
-      "name": "Georgia",
-      "phoneCode": 995
+        "id": 81,
+        "shortname": "GE",
+        "name": "Georgia",
+        "phoneCode": 995,
+        "currency": "GEL"
     },
     {
-      "id": 82,
-      "shortname": "DE",
-      "name": "Germany",
-      "phoneCode": 49
+        "id": 82,
+        "shortname": "DE",
+        "name": "Germany",
+        "phoneCode": 49,
+        "currency": "EUR"
     },
     {
-      "id": 83,
-      "shortname": "GH",
-      "name": "Ghana",
-      "phoneCode": 233
+        "id": 83,
+        "shortname": "GH",
+        "name": "Ghana",
+        "phoneCode": 233,
+        "currency": "GHS"
     },
     {
-      "id": 84,
-      "shortname": "GI",
-      "name": "Gibraltar",
-      "phoneCode": 350
+        "id": 84,
+        "shortname": "GI",
+        "name": "Gibraltar",
+        "phoneCode": 350,
+        "currency": "GIP"
     },
     {
-      "id": 85,
-      "shortname": "GR",
-      "name": "Greece",
-      "phoneCode": 30
+        "id": 85,
+        "shortname": "GR",
+        "name": "Greece",
+        "phoneCode": 30,
+        "currency": "EUR"
     },
     {
-      "id": 86,
-      "shortname": "GL",
-      "name": "Greenland",
-      "phoneCode": 299
+        "id": 86,
+        "shortname": "GL",
+        "name": "Greenland",
+        "phoneCode": 299,
+        "currency": "DKK"
     },
     {
-      "id": 87,
-      "shortname": "GD",
-      "name": "Grenada",
-      "phoneCode": 1473
+        "id": 87,
+        "shortname": "GD",
+        "name": "Grenada",
+        "phoneCode": 1473,
+        "currency": "XCD"
     },
     {
-      "id": 88,
-      "shortname": "GP",
-      "name": "Guadeloupe",
-      "phoneCode": 590
+        "id": 88,
+        "shortname": "GP",
+        "name": "Guadeloupe",
+        "phoneCode": 590,
+        "currency": "EUR"
     },
     {
-      "id": 89,
-      "shortname": "GU",
-      "name": "Guam",
-      "phoneCode": 1671
+        "id": 89,
+        "shortname": "GU",
+        "name": "Guam",
+        "phoneCode": 1671,
+        "currency": "USD"
     },
     {
-      "id": 90,
-      "shortname": "GT",
-      "name": "Guatemala",
-      "phoneCode": 502
+        "id": 90,
+        "shortname": "GT",
+        "name": "Guatemala",
+        "phoneCode": 502,
+        "currency": "GTQ"
     },
     {
-      "id": 91,
-      "shortname": "XU",
-      "name": "Guernsey and Alderney",
-      "phoneCode": 44
+        "id": 91,
+        "shortname": "XU",
+        "name": "Guernsey and Alderney",
+        "phoneCode": 44,
+        "currency": "GBP"
     },
     {
-      "id": 92,
-      "shortname": "GN",
-      "name": "Guinea",
-      "phoneCode": 224
+        "id": 92,
+        "shortname": "GN",
+        "name": "Guinea",
+        "phoneCode": 224,
+        "currency": "GNF"
     },
     {
-      "id": 93,
-      "shortname": "GW",
-      "name": "Guinea-Bissau",
-      "phoneCode": 245
+        "id": 93,
+        "shortname": "GW",
+        "name": "Guinea-Bissau",
+        "phoneCode": 245,
+        "currency": "XOF"
     },
     {
-      "id": 94,
-      "shortname": "GY",
-      "name": "Guyana",
-      "phoneCode": 592
+        "id": 94,
+        "shortname": "GY",
+        "name": "Guyana",
+        "phoneCode": 592,
+        "currency": "GYD"
     },
     {
-      "id": 95,
-      "shortname": "HT",
-      "name": "Haiti",
-      "phoneCode": 509
+        "id": 95,
+        "shortname": "HT",
+        "name": "Haiti",
+        "phoneCode": 509,
+        "currency": "HTG"
     },
     {
-      "id": 96,
-      "shortname": "HM",
-      "name": "Heard and McDonald Islands",
-      "phoneCode": 0
+        "id": 96,
+        "shortname": "HM",
+        "name": "Heard and McDonald Islands",
+        "phoneCode": 0,
+        "currency": "AUD"
     },
     {
-      "id": 97,
-      "shortname": "HN",
-      "name": "Honduras",
-      "phoneCode": 504
+        "id": 97,
+        "shortname": "HN",
+        "name": "Honduras",
+        "phoneCode": 504,
+        "currency": "HNL"
     },
     {
-      "id": 98,
-      "shortname": "HK",
-      "name": "Hong Kong S.A.R.",
-      "phoneCode": 852
+        "id": 98,
+        "shortname": "HK",
+        "name": "Hong Kong S.A.R.",
+        "phoneCode": 852,
+        "currency": "HKD"
     },
     {
-      "id": 99,
-      "shortname": "HU",
-      "name": "Hungary",
-      "phoneCode": 36
+        "id": 99,
+        "shortname": "HU",
+        "name": "Hungary",
+        "phoneCode": 36,
+        "currency": "HUF"
     },
     {
-      "id": 100,
-      "shortname": "IS",
-      "name": "Iceland",
-      "phoneCode": 354
+        "id": 100,
+        "shortname": "IS",
+        "name": "Iceland",
+        "phoneCode": 354,
+        "currency": "ISK"
     },
     {
-      "id": 101,
-      "shortname": "IN",
-      "name": "India",
-      "phoneCode": 91
+        "id": 101,
+        "shortname": "IN",
+        "name": "India",
+        "phoneCode": 91,
+        "currency": "INR"
     },
     {
-      "id": 102,
-      "shortname": "ID",
-      "name": "Indonesia",
-      "phoneCode": 62
+        "id": 102,
+        "shortname": "ID",
+        "name": "Indonesia",
+        "phoneCode": 62,
+        "currency": "IDR"
     },
     {
-      "id": 103,
-      "shortname": "IR",
-      "name": "Iran",
-      "phoneCode": 98
+        "id": 103,
+        "shortname": "IR",
+        "name": "Iran",
+        "phoneCode": 98,
+        "currency": "IRR"
     },
     {
-      "id": 104,
-      "shortname": "IQ",
-      "name": "Iraq",
-      "phoneCode": 964
+        "id": 104,
+        "shortname": "IQ",
+        "name": "Iraq",
+        "phoneCode": 964,
+        "currency": "IQD"
     },
     {
-      "id": 105,
-      "shortname": "IE",
-      "name": "Ireland",
-      "phoneCode": 353
+        "id": 105,
+        "shortname": "IE",
+        "name": "Ireland",
+        "phoneCode": 353,
+        "currency": "EUR"
     },
     {
-      "id": 106,
-      "shortname": "IL",
-      "name": "Israel",
-      "phoneCode": 972
+        "id": 106,
+        "shortname": "IL",
+        "name": "Israel",
+        "phoneCode": 972,
+        "currency": "ILS"
     },
     {
-      "id": 107,
-      "shortname": "IT",
-      "name": "Italy",
-      "phoneCode": 39
+        "id": 107,
+        "shortname": "IT",
+        "name": "Italy",
+        "phoneCode": 39,
+        "currency": "EUR"
     },
     {
-      "id": 108,
-      "shortname": "JM",
-      "name": "Jamaica",
-      "phoneCode": 1876
+        "id": 108,
+        "shortname": "JM",
+        "name": "Jamaica",
+        "phoneCode": 1876,
+        "currency": "JMD"
     },
     {
-      "id": 109,
-      "shortname": "JP",
-      "name": "Japan",
-      "phoneCode": 81
+        "id": 109,
+        "shortname": "JP",
+        "name": "Japan",
+        "phoneCode": 81,
+        "currency": "JPY"
     },
     {
-      "id": 110,
-      "shortname": "XJ",
-      "name": "Jersey",
-      "phoneCode": 44
+        "id": 110,
+        "shortname": "XJ",
+        "name": "Jersey",
+        "phoneCode": 44,
+        "currency": "GBP"
     },
     {
-      "id": 111,
-      "shortname": "JO",
-      "name": "Jordan",
-      "phoneCode": 962
+        "id": 111,
+        "shortname": "JO",
+        "name": "Jordan",
+        "phoneCode": 962,
+        "currency": "JOD"
     },
     {
-      "id": 112,
-      "shortname": "KZ",
-      "name": "Kazakhstan",
-      "phoneCode": 7
+        "id": 112,
+        "shortname": "KZ",
+        "name": "Kazakhstan",
+        "phoneCode": 7,
+        "currency": "KZT"
     },
     {
-      "id": 113,
-      "shortname": "KE",
-      "name": "Kenya",
-      "phoneCode": 254
+        "id": 113,
+        "shortname": "KE",
+        "name": "Kenya",
+        "phoneCode": 254,
+        "currency": "KES"
     },
     {
-      "id": 114,
-      "shortname": "KI",
-      "name": "Kiribati",
-      "phoneCode": 686
+        "id": 114,
+        "shortname": "KI",
+        "name": "Kiribati",
+        "phoneCode": 686,
+        "currency": "AUD"
     },
     {
-      "id": 115,
-      "shortname": "KP",
-      "name": "Korea North",
-      "phoneCode": 850
+        "id": 115,
+        "shortname": "KP",
+        "name": "Korea North",
+        "phoneCode": 850,
+        "currency": "KPW"
     },
     {
-      "id": 116,
-      "shortname": "KR",
-      "name": "Korea South",
-      "phoneCode": 82
+        "id": 116,
+        "shortname": "KR",
+        "name": "Korea South",
+        "phoneCode": 82,
+        "currency": "KRW"
     },
     {
-      "id": 117,
-      "shortname": "KW",
-      "name": "Kuwait",
-      "phoneCode": 965
+        "id": 117,
+        "shortname": "KW",
+        "name": "Kuwait",
+        "phoneCode": 965,
+        "currency": "KWD"
     },
     {
-      "id": 118,
-      "shortname": "KG",
-      "name": "Kyrgyzstan",
-      "phoneCode": 996
+        "id": 118,
+        "shortname": "KG",
+        "name": "Kyrgyzstan",
+        "phoneCode": 996,
+        "currency": "KGS"
     },
     {
-      "id": 119,
-      "shortname": "LA",
-      "name": "Laos",
-      "phoneCode": 856
+        "id": 119,
+        "shortname": "LA",
+        "name": "Laos",
+        "phoneCode": 856,
+        "currency": "LAK"
     },
     {
-      "id": 120,
-      "shortname": "LV",
-      "name": "Latvia",
-      "phoneCode": 371
+        "id": 120,
+        "shortname": "LV",
+        "name": "Latvia",
+        "phoneCode": 371,
+        "currency": "EUR"
     },
     {
-      "id": 121,
-      "shortname": "LB",
-      "name": "Lebanon",
-      "phoneCode": 961
+        "id": 121,
+        "shortname": "LB",
+        "name": "Lebanon",
+        "phoneCode": 961,
+        "currency": "LBP"
     },
     {
-      "id": 122,
-      "shortname": "LS",
-      "name": "Lesotho",
-      "phoneCode": 266
+        "id": 122,
+        "shortname": "LS",
+        "name": "Lesotho",
+        "phoneCode": 266,
+        "currency": "LSL"
     },
     {
-      "id": 123,
-      "shortname": "LR",
-      "name": "Liberia",
-      "phoneCode": 231
+        "id": 123,
+        "shortname": "LR",
+        "name": "Liberia",
+        "phoneCode": 231,
+        "currency": "LRD"
     },
     {
-      "id": 124,
-      "shortname": "LY",
-      "name": "Libya",
-      "phoneCode": 218
+        "id": 124,
+        "shortname": "LY",
+        "name": "Libya",
+        "phoneCode": 218,
+        "currency": "LYD"
     },
     {
-      "id": 125,
-      "shortname": "LI",
-      "name": "Liechtenstein",
-      "phoneCode": 423
+        "id": 125,
+        "shortname": "LI",
+        "name": "Liechtenstein",
+        "phoneCode": 423,
+        "currency": "CHF"
     },
     {
-      "id": 126,
-      "shortname": "LT",
-      "name": "Lithuania",
-      "phoneCode": 370
+        "id": 126,
+        "shortname": "LT",
+        "name": "Lithuania",
+        "phoneCode": 370,
+        "currency": "EUR"
     },
     {
-      "id": 127,
-      "shortname": "LU",
-      "name": "Luxembourg",
-      "phoneCode": 352
+        "id": 127,
+        "shortname": "LU",
+        "name": "Luxembourg",
+        "phoneCode": 352,
+        "currency": "EUR"
     },
     {
-      "id": 128,
-      "shortname": "MO",
-      "name": "Macau S.A.R.",
-      "phoneCode": 853
+        "id": 128,
+        "shortname": "MO",
+        "name": "Macau S.A.R.",
+        "phoneCode": 853,
+        "currency": "MOP"
     },
     {
-      "id": 129,
-      "shortname": "MK",
-      "name": "Macedonia",
-      "phoneCode": 389
+        "id": 129,
+        "shortname": "MK",
+        "name": "Macedonia",
+        "phoneCode": 389,
+        "currency": "MKD"
     },
     {
-      "id": 130,
-      "shortname": "MG",
-      "name": "Madagascar",
-      "phoneCode": 261
+        "id": 130,
+        "shortname": "MG",
+        "name": "Madagascar",
+        "phoneCode": 261,
+        "currency": "MGA"
     },
     {
-      "id": 131,
-      "shortname": "MW",
-      "name": "Malawi",
-      "phoneCode": 265
+        "id": 131,
+        "shortname": "MW",
+        "name": "Malawi",
+        "phoneCode": 265,
+        "currency": "MWK"
     },
     {
-      "id": 132,
-      "shortname": "MY",
-      "name": "Malaysia",
-      "phoneCode": 60
+        "id": 132,
+        "shortname": "MY",
+        "name": "Malaysia",
+        "phoneCode": 60,
+        "currency": "MYR"
     },
     {
-      "id": 133,
-      "shortname": "MV",
-      "name": "Maldives",
-      "phoneCode": 960
+        "id": 133,
+        "shortname": "MV",
+        "name": "Maldives",
+        "phoneCode": 960,
+        "currency": "MVR"
     },
     {
-      "id": 134,
-      "shortname": "ML",
-      "name": "Mali",
-      "phoneCode": 223
+        "id": 134,
+        "shortname": "ML",
+        "name": "Mali",
+        "phoneCode": 223,
+        "currency": "XOF"
     },
     {
-      "id": 135,
-      "shortname": "MT",
-      "name": "Malta",
-      "phoneCode": 356
+        "id": 135,
+        "shortname": "MT",
+        "name": "Malta",
+        "phoneCode": 356,
+        "currency": "EUR"
     },
     {
-      "id": 136,
-      "shortname": "XM",
-      "name": "Man (Isle of)",
-      "phoneCode": 44
+        "id": 136,
+        "shortname": "XM",
+        "name": "Man (Isle of)",
+        "phoneCode": 44,
+        "currency": "GBP"
     },
     {
-      "id": 137,
-      "shortname": "MH",
-      "name": "Marshall Islands",
-      "phoneCode": 692
+        "id": 137,
+        "shortname": "MH",
+        "name": "Marshall Islands",
+        "phoneCode": 692,
+        "currency": "USD"
     },
     {
-      "id": 138,
-      "shortname": "MQ",
-      "name": "Martinique",
-      "phoneCode": 596
+        "id": 138,
+        "shortname": "MQ",
+        "name": "Martinique",
+        "phoneCode": 596,
+        "currency": "EUR"
     },
     {
-      "id": 139,
-      "shortname": "MR",
-      "name": "Mauritania",
-      "phoneCode": 222
+        "id": 139,
+        "shortname": "MR",
+        "name": "Mauritania",
+        "phoneCode": 222,
+        "currency": "MRO"
     },
     {
-      "id": 140,
-      "shortname": "MU",
-      "name": "Mauritius",
-      "phoneCode": 230
+        "id": 140,
+        "shortname": "MU",
+        "name": "Mauritius",
+        "phoneCode": 230,
+        "currency": "MUR"
     },
     {
-      "id": 141,
-      "shortname": "YT",
-      "name": "Mayotte",
-      "phoneCode": 269
+        "id": 141,
+        "shortname": "YT",
+        "name": "Mayotte",
+        "phoneCode": 269,
+        "currency": "EUR"
     },
     {
-      "id": 142,
-      "shortname": "MX",
-      "name": "Mexico",
-      "phoneCode": 52
+        "id": 142,
+        "shortname": "MX",
+        "name": "Mexico",
+        "phoneCode": 52,
+        "currency": "MXN"
     },
     {
-      "id": 143,
-      "shortname": "FM",
-      "name": "Micronesia",
-      "phoneCode": 691
+        "id": 143,
+        "shortname": "FM",
+        "name": "Micronesia",
+        "phoneCode": 691,
+        "currency": "USD"
     },
     {
-      "id": 144,
-      "shortname": "MD",
-      "name": "Moldova",
-      "phoneCode": 373
+        "id": 144,
+        "shortname": "MD",
+        "name": "Moldova",
+        "phoneCode": 373,
+        "currency": "MDL"
     },
     {
-      "id": 145,
-      "shortname": "MC",
-      "name": "Monaco",
-      "phoneCode": 377
+        "id": 145,
+        "shortname": "MC",
+        "name": "Monaco",
+        "phoneCode": 377,
+        "currency": "EUR"
     },
     {
-      "id": 146,
-      "shortname": "MN",
-      "name": "Mongolia",
-      "phoneCode": 976
+        "id": 146,
+        "shortname": "MN",
+        "name": "Mongolia",
+        "phoneCode": 976,
+        "currency": "MNT"
     },
     {
-      "id": 147,
-      "shortname": "MS",
-      "name": "Montserrat",
-      "phoneCode": 1664
+        "id": 147,
+        "shortname": "MS",
+        "name": "Montserrat",
+        "phoneCode": 1664,
+        "currency": "XCD"
     },
     {
-      "id": 148,
-      "shortname": "MA",
-      "name": "Morocco",
-      "phoneCode": 212
+        "id": 148,
+        "shortname": "MA",
+        "name": "Morocco",
+        "phoneCode": 212,
+        "currency": "MAD"
     },
     {
-      "id": 149,
-      "shortname": "MZ",
-      "name": "Mozambique",
-      "phoneCode": 258
+        "id": 149,
+        "shortname": "MZ",
+        "name": "Mozambique",
+        "phoneCode": 258,
+        "currency": "MZN"
     },
     {
-      "id": 150,
-      "shortname": "MM",
-      "name": "Myanmar",
-      "phoneCode": 95
+        "id": 150,
+        "shortname": "MM",
+        "name": "Myanmar",
+        "phoneCode": 95,
+        "currency": "MMK"
     },
     {
-      "id": 151,
-      "shortname": "NA",
-      "name": "Namibia",
-      "phoneCode": 264
+        "id": 151,
+        "shortname": "NA",
+        "name": "Namibia",
+        "phoneCode": 264,
+        "currency": "NAD"
     },
     {
-      "id": 152,
-      "shortname": "NR",
-      "name": "Nauru",
-      "phoneCode": 674
+        "id": 152,
+        "shortname": "NR",
+        "name": "Nauru",
+        "phoneCode": 674,
+        "currency": "AUD"
     },
     {
-      "id": 153,
-      "shortname": "NP",
-      "name": "Nepal",
-      "phoneCode": 977
+        "id": 153,
+        "shortname": "NP",
+        "name": "Nepal",
+        "phoneCode": 977,
+        "currency": "NPR"
     },
     {
-      "id": 154,
-      "shortname": "AN",
-      "name": "Netherlands Antilles",
-      "phoneCode": 599
+        "id": 154,
+        "shortname": "AN",
+        "name": "Netherlands Antilles",
+        "phoneCode": 599,
+        "currency": ""
     },
     {
-      "id": 155,
-      "shortname": "NL",
-      "name": "Netherlands The",
-      "phoneCode": 31
+        "id": 155,
+        "shortname": "NL",
+        "name": "Netherlands The",
+        "phoneCode": 31,
+        "currency": "EUR"
     },
     {
-      "id": 156,
-      "shortname": "NC",
-      "name": "New Caledonia",
-      "phoneCode": 687
+        "id": 156,
+        "shortname": "NC",
+        "name": "New Caledonia",
+        "phoneCode": 687,
+        "currency": "XPF"
     },
     {
-      "id": 157,
-      "shortname": "NZ",
-      "name": "New Zealand",
-      "phoneCode": 64
+        "id": 157,
+        "shortname": "NZ",
+        "name": "New Zealand",
+        "phoneCode": 64,
+        "currency": "NZD"
     },
     {
-      "id": 158,
-      "shortname": "NI",
-      "name": "Nicaragua",
-      "phoneCode": 505
+        "id": 158,
+        "shortname": "NI",
+        "name": "Nicaragua",
+        "phoneCode": 505,
+        "currency": "NIO"
     },
     {
-      "id": 159,
-      "shortname": "NE",
-      "name": "Niger",
-      "phoneCode": 227
+        "id": 159,
+        "shortname": "NE",
+        "name": "Niger",
+        "phoneCode": 227,
+        "currency": "XOF"
     },
     {
-      "id": 160,
-      "shortname": "NG",
-      "name": "Nigeria",
-      "phoneCode": 234
+        "id": 160,
+        "shortname": "NG",
+        "name": "Nigeria",
+        "phoneCode": 234,
+        "currency": "NGN"
     },
     {
-      "id": 161,
-      "shortname": "NU",
-      "name": "Niue",
-      "phoneCode": 683
+        "id": 161,
+        "shortname": "NU",
+        "name": "Niue",
+        "phoneCode": 683,
+        "currency": "NZD"
     },
     {
-      "id": 162,
-      "shortname": "NF",
-      "name": "Norfolk Island",
-      "phoneCode": 672
+        "id": 162,
+        "shortname": "NF",
+        "name": "Norfolk Island",
+        "phoneCode": 672,
+        "currency": "AUD"
     },
     {
-      "id": 163,
-      "shortname": "MP",
-      "name": "Northern Mariana Islands",
-      "phoneCode": 1670
+        "id": 163,
+        "shortname": "MP",
+        "name": "Northern Mariana Islands",
+        "phoneCode": 1670,
+        "currency": "USD"
     },
     {
-      "id": 164,
-      "shortname": "NO",
-      "name": "Norway",
-      "phoneCode": 47
+        "id": 164,
+        "shortname": "NO",
+        "name": "Norway",
+        "phoneCode": 47,
+        "currency": "NOK"
     },
     {
-      "id": 165,
-      "shortname": "OM",
-      "name": "Oman",
-      "phoneCode": 968
+        "id": 165,
+        "shortname": "OM",
+        "name": "Oman",
+        "phoneCode": 968,
+        "currency": "OMR"
     },
     {
-      "id": 166,
-      "shortname": "PK",
-      "name": "Pakistan",
-      "phoneCode": 92
+        "id": 166,
+        "shortname": "PK",
+        "name": "Pakistan",
+        "phoneCode": 92,
+        "currency": "PKR"
     },
     {
-      "id": 167,
-      "shortname": "PW",
-      "name": "Palau",
-      "phoneCode": 680
+        "id": 167,
+        "shortname": "PW",
+        "name": "Palau",
+        "phoneCode": 680,
+        "currency": "USD"
     },
     {
-      "id": 168,
-      "shortname": "PS",
-      "name": "Palestinian Territory Occupied",
-      "phoneCode": 970
+        "id": 168,
+        "shortname": "PS",
+        "name": "Palestinian Territory Occupied",
+        "phoneCode": 970,
+        "currency": "ILS"
     },
     {
-      "id": 169,
-      "shortname": "PA",
-      "name": "Panama",
-      "phoneCode": 507
+        "id": 169,
+        "shortname": "PA",
+        "name": "Panama",
+        "phoneCode": 507,
+        "currency": "PAB"
     },
     {
-      "id": 170,
-      "shortname": "PG",
-      "name": "Papua new Guinea",
-      "phoneCode": 675
+        "id": 170,
+        "shortname": "PG",
+        "name": "Papua new Guinea",
+        "phoneCode": 675,
+        "currency": "PGK"
     },
     {
-      "id": 171,
-      "shortname": "PY",
-      "name": "Paraguay",
-      "phoneCode": 595
+        "id": 171,
+        "shortname": "PY",
+        "name": "Paraguay",
+        "phoneCode": 595,
+        "currency": "PYG"
     },
     {
-      "id": 172,
-      "shortname": "PE",
-      "name": "Peru",
-      "phoneCode": 51
+        "id": 172,
+        "shortname": "PE",
+        "name": "Peru",
+        "phoneCode": 51,
+        "currency": "PEN"
     },
     {
-      "id": 173,
-      "shortname": "PH",
-      "name": "Philippines",
-      "phoneCode": 63
+        "id": 173,
+        "shortname": "PH",
+        "name": "Philippines",
+        "phoneCode": 63,
+        "currency": "PHP"
     },
     {
-      "id": 174,
-      "shortname": "PN",
-      "name": "Pitcairn Island",
-      "phoneCode": 0
+        "id": 174,
+        "shortname": "PN",
+        "name": "Pitcairn Island",
+        "phoneCode": 0,
+        "currency": "NZD"
     },
     {
-      "id": 175,
-      "shortname": "PL",
-      "name": "Poland",
-      "phoneCode": 48
+        "id": 175,
+        "shortname": "PL",
+        "name": "Poland",
+        "phoneCode": 48,
+        "currency": "PLN"
     },
     {
-      "id": 176,
-      "shortname": "PT",
-      "name": "Portugal",
-      "phoneCode": 351
+        "id": 176,
+        "shortname": "PT",
+        "name": "Portugal",
+        "phoneCode": 351,
+        "currency": "EUR"
     },
     {
-      "id": 177,
-      "shortname": "PR",
-      "name": "Puerto Rico",
-      "phoneCode": 1787
+        "id": 177,
+        "shortname": "PR",
+        "name": "Puerto Rico",
+        "phoneCode": 1787,
+        "currency": "USD"
     },
     {
-      "id": 178,
-      "shortname": "QA",
-      "name": "Qatar",
-      "phoneCode": 974
+        "id": 178,
+        "shortname": "QA",
+        "name": "Qatar",
+        "phoneCode": 974,
+        "currency": "QAR"
     },
     {
-      "id": 179,
-      "shortname": "RE",
-      "name": "Reunion",
-      "phoneCode": 262
+        "id": 179,
+        "shortname": "RE",
+        "name": "Reunion",
+        "phoneCode": 262,
+        "currency": "EUR"
     },
     {
-      "id": 180,
-      "shortname": "RO",
-      "name": "Romania",
-      "phoneCode": 40
+        "id": 180,
+        "shortname": "RO",
+        "name": "Romania",
+        "phoneCode": 40,
+        "currency": "RON"
     },
     {
-      "id": 181,
-      "shortname": "RU",
-      "name": "Russia",
-      "phoneCode": 70
+        "id": 181,
+        "shortname": "RU",
+        "name": "Russia",
+        "phoneCode": 70,
+        "currency": "RUB"
     },
     {
-      "id": 182,
-      "shortname": "RW",
-      "name": "Rwanda",
-      "phoneCode": 250
+        "id": 182,
+        "shortname": "RW",
+        "name": "Rwanda",
+        "phoneCode": 250,
+        "currency": "RWF"
     },
     {
-      "id": 183,
-      "shortname": "SH",
-      "name": "Saint Helena",
-      "phoneCode": 290
+        "id": 183,
+        "shortname": "SH",
+        "name": "Saint Helena",
+        "phoneCode": 290,
+        "currency": "SHP"
     },
     {
-      "id": 184,
-      "shortname": "KN",
-      "name": "Saint Kitts And Nevis",
-      "phoneCode": 1869
+        "id": 184,
+        "shortname": "KN",
+        "name": "Saint Kitts And Nevis",
+        "phoneCode": 1869,
+        "currency": "XCD"
     },
     {
-      "id": 185,
-      "shortname": "LC",
-      "name": "Saint Lucia",
-      "phoneCode": 1758
+        "id": 185,
+        "shortname": "LC",
+        "name": "Saint Lucia",
+        "phoneCode": 1758,
+        "currency": "XCD"
     },
     {
-      "id": 186,
-      "shortname": "PM",
-      "name": "Saint Pierre and Miquelon",
-      "phoneCode": 508
+        "id": 186,
+        "shortname": "PM",
+        "name": "Saint Pierre and Miquelon",
+        "phoneCode": 508,
+        "currency": "EUR"
     },
     {
-      "id": 187,
-      "shortname": "VC",
-      "name": "Saint Vincent And The Grenadines",
-      "phoneCode": 1784
+        "id": 187,
+        "shortname": "VC",
+        "name": "Saint Vincent And The Grenadines",
+        "phoneCode": 1784,
+        "currency": "XCD"
     },
     {
-      "id": 188,
-      "shortname": "WS",
-      "name": "Samoa",
-      "phoneCode": 684
+        "id": 188,
+        "shortname": "WS",
+        "name": "Samoa",
+        "phoneCode": 684,
+        "currency": "WST"
     },
     {
-      "id": 189,
-      "shortname": "SM",
-      "name": "San Marino",
-      "phoneCode": 378
+        "id": 189,
+        "shortname": "SM",
+        "name": "San Marino",
+        "phoneCode": 378,
+        "currency": "EUR"
     },
     {
-      "id": 190,
-      "shortname": "ST",
-      "name": "Sao Tome and Principe",
-      "phoneCode": 239
+        "id": 190,
+        "shortname": "ST",
+        "name": "Sao Tome and Principe",
+        "phoneCode": 239,
+        "currency": "STD"
     },
     {
-      "id": 191,
-      "shortname": "SA",
-      "name": "Saudi Arabia",
-      "phoneCode": 966
+        "id": 191,
+        "shortname": "SA",
+        "name": "Saudi Arabia",
+        "phoneCode": 966,
+        "currency": "SAR"
     },
     {
-      "id": 192,
-      "shortname": "SN",
-      "name": "Senegal",
-      "phoneCode": 221
+        "id": 192,
+        "shortname": "SN",
+        "name": "Senegal",
+        "phoneCode": 221,
+        "currency": "XOF"
     },
     {
-      "id": 193,
-      "shortname": "RS",
-      "name": "Serbia",
-      "phoneCode": 381
+        "id": 193,
+        "shortname": "RS",
+        "name": "Serbia",
+        "phoneCode": 381,
+        "currency": "RSD"
     },
     {
-      "id": 194,
-      "shortname": "SC",
-      "name": "Seychelles",
-      "phoneCode": 248
+        "id": 194,
+        "shortname": "SC",
+        "name": "Seychelles",
+        "phoneCode": 248,
+        "currency": "SCR"
     },
     {
-      "id": 195,
-      "shortname": "SL",
-      "name": "Sierra Leone",
-      "phoneCode": 232
+        "id": 195,
+        "shortname": "SL",
+        "name": "Sierra Leone",
+        "phoneCode": 232,
+        "currency": "SLL"
     },
     {
-      "id": 196,
-      "shortname": "SG",
-      "name": "Singapore",
-      "phoneCode": 65
+        "id": 196,
+        "shortname": "SG",
+        "name": "Singapore",
+        "phoneCode": 65,
+        "currency": "SGD"
     },
     {
-      "id": 197,
-      "shortname": "SK",
-      "name": "Slovakia",
-      "phoneCode": 421
+        "id": 197,
+        "shortname": "SK",
+        "name": "Slovakia",
+        "phoneCode": 421,
+        "currency": "EUR"
     },
     {
-      "id": 198,
-      "shortname": "SI",
-      "name": "Slovenia",
-      "phoneCode": 386
+        "id": 198,
+        "shortname": "SI",
+        "name": "Slovenia",
+        "phoneCode": 386,
+        "currency": "EUR"
     },
     {
-      "id": 199,
-      "shortname": "XG",
-      "name": "Smaller Territories of the UK",
-      "phoneCode": 44
+        "id": 199,
+        "shortname": "XG",
+        "name": "Smaller Territories of the UK",
+        "phoneCode": 44,
+        "currency": "GBP"
     },
     {
-      "id": 200,
-      "shortname": "SB",
-      "name": "Solomon Islands",
-      "phoneCode": 677
+        "id": 200,
+        "shortname": "SB",
+        "name": "Solomon Islands",
+        "phoneCode": 677,
+        "currency": "SBD"
     },
     {
-      "id": 201,
-      "shortname": "SO",
-      "name": "Somalia",
-      "phoneCode": 252
+        "id": 201,
+        "shortname": "SO",
+        "name": "Somalia",
+        "phoneCode": 252,
+        "currency": "SOS"
     },
     {
-      "id": 202,
-      "shortname": "ZA",
-      "name": "South Africa",
-      "phoneCode": 27
+        "id": 202,
+        "shortname": "ZA",
+        "name": "South Africa",
+        "phoneCode": 27,
+        "currency": "ZAR"
     },
     {
-      "id": 203,
-      "shortname": "GS",
-      "name": "South Georgia",
-      "phoneCode": 0
+        "id": 203,
+        "shortname": "GS",
+        "name": "South Georgia",
+        "phoneCode": 0,
+        "currency": "GBP"
     },
     {
-      "id": 204,
-      "shortname": "SS",
-      "name": "South Sudan",
-      "phoneCode": 211
+        "id": 204,
+        "shortname": "SS",
+        "name": "South Sudan",
+        "phoneCode": 211,
+        "currency": "SSP"
     },
     {
-      "id": 205,
-      "shortname": "ES",
-      "name": "Spain",
-      "phoneCode": 34
+        "id": 205,
+        "shortname": "ES",
+        "name": "Spain",
+        "phoneCode": 34,
+        "currency": "EUR"
     },
     {
-      "id": 206,
-      "shortname": "LK",
-      "name": "Sri Lanka",
-      "phoneCode": 94
+        "id": 206,
+        "shortname": "LK",
+        "name": "Sri Lanka",
+        "phoneCode": 94,
+        "currency": "LKR"
     },
     {
-      "id": 207,
-      "shortname": "SD",
-      "name": "Sudan",
-      "phoneCode": 249
+        "id": 207,
+        "shortname": "SD",
+        "name": "Sudan",
+        "phoneCode": 249,
+        "currency": "SDG"
     },
     {
-      "id": 208,
-      "shortname": "SR",
-      "name": "Suriname",
-      "phoneCode": 597
+        "id": 208,
+        "shortname": "SR",
+        "name": "Suriname",
+        "phoneCode": 597,
+        "currency": "SRD"
     },
     {
-      "id": 209,
-      "shortname": "SJ",
-      "name": "Svalbard And Jan Mayen Islands",
-      "phoneCode": 47
+        "id": 209,
+        "shortname": "SJ",
+        "name": "Svalbard And Jan Mayen Islands",
+        "phoneCode": 47,
+        "currency": "NOK"
     },
     {
-      "id": 210,
-      "shortname": "SZ",
-      "name": "Swaziland",
-      "phoneCode": 268
+        "id": 210,
+        "shortname": "SZ",
+        "name": "Swaziland",
+        "phoneCode": 268,
+        "currency": "SZL"
     },
     {
-      "id": 211,
-      "shortname": "SE",
-      "name": "Sweden",
-      "phoneCode": 46
+        "id": 211,
+        "shortname": "SE",
+        "name": "Sweden",
+        "phoneCode": 46,
+        "currency": "SEK"
     },
     {
-      "id": 212,
-      "shortname": "CH",
-      "name": "Switzerland",
-      "phoneCode": 41
+        "id": 212,
+        "shortname": "CH",
+        "name": "Switzerland",
+        "phoneCode": 41,
+        "currency": "CHF"
     },
     {
-      "id": 213,
-      "shortname": "SY",
-      "name": "Syria",
-      "phoneCode": 963
+        "id": 213,
+        "shortname": "SY",
+        "name": "Syria",
+        "phoneCode": 963,
+        "currency": "SYP"
     },
     {
-      "id": 214,
-      "shortname": "TW",
-      "name": "Taiwan",
-      "phoneCode": 886
+        "id": 214,
+        "shortname": "TW",
+        "name": "Taiwan",
+        "phoneCode": 886,
+        "currency": "TWD"
     },
     {
-      "id": 215,
-      "shortname": "TJ",
-      "name": "Tajikistan",
-      "phoneCode": 992
+        "id": 215,
+        "shortname": "TJ",
+        "name": "Tajikistan",
+        "phoneCode": 992,
+        "currency": "TJS"
     },
     {
-      "id": 216,
-      "shortname": "TZ",
-      "name": "Tanzania",
-      "phoneCode": 255
+        "id": 216,
+        "shortname": "TZ",
+        "name": "Tanzania",
+        "phoneCode": 255,
+        "currency": "TZS"
     },
     {
-      "id": 217,
-      "shortname": "TH",
-      "name": "Thailand",
-      "phoneCode": 66
+        "id": 217,
+        "shortname": "TH",
+        "name": "Thailand",
+        "phoneCode": 66,
+        "currency": "THB"
     },
     {
-      "id": 218,
-      "shortname": "TG",
-      "name": "Togo",
-      "phoneCode": 228
+        "id": 218,
+        "shortname": "TG",
+        "name": "Togo",
+        "phoneCode": 228,
+        "currency": "XOF"
     },
     {
-      "id": 219,
-      "shortname": "TK",
-      "name": "Tokelau",
-      "phoneCode": 690
+        "id": 219,
+        "shortname": "TK",
+        "name": "Tokelau",
+        "phoneCode": 690,
+        "currency": "NZD"
     },
     {
-      "id": 220,
-      "shortname": "TO",
-      "name": "Tonga",
-      "phoneCode": 676
+        "id": 220,
+        "shortname": "TO",
+        "name": "Tonga",
+        "phoneCode": 676,
+        "currency": "TOP"
     },
     {
-      "id": 221,
-      "shortname": "TT",
-      "name": "Trinidad And Tobago",
-      "phoneCode": 1868
+        "id": 221,
+        "shortname": "TT",
+        "name": "Trinidad And Tobago",
+        "phoneCode": 1868,
+        "currency": "TTD"
     },
     {
-      "id": 222,
-      "shortname": "TN",
-      "name": "Tunisia",
-      "phoneCode": 216
+        "id": 222,
+        "shortname": "TN",
+        "name": "Tunisia",
+        "phoneCode": 216,
+        "currency": "TND"
     },
     {
-      "id": 223,
-      "shortname": "TR",
-      "name": "Turkey",
-      "phoneCode": 90
+        "id": 223,
+        "shortname": "TR",
+        "name": "Turkey",
+        "phoneCode": 90,
+        "currency": "TRY"
     },
     {
-      "id": 224,
-      "shortname": "TM",
-      "name": "Turkmenistan",
-      "phoneCode": 7370
+        "id": 224,
+        "shortname": "TM",
+        "name": "Turkmenistan",
+        "phoneCode": 7370,
+        "currency": "TMT"
     },
     {
-      "id": 225,
-      "shortname": "TC",
-      "name": "Turks And Caicos Islands",
-      "phoneCode": 1649
+        "id": 225,
+        "shortname": "TC",
+        "name": "Turks And Caicos Islands",
+        "phoneCode": 1649,
+        "currency": "USD"
     },
     {
-      "id": 226,
-      "shortname": "TV",
-      "name": "Tuvalu",
-      "phoneCode": 688
+        "id": 226,
+        "shortname": "TV",
+        "name": "Tuvalu",
+        "phoneCode": 688,
+        "currency": "AUD"
     },
     {
-      "id": 227,
-      "shortname": "UG",
-      "name": "Uganda",
-      "phoneCode": 256
+        "id": 227,
+        "shortname": "UG",
+        "name": "Uganda",
+        "phoneCode": 256,
+        "currency": "UGX"
     },
     {
-      "id": 228,
-      "shortname": "UA",
-      "name": "Ukraine",
-      "phoneCode": 380
+        "id": 228,
+        "shortname": "UA",
+        "name": "Ukraine",
+        "phoneCode": 380,
+        "currency": "UAH"
     },
     {
-      "id": 229,
-      "shortname": "AE",
-      "name": "United Arab Emirates",
-      "phoneCode": 971
+        "id": 229,
+        "shortname": "AE",
+        "name": "United Arab Emirates",
+        "phoneCode": 971,
+        "currency": "AED"
     },
     {
-      "id": 230,
-      "shortname": "GB",
-      "name": "United Kingdom",
-      "phoneCode": 44
+        "id": 230,
+        "shortname": "GB",
+        "name": "United Kingdom",
+        "phoneCode": 44,
+        "currency": "GBP"
     },
     {
-      "id": 231,
-      "shortname": "US",
-      "name": "United States",
-      "phoneCode": 1
+        "id": 231,
+        "shortname": "US",
+        "name": "United States",
+        "phoneCode": 1,
+        "currency": "USD"
     },
     {
-      "id": 232,
-      "shortname": "UM",
-      "name": "United States Minor Outlying Islands",
-      "phoneCode": 1
+        "id": 232,
+        "shortname": "UM",
+        "name": "United States Minor Outlying Islands",
+        "phoneCode": 1,
+        "currency": "USD"
     },
     {
-      "id": 233,
-      "shortname": "UY",
-      "name": "Uruguay",
-      "phoneCode": 598
+        "id": 233,
+        "shortname": "UY",
+        "name": "Uruguay",
+        "phoneCode": 598,
+        "currency": "UYU"
     },
     {
-      "id": 234,
-      "shortname": "UZ",
-      "name": "Uzbekistan",
-      "phoneCode": 998
+        "id": 234,
+        "shortname": "UZ",
+        "name": "Uzbekistan",
+        "phoneCode": 998,
+        "currency": "UZS"
     },
     {
-      "id": 235,
-      "shortname": "VU",
-      "name": "Vanuatu",
-      "phoneCode": 678
+        "id": 235,
+        "shortname": "VU",
+        "name": "Vanuatu",
+        "phoneCode": 678,
+        "currency": "VUV"
     },
     {
-      "id": 236,
-      "shortname": "VA",
-      "name": "Vatican City State (Holy See)",
-      "phoneCode": 39
+        "id": 236,
+        "shortname": "VA",
+        "name": "Vatican City State (Holy See)",
+        "phoneCode": 39,
+        "currency": "EUR"
     },
     {
-      "id": 237,
-      "shortname": "VE",
-      "name": "Venezuela",
-      "phoneCode": 58
+        "id": 237,
+        "shortname": "VE",
+        "name": "Venezuela",
+        "phoneCode": 58,
+        "currency": "VES"
     },
     {
-      "id": 238,
-      "shortname": "VN",
-      "name": "Vietnam",
-      "phoneCode": 84
+        "id": 238,
+        "shortname": "VN",
+        "name": "Vietnam",
+        "phoneCode": 84,
+        "currency": "VND"
     },
     {
-      "id": 239,
-      "shortname": "VG",
-      "name": "Virgin Islands (British)",
-      "phoneCode": 1284
+        "id": 239,
+        "shortname": "VG",
+        "name": "Virgin Islands (British)",
+        "phoneCode": 1284,
+        "currency": "USD"
     },
     {
-      "id": 240,
-      "shortname": "VI",
-      "name": "Virgin Islands (US)",
-      "phoneCode": 1340
+        "id": 240,
+        "shortname": "VI",
+        "name": "Virgin Islands (US)",
+        "phoneCode": 1340,
+        "currency": "USD"
     },
     {
-      "id": 241,
-      "shortname": "WF",
-      "name": "Wallis And Futuna Islands",
-      "phoneCode": 681
+        "id": 241,
+        "shortname": "WF",
+        "name": "Wallis And Futuna Islands",
+        "phoneCode": 681,
+        "currency": "XPF"
     },
     {
-      "id": 242,
-      "shortname": "EH",
-      "name": "Western Sahara",
-      "phoneCode": 212
+        "id": 242,
+        "shortname": "EH",
+        "name": "Western Sahara",
+        "phoneCode": 212,
+        "currency": "MAD"
     },
     {
-      "id": 243,
-      "shortname": "YE",
-      "name": "Yemen",
-      "phoneCode": 967
+        "id": 243,
+        "shortname": "YE",
+        "name": "Yemen",
+        "phoneCode": 967,
+        "currency": "YER"
     },
     {
-      "id": 244,
-      "shortname": "YU",
-      "name": "Yugoslavia",
-      "phoneCode": 38
+        "id": 244,
+        "shortname": "YU",
+        "name": "Yugoslavia",
+        "phoneCode": 38,
+        "currency": "YUM"
     },
     {
-      "id": 245,
-      "shortname": "ZM",
-      "name": "Zambia",
-      "phoneCode": 260
+        "id": 245,
+        "shortname": "ZM",
+        "name": "Zambia",
+        "phoneCode": 260,
+        "currency": "ZMW"
     },
     {
-      "id": 246,
-      "shortname": "ZW",
-      "name": "Zimbabwe",
-      "phoneCode": 26
+        "id": 246,
+        "shortname": "ZW",
+        "name": "Zimbabwe",
+        "phoneCode": 26,
+        "currency": "ZWL"
     }
   ]
 }
