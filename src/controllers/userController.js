@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { User, Country, State, City } = require('../models'); // Import models
 const jwt = require('jsonwebtoken');
 const ffmpeg = require('fluent-ffmpeg'); // For processing video
-const { Video, VideoCategory, Invitation, VideoRating } = require('../models');
+const { Video, VideoCategory, Invitation, VideoRating, Advertisement } = require('../models');
 const fs = require('fs');
 const path = require('path');
 const upload = require('../middleware/upload'); // Adjust the path as per your project structure
@@ -600,7 +600,97 @@ const rateVideo = async (req, res) => {
       return res.status(500).json({ message: 'An error occurred while rating the video' });
     }
 };
+
+const getAllAdvertisements = async (req, res) => {
+    try {
+      // Fetch all advertisements from the database
+      const advertisements = await Advertisement.findAll({
+        attributes: [
+          'id',
+          'reg_id',
+          'gender',
+          'age_first',
+          'age_second',
+          'advertisment_name',
+          'audience_package',
+          'campaign_start',
+          'drp_country',
+          'drp_state',
+          'drp_city',
+          'uploadLogo',
+          'slide_picture1',
+          'slide_picture2',
+          'slide_picture3',
+          'slide_picture4',
+          'product_details',
+          'product_price',
+          'created_at',
+          'update_at',
+        ],
+      });
   
+      // If no advertisements are found, return a suitable message
+      if (advertisements.length === 0) {
+        return res.status(404).json({ message: 'No advertisements found.' });
+      }
   
-module.exports = { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, sendInvitation, rateVideo };
+      // Return the list of advertisements
+      return res.status(200).json(advertisements);
+    } catch (error) {
+      console.error('Error fetching advertisements:', error);
+      return res.status(500).json({ message: 'Server error.', error });
+    }
+};  
+
+const getAdvertisementById = async (req, res) => {
+    try {
+      const advertisementId = req.params.id;
+  
+      // Check if the ID is valid
+      if (!advertisementId) {
+        return res.status(400).json({ message: 'Advertisement ID is required.' });
+      }
+  
+      // Fetch the advertisement by ID
+      const advertisement = await Advertisement.findOne({
+        where: { id: advertisementId },
+        attributes: [
+          'id',
+          'reg_id',
+          'gender',
+          'age_first',
+          'age_second',
+          'advertisment_name',
+          'audience_package',
+          'campaign_start',
+          'drp_country',
+          'drp_state',
+          'drp_city',
+          'uploadLogo',
+          'slide_picture1',
+          'slide_picture2',
+          'slide_picture3',
+          'slide_picture4',
+          'product_details',
+          'product_price',
+          'created_at',
+          'update_at',
+        ],
+      });
+  
+      // Check if the advertisement exists
+      if (!advertisement) {
+        return res.status(404).json({ message: 'Advertisement not found.' });
+      }
+  
+      // Return the advertisement
+      res.status(200).json(advertisement);
+    } catch (error) {
+      console.error('Error fetching advertisement by ID:', error);
+      res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
+  
+module.exports = { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, sendInvitation, rateVideo, getAllAdvertisements, getAdvertisementById };
 
