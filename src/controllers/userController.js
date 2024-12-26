@@ -409,6 +409,13 @@ const getCategoryById = async (req, res) => {
                     model: Video,
                     as: 'videos',
                     attributes: ['video_id', 'title', 'description', 'path', 'total_time', 'cover_photo'],
+                    include: [
+                        {
+                            model: VideoRating,
+                            as: 'videoRatings',
+                            attributes: [], // Exclude raw data; only aggregate
+                        },
+                    ],
                 },
             ],
             attributes: ['videocategory_id', 'category_name', 'image', 'no_of_videos'],
@@ -418,7 +425,34 @@ const getCategoryById = async (req, res) => {
             return res.status(404).json({ message: 'Category not found.' });
         }
 
-        res.status(200).json(category);
+        // Map videos to include average rating and likes
+        const videosWithRatings = await Promise.all(
+            category.videos.map(async (video) => {
+                const ratings = await VideoRating.findAll({
+                    where: { video_id: video.video_id },
+                    attributes: ['rating', 'is_liked'],
+                });
+
+                const totalRatings = ratings.length;
+                const averageRating =
+                    totalRatings > 0 ? ratings.reduce((sum, r) => sum + r.rating, 0) / totalRatings : 0;
+                const totalLikes = ratings.filter((r) => r.is_liked === 1).length;
+
+                return {
+                    ...video.toJSON(),
+                    averageRating: parseFloat(averageRating.toFixed(2)), // Include average rating
+                    totalLikes, // Include total likes
+                };
+            })
+        );
+
+        // Update the category object with enriched videos data
+        const enrichedCategory = {
+            ...category.toJSON(),
+            videos: videosWithRatings,
+        };
+
+        res.status(200).json(enrichedCategory);
     } catch (error) {
         console.error('Error fetching category by ID:', error);
         res.status(500).json({ message: 'Server error.', error });
