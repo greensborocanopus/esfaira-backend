@@ -12,5 +12,16 @@ module.exports = (sequelize, DataTypes) => {
     reset_token: { type: DataTypes.STRING, allowNull: true }, // To store the reset token
     reset_token_expiry: { type: DataTypes.DATE, allowNull: true }, // To store token expiration time
   });
+
+  User.associate = (models) => {
+    // Association with VideoRatings
+    User.hasMany(models.VideoRating, {
+      foreignKey: 'user_id',
+      as: 'videoRatings', // Alias for user's video ratings
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    });
+  };
+  
   return User;
 };
