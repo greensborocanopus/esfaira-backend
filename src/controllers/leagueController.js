@@ -114,11 +114,12 @@ const getSubleagues = async (req, res) => {
           attributes: ['game_plays'], // Fetch only the game_plays attribute
         },
       ],
-      attributes: ['sub_league_name', 'venue_details', 'category'], // Fetch specific Subleague fields
+      attributes: ['sub_league_name', 'venue_details', 'category', 'sub_league_id'], // Fetch specific Subleague fields
     });
 
     // Transform the data into the desired format
     const response = subleagues.map((subleague) => ({
+      sub_league_id: subleague.sub_league_id || '',
       org: subleague.organization?.organization_name || 'Unknown Organization', // Use associated organization_name
       league: subleague.league?.league_name || 'Unknown League', // Use associated league_name
       complex: {
@@ -139,7 +140,7 @@ const getSubleagues = async (req, res) => {
 
 const getLeagues = async (req, res) => {
   try {
-    let searchTerm = req.query.searchTerm
+    let searchTerm = req.query.searchTerm;
     // Fetch subleagues with associated leagues
     const subleagues = await League.findAll({
       where: {
