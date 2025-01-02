@@ -5,7 +5,6 @@ const addLeague = async (req, res) => {
   const {
     organization,
     league,
-    league_name,
     sports_complex,
     venue,
     season,
