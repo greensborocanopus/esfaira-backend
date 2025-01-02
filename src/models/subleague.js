@@ -26,6 +26,12 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       });
+      Subleague.hasMany(models.Team, {
+        foreignKey: 'sub_league_id',
+        as: 'teams', // Alias for the association
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      });
     }
   }
 
