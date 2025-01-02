@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Subleague.init(
     {
-      sub_league_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false },
+      sub_league_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
       org_id: { type: DataTypes.INTEGER, allowNull: false },
       league_id: { type: DataTypes.INTEGER, allowNull: false },
       league_picture: { type: DataTypes.STRING(500), allowNull: false },

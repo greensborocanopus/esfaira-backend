@@ -141,9 +141,15 @@ const getSubleagueById = async (req, res) => {
     const subleagueId = req.params.id;
     console.log({ subleagueId });
 
-    // Fetch the subleague by ID
+    // Fetch the subleague by ID along with related Gameplay data
     const subleague = await Subleague.findOne({
       where: { sub_league_id: subleagueId },
+      include: [
+        {
+          model: Gameplay, // Assuming Gameplay is associated with Subleague
+          as: 'gameplays', // Use the alias defined in your model association
+        },
+      ],
     });
 
     // Check if the subleague exists
@@ -151,12 +157,95 @@ const getSubleagueById = async (req, res) => {
       return res.status(404).json({ message: 'Subleague not found' });
     }
 
-    // Return the fetched subleague
-    res.status(200).json(subleague);
+    const kickOffTimes = subleague.gameplays.map((gameplay) => `${gameplay.kick_off_time_1} - ${gameplay.kick_off_time_2}`).join(', ');
+
+    const subleagueWithKickOffTime = {
+      ...subleague.toJSON(), // Convert Sequelize instance to plain object
+      kick_off_time: kickOffTimes,
+    };
+
+    // Return the fetched subleague along with gameplays
+    res.status(200).json(subleagueWithKickOffTime);
   } catch (error) {
     console.error('Error fetching subleague:', error);
     res.status(500).json({ message: 'Error fetching subleague', error });
   }
 };
 
-module.exports = { getSubleagues, addLeague, updateLeague, getSubleagueById };
+const addSubleague = async (req, res) => {
+  try {
+    const { sub_league_id, org_id, league_id, league_picture, sub_league_name, reg_id, venue_details, venue_city, venue_state, venue_country, venue_continent, venue_zipcode, venue_lat, venue_long, season, website, category, gender, game_format, match_duration, minplayers_perteam, type_of_league_1, type_of_league_2, no_of_field_available, no_of_field_competing, quantity_of_groups, status, first_name, last_name, email, phone, currency, old_team, new_team, bank_name, country, address, price_per_team, bank_acc_no, company_name, date_added, gold_finalmatches, silver_finalmatches, bronze_finalmatches, tie_twoteams, tie_moreteams, yellowcards, missedmatch, miss_nxtmatch, group_allocated, fixture_allocated, league_unique_id, league_expired_date } = req.body;
+
+    // Validation for required fields
+    if (!league_id || !sub_league_name || !season || price_per_team == null) {
+      return res.status(400).json({ message: 'Required fields are missing.' });
+    }
+
+    // Create subleague in the database
+    const newSubleague = await Subleague.create({
+      sub_league_id,
+      org_id,
+      league_id,
+      league_picture,
+      sub_league_name,
+      reg_id,
+      venue_details,
+      venue_city,
+      venue_state,
+      venue_country,
+      venue_continent,
+      venue_zipcode,
+      venue_lat,
+      venue_long,
+      season,
+      website,
+      category,
+      gender,
+      game_format,
+      match_duration,
+      minplayers_perteam,
+      type_of_league_1,
+      type_of_league_2,
+      no_of_field_available,
+      no_of_field_competing,
+      quantity_of_groups,
+      status,
+      first_name,
+      last_name,
+      email,
+      phone,
+      currency,
+      old_team,
+      new_team,
+      bank_name,
+      country,
+      address,
+      price_per_team,
+      bank_acc_no,
+      company_name,
+      date_added,
+      gold_finalmatches,
+      silver_finalmatches,
+      bronze_finalmatches,
+      tie_twoteams,
+      tie_moreteams,
+      yellowcards,
+      missedmatch,
+      miss_nxtmatch,
+      group_allocated,
+      fixture_allocated,
+      league_unique_id,
+      league_expired_date,
+    });
+
+    return res.status(201).json({
+      message: 'Subleague added successfully.',
+      subleague: newSubleague,
+    });
+  } catch (error) {
+    console.error('Error adding subleague:', error);
+    res.status(500).json({ message: 'Server error.', error });
+  }
+};
+
+module.exports = { getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague };
