@@ -102,6 +102,52 @@ const updateUser = async (req, res) => {
   }
 };
 
+const updateProfilePhoto = async (req, res) => {
+    try {
+      const userId = req.params.id; // Assuming user ID is passed as a parameter
+  
+      // Check if the user exists
+      const user = await User.findByPk(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+  
+      // Check if a photo is uploaded
+      if (!req.file) {
+        return res.status(400).json({ message: 'No photo uploaded.' });
+      }
+  
+      const uploadDir = path.join(__dirname, '../../uploads/Profile');
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+  
+      // Generate the new file name
+      const newFileName = `${Date.now()}-${req.file.originalname}`;
+      const newPhotoPath = path.join(uploadDir, newFileName);
+  
+      // Move the uploaded file to the Profile folder
+      fs.renameSync(req.file.path, newPhotoPath);
+  
+      // Remove the old photo if it exists
+      if (user.photo) {
+        const oldPhotoPath = user.photo;
+        if (fs.existsSync(oldPhotoPath)) {
+          fs.unlinkSync(oldPhotoPath);
+        }
+      }
+  
+      // Update the user's photo in the database
+      user.photo = newPhotoPath;
+      await user.save();
+  
+      res.status(200).json({ message: 'Profile photo updated successfully.', photo: newPhotoPath });
+    } catch (error) {
+      console.error('Error updating profile photo:', error);
+      res.status(500).json({ message: 'Server error.', error });
+    }
+};
+  
 const addCountry = async (req, res) => {
   const { shortname, name, phonecode } = req.body;
 
@@ -672,6 +718,7 @@ const getAdvertisementById = async (req, res) => {
 module.exports = {
   getUser,
   updateUser,
+  updateProfilePhoto,
   addCountry,
   addState,
   addCity,
