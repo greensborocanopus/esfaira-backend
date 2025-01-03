@@ -26,12 +26,18 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       });
+      Subleague.hasMany(models.Team, {
+        foreignKey: 'sub_league_id',
+        as: 'teams', // Alias for the association
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      });
     }
   }
 
   Subleague.init(
     {
-      sub_league_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false },
+      sub_league_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
       org_id: { type: DataTypes.INTEGER, allowNull: false },
       league_id: { type: DataTypes.INTEGER, allowNull: false },
       league_picture: { type: DataTypes.STRING(500), allowNull: false },
