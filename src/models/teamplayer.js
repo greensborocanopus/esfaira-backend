@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       // Define association with the Team model
       TeamPlayer.belongsTo(models.Team, {
         foreignKey: 'team_id',
-        as: 'team', // Alias for the team
+        as: 'team',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       // Define association with the User model (player)
       TeamPlayer.belongsTo(models.User, {
         foreignKey: 'player_id',
-        as: 'player', // Alias for the player
+        as: 'player',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
@@ -24,6 +24,12 @@ module.exports = (sequelize, DataTypes) => {
 
   TeamPlayer.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       team_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -72,8 +78,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'TeamPlayer',
-      tableName: 'TeamPlayers', // Ensure this matches your database table name
-      timestamps: false, // Set to true if you want Sequelize to manage createdAt and updatedAt
+      tableName: 'TeamPlayers',
+      timestamps: true, // Set true to match the migration
     }
   );
 
