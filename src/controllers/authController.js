@@ -7,6 +7,8 @@ const { AppError, handleError } = require('../utils/errorHandler');
 const { Ecode, User } = require('../models'); // Import the Ecode model
 const { Op } = require('sequelize');
 const path = require('path');
+const fs = require('fs');
+
 
 const generateUniqueId = async (name, dob, email) => {
   const baseId = `${name.substring(0, 3)}${dob.split(' ')[1]}${email.split('@')[0].substring(0, 3)}`;
@@ -23,14 +25,20 @@ const generateUniqueId = async (name, dob, email) => {
 };
 
 const register = async (req, res) => {
-  const { ecode, gender, category_subcategory, place, dob, name, jersey_no, email, password } = req.body;
-
+  const { ecode, gender, place, dob, name, jersey_no, email, password } = req.body;
+  if (typeof req.body.category_subcategory === 'string') {
+    req.body.category_subcategory = JSON.parse(req.body.category_subcategory);
+  }
+  const category_subcategory = req.body.category_subcategory;
+  console.log('req.file: ', req.file);
+  const photo = req.file; 
   // Validation errors
   const errors = {};
 
   // Validate fields
   if (!ecode) errors.ecode = 'Ecode is required.';
   if (!gender) errors.gender = 'Gender is required.';
+
   if (!Array.isArray(category_subcategory) || category_subcategory.length === 0) {
     errors.category_subcategory = 'Category/subcategory is required and must be an array.';
   } else {
@@ -72,6 +80,21 @@ const register = async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+     // File upload handling
+     let photoPath = null; // Default to null if no photo uploaded
+     if (req.file) {
+       const uploadDir = path.join(__dirname, '../../uploads/Profile');
+       if (!fs.existsSync(uploadDir)) {
+         fs.mkdirSync(uploadDir, { recursive: true });
+       }
+ 
+       const newFileName = `${Date.now()}-${req.file.originalname}`;
+       photoPath = path.join(uploadDir, newFileName);
+ 
+       // Move the file from temp to the final upload directory
+       fs.renameSync(req.file.path, photoPath);
+     }
+
     // Create a new user
     const user = await User.create({
       unique_id: unique_id,
@@ -83,6 +106,7 @@ const register = async (req, res) => {
       jersey_no,
       email,
       password: hashedPassword,
+      photo: photoPath,
     });
 
     const newUser = await User.findOne({ where: { email } }); // Find the user by email

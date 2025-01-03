@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     password: { type: DataTypes.STRING, allowNull: false },
     reset_token: { type: DataTypes.STRING, allowNull: true }, // To store the reset token
     reset_token_expiry: { type: DataTypes.DATE, allowNull: true }, // To store token expiration time
+    photo: { type: DataTypes.STRING(255), allowNull: true }, // Add the photo field
+
   });
 
   User.associate = (models) => {
