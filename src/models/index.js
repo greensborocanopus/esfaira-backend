@@ -1,7 +1,7 @@
 'use strict';
-
-const fs = require('fs');
 const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+const fs = require('fs');
 const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
