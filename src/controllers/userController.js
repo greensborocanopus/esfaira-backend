@@ -41,6 +41,62 @@ const getUser = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        console.log('user id = ', userId);
+        // Validate the user ID
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID is required.' });
+        }
+
+        // Fetch user by ID
+        const user = await User.findByPk(userId, {
+            attributes: [
+                'id',
+                'unique_id',
+                'gender',
+                'category_subcategory',
+                'place',
+                'dob',
+                'name',
+                'jersey_no',
+                'email',
+                'photo',
+                'createdAt',
+                'updatedAt',
+            ],
+        });
+
+        // If user not found
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        res.status(200).json({ message: 'User fetched successfully.', user });
+    } catch (error) {
+        console.error('Error fetching user by ID:', error);
+        res.status(500).json({ message: 'Server error.', error });
+    }
+};
+
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.findAll({
+            attributes: ['id', 'name', 'email', 'gender', 'place', 'dob', 'photo'],
+        });
+        
+        if (!users || users.length === 0) {
+            return res.status(404).json({ message: 'No users found.' });
+        }
+
+        return res.status(200).json({ message: 'Users retrieved successfully', users });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        return res.status(500).json({ message: 'An error occurred while fetching users.' });
+    }
+};
+
 const updateUser = async (req, res) => {
   const userId = req.params.id; // Get the user ID from the URL
   const updatedFields = req.body; // Get fields to update from the request body
@@ -718,6 +774,8 @@ const getAdvertisementById = async (req, res) => {
 module.exports = {
   getUser,
   updateUser,
+  getUserById,
+  getAllUsers,
   updateProfilePhoto,
   addCountry,
   addState,

@@ -5,9 +5,11 @@ const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
 const upload = require('../middleware/upload');
 const authMiddleware = require('../middleware/authMiddleware'); // Ensure the user is logged in for updatePassword
-const { getUser, updateUser, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, sendInvitation, rateVideo, getAllAdvertisements, getAdvertisementById, updateProfilePhoto } = require('../controllers/userController');
+const { getUser, updateUser, getUserById, getAllUsers, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, sendInvitation, rateVideo, getAllAdvertisements, getAdvertisementById, updateProfilePhoto } = require('../controllers/userController');
 
 router.get('/', getUser);
+router.get('/:id', getUserById);
+router.get('/users/all', getAllUsers);
 router.put('/update/:id', authMiddleware, updateUser);
 router.put('/:id/profile-photo', upload.single('photo'), updateProfilePhoto);
 

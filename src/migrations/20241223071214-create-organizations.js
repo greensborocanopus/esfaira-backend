@@ -7,6 +7,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true
       },
       organization_name: {
         type: Sequelize.STRING(100),
