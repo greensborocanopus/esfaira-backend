@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Organization.init(
     {
-      org_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false },
+      org_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
       organization_name: { type: DataTypes.STRING(100), allowNull: false, defaultValue: '' },
       reg_id: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
     },

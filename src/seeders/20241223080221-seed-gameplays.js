@@ -4,9 +4,9 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Gameplays', [
-      { game_play_id: 1, game_plays: 'SA', kick_off_time_1: '07:00', kick_off_time_2: '08:00', sub_league_id: 1 },
-      { game_play_id: 2, game_plays: 'SA', kick_off_time_1: '08:00', kick_off_time_2: '09:00', sub_league_id: 2 },
-      { game_play_id: 3, game_plays: 'TU', kick_off_time_1: '10:00', kick_off_time_2: '11:30', sub_league_id: 1 },
+      { game_play_id: 1, game_plays: 'SA', kick_off_time_1: '07:00', kick_off_time_2: '08:00', sub_league_id: 5 },
+      { game_play_id: 2, game_plays: 'SA', kick_off_time_1: '08:00', kick_off_time_2: '09:00', sub_league_id: 6 },
+      { game_play_id: 3, game_plays: 'TU', kick_off_time_1: '10:00', kick_off_time_2: '11:30', sub_league_id: 5 },
     //   { game_play_id: 4, game_plays: 'SU', kick_off_time_1: '11:00', kick_off_time_2: '12:00', sub_league_id: 4 },
     //   { game_play_id: 5, game_plays: 'SU', kick_off_time_1: '11:00', kick_off_time_2: '12:00', sub_league_id: 5 },
     //   { game_play_id: 6, game_plays: 'SA', kick_off_time_1: '12:00', kick_off_time_2: '13:00', sub_league_id: 6 },

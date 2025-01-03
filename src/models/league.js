@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   League.init(
     {
-      league_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false },
+      league_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
       league_name: { type: DataTypes.STRING(100), allowNull: false },
       reg_id: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
     },
