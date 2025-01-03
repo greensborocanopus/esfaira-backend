@@ -2,67 +2,93 @@ const { League, Subleague, Organization, Gameplay } = require('../models'); // I
 const { Op } = require('sequelize');
 
 // API to add a league
-const addLeague = async (req, res) => {
-  const {
-    organization,
-    league,
-    sports_complex,
-    venue,
-    season,
-    website,
-    category,
-    game_format,
-    minimum_players_per_team,
-    league_price_per_team,
-    match_duration,
-    type_of_league,
-    number_of_fields_available,
-    number_of_teams_competing,
-    bank_name,
-    beneficiary_bank_account_number,
-    company_name,
-    email,
-    // Payment fields (commented out for now)
-    // method_of_payment,
-    // name_on_card,
-    // expiry_date,
-    // cvv,
-    // card_number,
-  } = req.body;
+// const addLeague = async (req, res) => {
+//   const {
+//     organization,
+//     league,
+//     sports_complex,
+//     venue,
+//     season,
+//     website,
+//     category,
+//     game_format,
+//     minimum_players_per_team,
+//     league_price_per_team,
+//     match_duration,
+//     type_of_league,
+//     number_of_fields_available,
+//     number_of_teams_competing,
+//     bank_name,
+//     beneficiary_bank_account_number,
+//     company_name,
+//     email,
+//     // Payment fields (commented out for now)
+//     // method_of_payment,
+//     // name_on_card,
+//     // expiry_date,
+//     // cvv,
+//     // card_number,
+//   } = req.body;
 
-  // Validation for required fields
-  if (!organization || !league || !league_name || !sports_complex || !venue || !season || !category || !league_price_per_team || !type_of_league) {
-    return res.status(400).json({ message: 'Required fields are missing.' });
+//   // Validation for required fields
+//   if (!organization || !league || !league_name || !sports_complex || !venue || !season || !category || !league_price_per_team || !type_of_league) {
+//     return res.status(400).json({ message: 'Required fields are missing.' });
+//   }
+
+//   try {
+//     // Add the league to the database
+//     const newLeague = await League.create({
+//       organization,
+//       league,
+//       league_name,
+//       sports_complex,
+//       venue,
+//       season,
+//       website,
+//       category,
+//       game_format,
+//       minimum_players_per_team,
+//       league_price_per_team,
+//       match_duration,
+//       type_of_league,
+//       number_of_fields_available,
+//       number_of_teams_competing,
+//       bank_name,
+//       beneficiary_bank_account_number,
+//       company_name,
+//       email,
+//     });
+
+//     return res.status(201).json({ message: 'League added successfully.', league: newLeague });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: 'Server error.', error });
+//   }
+// };
+
+const addLeague = async (req, res) => {
+  const { league_name } = req.body;
+  const reg_id = req.user.id; // Assuming user is authenticated and available in req.user
+
+  // Validate the required fields
+  if (!league_name) {
+    return res.status(400).json({ message: 'League name is required.' });
   }
 
   try {
-    // Add the league to the database
+    // Create the league in the database
     const newLeague = await League.create({
-      organization,
-      league,
       league_name,
-      sports_complex,
-      venue,
-      season,
-      website,
-      category,
-      game_format,
-      minimum_players_per_team,
-      league_price_per_team,
-      match_duration,
-      type_of_league,
-      number_of_fields_available,
-      number_of_teams_competing,
-      bank_name,
-      beneficiary_bank_account_number,
-      company_name,
-      email,
+      reg_id,
     });
 
-    return res.status(201).json({ message: 'League added successfully.', league: newLeague });
+    res.status(201).json({
+      message: 'League added successfully!',
+      league: newLeague,
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error.', error });
+    console.error('Error adding league:', error);
+    res.status(500).json({ message: 'An error occurred while adding the league.' });
   }
 };
 
