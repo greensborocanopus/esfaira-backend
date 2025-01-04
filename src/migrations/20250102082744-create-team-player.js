@@ -3,7 +3,6 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    // Create TeamPlayers table
     await queryInterface.createTable('TeamPlayers', {
       id: {
         type: Sequelize.INTEGER,
@@ -15,8 +14,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Teams', // Name of the Teams table
-          key: 'id', // Primary key in the Teams table
+          model: 'Teams',
+          key: 'id',
         },
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
@@ -25,8 +24,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users', // Assuming players are also users
-          key: 'id', // Primary key in the Users table
+          model: 'Users',
+          key: 'id',
         },
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
@@ -54,12 +53,10 @@ module.exports = {
       player_confirm_status: {
         type: Sequelize.STRING,
         allowNull: true,
-        comment: 'Status of player confirmation (e.g., pending, confirmed, declined)',
       },
       payment_status: {
         type: Sequelize.STRING,
         allowNull: true,
-        comment: 'Status of payment (e.g., paid, unpaid)',
       },
       is_team_manager: {
         type: Sequelize.BOOLEAN,
@@ -83,7 +80,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    // Drop TeamPlayers table
     await queryInterface.dropTable('TeamPlayers');
   },
 };

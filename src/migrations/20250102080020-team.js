@@ -14,8 +14,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users', // Name of the Users table
-          key: 'id', // Primary key in the Users table
+          model: 'Users',
+          key: 'id',
         },
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
@@ -24,8 +24,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Subleagues', // Name of the SubLeagues table
-          key: 'sub_league_id', // Primary key in the SubLeagues table
+          model: 'Subleagues',
+          key: 'sub_league_id',
         },
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',

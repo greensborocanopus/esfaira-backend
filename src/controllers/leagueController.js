@@ -1,4 +1,4 @@
-const { League, Subleague, Organization, Gameplay } = require('../models'); // Import the League model
+const { Joinleague, League, Subleague, Organization, Gameplay, Team } = require('../models'); // Import the League model
 const { Op } = require('sequelize');
 
 // API to add a league
@@ -332,4 +332,59 @@ const addSubleague = async (req, res) => {
   }
 };
 
-module.exports = { getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues };
+const joinLeague = async (req, res) => {
+  try {
+      const { sub_league_id, team_id } = req.body;
+      const requested_reg_id = req.user.id; // Assuming the user is authenticated and id is available in the token
+
+      // Validate required fields
+      if (!sub_league_id || !team_id) {
+          return res.status(400).json({ message: 'Sub League ID and Team ID are required.' });
+      }
+
+      // Validate subleague and team existence
+      const subleague = await Subleague.findByPk(sub_league_id);
+      if (!subleague) {
+          return res.status(404).json({ message: 'Subleague not found.' });
+      }
+
+      const team = await Team.findByPk(team_id);
+      if (!team) {
+          return res.status(404).json({ message: 'Team not found.' });
+      }
+
+      // Validate league admin exists in the Subleague
+      const leagueAdmin = await League.findOne({
+          where: { reg_id: subleague.reg_id },
+      });
+      if (!leagueAdmin) {
+          return res.status(404).json({ message: 'League admin not found.' });
+      }
+
+      // Check if the team has already requested to join this league
+      const existingRequest = await Joinleague.findOne({
+          where: { sub_league_id, team_id, requested_reg_id },
+      });
+      if (existingRequest) {
+          return res.status(400).json({ message: 'Team has already requested to join this league.' });
+      }
+
+      // Create the join request
+      const newJoinRequest = await Joinleague.create({
+          sub_league_id,
+          team_id,
+          league_admin_reg_id: subleague.reg_id,
+          requested_reg_id,
+          status: 0, // Default: Pending
+          is_seen: 0,
+          date_added: new Date(),
+      });
+
+      return res.status(201).json({ message: 'Join league request submitted successfully.', data: newJoinRequest });
+  } catch (error) {
+      console.error('Error while submitting join league request:', error);
+      return res.status(500).json({ message: 'Server error.', error });
+  }
+};
+
+module.exports = { getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
