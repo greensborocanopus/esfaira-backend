@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Gameplay.init(
     {
-      game_play_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false },
+      game_play_id: { type: DataTypes.INTEGER, primaryKey: true, allowNull: false, autoIncrement: true },
       game_plays: { type: DataTypes.STRING(50), allowNull: false, defaultValue: '' },
       kick_off_time_1: { type: DataTypes.STRING(50), allowNull: false, defaultValue: '' },
       kick_off_time_2: { type: DataTypes.STRING(50), allowNull: false, defaultValue: '' },

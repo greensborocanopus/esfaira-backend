@@ -7,6 +7,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
       },
       game_plays: {
         type: Sequelize.STRING(50),
