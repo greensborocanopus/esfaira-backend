@@ -1,5 +1,5 @@
 const express = require('express');
-const { getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague} = require('../controllers/leagueController');
+const { getJoinLeague, getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague} = require('../controllers/leagueController');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware'); // Ensure the user is logged in for updatePassword
 
@@ -10,5 +10,7 @@ router.get('/subLeague/:id',authMiddleware, getSubleagueById);
 router.post('/subLeague', authMiddleware, addSubleague);
 router.get('/searchLeague', getLeagues);
 router.post('/join-league', authMiddleware, joinLeague);
+router.get('/joined-leagues', authMiddleware, getJoinLeague);
+
 
 module.exports = router;

@@ -387,4 +387,46 @@ const joinLeague = async (req, res) => {
   }
 };
 
-module.exports = { getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
+const getJoinLeague = async (req, res) => {
+  try {
+      const userId = req.user.id; // Assuming user ID is stored in the request after authentication
+
+      // Fetch all joined leagues for the logged-in user
+      const joinedLeagues = await Joinleague.findAll({
+          where: { requested_reg_id: userId },
+          include: [
+              {
+                  model: Subleague,
+                  as: 'subleague',
+                  attributes: ['sub_league_id', 'league_id'],
+                  include: [
+                      {
+                          model: League,
+                          as: 'league',
+                          attributes: ['league_id', 'league_name']
+                      }
+                  ]
+              }
+          ]
+      });
+
+      if (!joinedLeagues.length) {
+          return res.status(404).json({ message: 'No leagues found for this user' });
+      }
+
+      // Prepare response data
+      const response = joinedLeagues.map((join) => ({
+          join_league_id: join.join_league_id,
+          sub_league_id: join.sub_league_id,
+          league_id: join.subleague.league.league_id,
+          league_name: join.subleague.league.league_name
+      }));
+
+      return res.status(200).json({ leagues: response });
+  } catch (error) {
+      console.error('Error fetching joined leagues:', error);
+      return res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+module.exports = { getJoinLeague, getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
