@@ -398,7 +398,7 @@ const getJoinLeague = async (req, res) => {
               {
                   model: Subleague,
                   as: 'subleague',
-                  attributes: ['sub_league_id', 'league_id'],
+                  attributes: ['sub_league_id', 'league_id', 'sub_league_name'],
                   include: [
                       {
                           model: League,
@@ -418,6 +418,7 @@ const getJoinLeague = async (req, res) => {
       const response = joinedLeagues.map((join) => ({
           join_league_id: join.join_league_id,
           sub_league_id: join.sub_league_id,
+          sub_league_name: join.subleague.sub_league_name,
           league_id: join.subleague.league.league_id,
           league_name: join.subleague.league.league_name
       }));

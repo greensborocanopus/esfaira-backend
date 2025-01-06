@@ -4,9 +4,16 @@ const { Op } = require('sequelize');
 const searchOrganization = async (req, res) => {
     try {
       let searchTerm = req.query.searchTerm
+      const userId = req.user ? req.user.id : null;
+        
+      if (!userId) {
+          return res.status(401).json({ message: "Unauthorized: Token missing or invalid." });
+      }
+      console.log('userId', userId);
       // Fetch subleagues with associated leagues
       const organization = await Organization.findAll({
         where: {
+            reg_id: userId,
             organization_name: {
             [Op.like]: `%${searchTerm}%`, // Replace searchTerm with the actual search term
           },
