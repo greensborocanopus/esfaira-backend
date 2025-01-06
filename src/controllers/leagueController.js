@@ -1,4 +1,4 @@
-const { Joinleague, League, Subleague, Organization, Gameplay, Team } = require('../models'); // Import the League model
+const { TeamPlayer, User, Joinleague, League, Subleague, Organization, Gameplay, Team } = require('../models'); // Import the League model
 const { Op } = require('sequelize');
 
 // API to add a league
@@ -430,4 +430,45 @@ const getJoinLeague = async (req, res) => {
   }
 };
 
-module.exports = { getJoinLeague, getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
+const checkSubleagueParticipation = async (req, res) => {
+  try {
+      const { unique_id, sub_league_id } = req.body;
+
+      // Step 1: Fetch User ID using unique_id
+      const user = await User.findOne({ where: { unique_id } });
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Step 2: Fetch all teams that have joined the subleague
+      const teamsInSubleague = await Team.findAll({
+          where: { sub_league_id },
+          attributes: ['id'] // Fetch only team IDs
+      });
+
+      const teamIds = teamsInSubleague.map(team => team.id);
+
+      // Step 3: Check if the user is already in any of those teams
+      const alreadyJoined = await TeamPlayer.findOne({
+          where: {
+              player_id: user.id,
+              team_id: teamIds // Checking if the user is part of any of these teams
+          }
+      });
+
+      // Step 4: Return Response
+      if (alreadyJoined) {
+          return res.status(400).json({
+              message: `The user has already joined this subleague with another team.`
+          });
+      }
+
+      return res.status(200).json({ status: 'OK', message: 'User can join this subleague' });
+  } catch (error) {
+      console.error('Error checking subleague participation:', error);
+      res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+
+module.exports = { checkSubleagueParticipation, getJoinLeague, getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
