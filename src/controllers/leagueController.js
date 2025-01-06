@@ -1,4 +1,4 @@
-const { Joinleague, League, Subleague, Organization, Gameplay, Team } = require('../models'); // Import the League model
+const { TeamPlayer, User, Joinleague, League, Subleague, Organization, Gameplay, Team } = require('../models'); // Import the League model
 const { Op } = require('sequelize');
 
 // API to add a league
@@ -387,4 +387,88 @@ const joinLeague = async (req, res) => {
   }
 };
 
-module.exports = { getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
+const getJoinLeague = async (req, res) => {
+  try {
+      const userId = req.user.id; // Assuming user ID is stored in the request after authentication
+
+      // Fetch all joined leagues for the logged-in user
+      const joinedLeagues = await Joinleague.findAll({
+          where: { requested_reg_id: userId },
+          include: [
+              {
+                  model: Subleague,
+                  as: 'subleague',
+                  attributes: ['sub_league_id', 'league_id', 'sub_league_name'],
+                  include: [
+                      {
+                          model: League,
+                          as: 'league',
+                          attributes: ['league_id', 'league_name']
+                      }
+                  ]
+              }
+          ]
+      });
+
+      if (!joinedLeagues.length) {
+          return res.status(404).json({ message: 'No leagues found for this user' });
+      }
+
+      // Prepare response data
+      const response = joinedLeagues.map((join) => ({
+          join_league_id: join.join_league_id,
+          sub_league_id: join.sub_league_id,
+          sub_league_name: join.subleague.sub_league_name,
+          league_id: join.subleague.league.league_id,
+          league_name: join.subleague.league.league_name
+      }));
+
+      return res.status(200).json({ leagues: response });
+  } catch (error) {
+      console.error('Error fetching joined leagues:', error);
+      return res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+const checkSubleagueParticipation = async (req, res) => {
+  try {
+      const { unique_id, sub_league_id } = req.body;
+
+      // Step 1: Fetch User ID using unique_id
+      const user = await User.findOne({ where: { unique_id } });
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Step 2: Fetch all teams that have joined the subleague
+      const teamsInSubleague = await Team.findAll({
+          where: { sub_league_id },
+          attributes: ['id'] // Fetch only team IDs
+      });
+
+      const teamIds = teamsInSubleague.map(team => team.id);
+
+      // Step 3: Check if the user is already in any of those teams
+      const alreadyJoined = await TeamPlayer.findOne({
+          where: {
+              player_id: user.id,
+              team_id: teamIds // Checking if the user is part of any of these teams
+          }
+      });
+
+      // Step 4: Return Response
+      if (alreadyJoined) {
+          return res.status(400).json({
+              message: `The user has already joined this subleague with another team.`
+          });
+      }
+
+      return res.status(200).json({ status: 'OK', message: 'User can join this subleague' });
+  } catch (error) {
+      console.error('Error checking subleague participation:', error);
+      res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+
+module.exports = { checkSubleagueParticipation, getJoinLeague, getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
