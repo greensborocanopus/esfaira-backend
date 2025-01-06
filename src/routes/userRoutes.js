@@ -8,10 +8,9 @@ const authMiddleware = require('../middleware/authMiddleware'); // Ensure the us
 const { getUser, updateUser, getUserById, getAllUsers, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, sendInvitation, rateVideo, getAllAdvertisements, getAdvertisementById, updateProfilePhoto } = require('../controllers/userController');
 
 router.get('/', getUser);
-router.get('/:id', getUserById);
+
 router.get('/users/all', getAllUsers);
 router.put('/update/:id', authMiddleware, updateUser);
-router.put('/:id/profile-photo', upload.single('photo'), updateProfilePhoto);
 
 
 router.post('/add-country', addCountry); // Add a new country
@@ -38,5 +37,8 @@ router.post('/send-invitation', sendInvitation); // send invitations
 router.post('/rate-video', rateVideo); // rate videos
 router.get('/advertisements', getAllAdvertisements); // get advertisements
 router.get('/advertisements/:id', getAdvertisementById);
+
+router.get('/:id', getUserById);
+router.put('/:id/profile-photo', upload.single('photo'), updateProfilePhoto);
 
 module.exports = router;

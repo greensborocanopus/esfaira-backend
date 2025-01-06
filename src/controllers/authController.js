@@ -10,8 +10,8 @@ const path = require('path');
 const fs = require('fs');
 
 
-const generateUniqueId = async (name, dob, email) => {
-  const baseId = `${name.substring(0, 3)}${dob.split(' ')[1]}${email.split('@')[0].substring(0, 3)}`;
+const generateUniqueId = async (name, dob) => {
+  const baseId = `${name.substring(0, 3)}${dob.split(' ')[1]}`;
   let uniqueId = baseId;
   let counter = 1;
 
@@ -75,7 +75,7 @@ const register = async (req, res) => {
     }
 
     // Generate a unique ID
-    const unique_id = await generateUniqueId(name, dob, email);
+    const unique_id = await generateUniqueId(name, dob);
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
