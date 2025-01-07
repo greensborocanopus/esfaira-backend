@@ -213,6 +213,23 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+const resetPasswordScreen = async (req, res) => {
+  const { token } = req.query;
+  console.log('token==> ', token);
+
+  if (!token) {
+    return res.status(400).send('Invalid or missing reset token.');
+  }
+
+  const htmlFilePath = path.join(__dirname, '../public/html/resetScreen.html');
+  res.sendFile(htmlFilePath, (err) => {
+    if (err) {
+      console.error('Error serving the reset password form:', err);
+      res.status(500).send('Error serving the reset password form.');
+    }
+  });
+};
+
 const resetPasswordForm = async (req, res) => {
   const { token } = req.query;
   console.log('token==> ', token);
@@ -437,11 +454,33 @@ const verifyEcode = async (req, res) => {
   }
 };
 
+const getEcode = async (req, res) => {
+  try {
+    const ecode = await Ecode.findAll();
+    res.status(200).json({ ecode });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error.' });
+  }
+};
+
+const getUnusedEcode = async (req, res) => {
+  try {
+    const ecode = await Ecode.findAll();
+    const unusedEcode = ecode.filter((ecode) => !ecode.is_used);
+    res.status(200).json({ unusedEcode });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error.' });
+  }
+};
+
 module.exports = {
   generateUniqueId,
   login,
   register,
   forgotPassword,
+  resetPasswordScreen,
   resetPasswordForm,
   resetPassword,
   resetPasswordSuccess,
@@ -450,4 +489,6 @@ module.exports = {
   requestEcode,
   verifyEcode,
   addEcode,
+  getEcode,
+  getUnusedEcode,
 };

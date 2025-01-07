@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op, fn, col } = require('sequelize');
 const { TeamPlayer, User, Team, Subleague, League, Joinleague } = require('../models');
 
 const searchAPI = async (req, res) => {
@@ -7,11 +7,13 @@ const searchAPI = async (req, res) => {
         const {
             country,
             player_position,
-            age,
+            age_small,
+            age_big,
             gender,
             teams,
             leagues,
-            join_leagues
+            join_leagues,
+            continent,
         } = req.body;
 
         // Prepare filters
@@ -34,18 +36,18 @@ const searchAPI = async (req, res) => {
             whereClause['$player.gender$'] = gender;
         }
 
-        // ✅ Age Filter (Calculating date range from age)
-        if (age) {
-            const currentYear = new Date().getFullYear();
-            const birthYearStart = currentYear - age;
-            whereClause['$player.dob$'] = {
-                [Op.between]: [
-                    new Date(`${birthYearStart}-01-01`),
-                    new Date(`${birthYearStart}-12-31`)
-                ]
+        // ✅ Age Range Filter (Calculating date range from age_small to age_big)
+        if (age_small && age_big) {
+            const currentDate = new Date();
+            const maxDate = new Date(currentDate.getFullYear() - age_small, 0, 1); // Jan 1st for younger limit
+            const minDate = new Date(currentDate.getFullYear() - age_big, 11, 31); // Dec 31st for older limit
+        
+            // ✅ Checking dob in TeamPlayers table (not Users)
+            whereClause['dob'] = {
+                [Op.between]: [minDate, maxDate]
             };
-        }
-
+        }        
+        
         let results;
 
         // ✅ If Teams filter is applied
