@@ -1,8 +1,33 @@
-const { Team, TeamPlayer } = require('../models');
+const { Team, TeamPlayer, User } = require('../models');
 
 exports.createTeam = async (req, res) => {
   try {
     const { name, sub_league_id, players } = req.body;
+
+    // Check if all provided player IDs exist
+    if (players && players.length > 0) {
+      const playerIds = players.map((player) => player.player_id);
+
+      // Fetch existing players from the database
+      const existingPlayers = await User.findAll({
+        where: {
+          id: playerIds,
+        },
+        attributes: ['id'],
+      });
+
+      const existingPlayerIds = existingPlayers.map((player) => player.id);
+
+      // Find missing player IDs
+      const missingPlayerIds = playerIds.filter((playerId) => !existingPlayerIds.includes(playerId));
+
+      if (missingPlayerIds.length > 0) {
+        return res.status(400).json({
+          message: 'Some player IDs do not exist',
+          missingPlayerIds,
+        });
+      }
+    }
 
     // Create the team
     const team = await Team.create({
