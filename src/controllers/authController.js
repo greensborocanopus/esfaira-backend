@@ -188,7 +188,7 @@ const forgotPassword = async (req, res) => {
     console.log('Updated User:', updatedUser);
 
     // Generate the reset link pointing to the backend
-    const resetLink = `http://localhost:3100/api/auth/reset-password-form?token=${resetToken}`;
+    const resetLink = `http://35.89.29.41:3000/api/auth/reset-password-form?token=${resetToken}`;
 
     // Send the reset link via email
     const transporter = nodemailer.createTransport({
