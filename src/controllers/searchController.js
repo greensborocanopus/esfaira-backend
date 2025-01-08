@@ -14,6 +14,7 @@ const globalSearch = async (req, res) => {
             leagues,
             join_leagues,
             continent,
+            unique_id,
         } = req.body;
 
         // Prepare filters
@@ -48,18 +49,38 @@ const globalSearch = async (req, res) => {
             };
         }        
         
+        if (unique_id) {
+            whereClause['$player.unique_id'] = unique_id;
+        }
+
         let results;
 
         // ✅ If Teams filter is applied
         if (teams) {
             results = await Team.findAll({
                 where: {
-                    ...whereClause,
-                    name: { [Op.like]: `%${keyword}%` }
+                    [Op.or]: [
+                        { name: { [Op.like]: `%${keyword}%` } },  // Search in team name
+                        { id: keyword }  // Exact match for team ID
+                    ]
                 },
-                include: [{ model: TeamPlayer, as: 'players', include: [{ model: User, as: 'player' }] }]
+                include: [
+                    {
+                        model: Subleague,
+                        as: 'subleague',
+                        attributes: ['sub_league_id', 'sub_league_name'],
+                        include: [
+                            {
+                                model: League,
+                                as: 'league',
+                                attributes: ['league_id', 'league_name']
+                            }
+                        ]
+                    }
+                ]
             });
         }
+               
 
         // ✅ If Leagues filter is applied, search in both Leagues and Subleagues
         else if (leagues) {
@@ -67,11 +88,39 @@ const globalSearch = async (req, res) => {
                 where: {
                     [Op.or]: [
                         { sub_league_name: { [Op.like]: `%${keyword}%` } },
-                        { '$league.league_name$': { [Op.like]: `%${keyword}%` } }
+                        { sub_league_id: keyword },
+                        { '$league.league_name$': { [Op.like]: `%${keyword}%` } },
+                        { '$league.league_id$': keyword }
                     ]
                 },
-                include: [{ model: League, as: 'league', attributes: ['league_name'] }]
+                include: [
+                    {
+                        model: League,
+                        as: 'league',
+                        attributes: { exclude: [] } // Fetch all columns of League
+                    }
+                ]
             });
+        
+            // ✅ Search Directly in the Leagues Table if keyword matches only leagues
+            const leagueResults = await League.findAll({
+                where: {
+                    [Op.or]: [
+                        { league_name: { [Op.like]: `%${keyword}%` } },
+                        { league_id: keyword }
+                    ]
+                },
+                include: [
+                    {
+                        model: Subleague,
+                        as: 'subleagues',
+                        attributes: { exclude: [] } // Fetch all columns of Subleague
+                    }
+                ]
+            });
+        
+            // ✅ Merge both results to avoid missing data
+            results = [...results, ...leagueResults];
         }
 
         // ✅ If Join Leagues filter is applied
@@ -106,6 +155,7 @@ const globalSearch = async (req, res) => {
                 where: {
                     ...whereClause,
                     [Op.or]: [
+                        { '$player.unique_id$': { [Op.like]: `%${keyword}%` } },
                         { '$player.name$': { [Op.like]: `%${keyword}%` } },
                         { '$team.name$': { [Op.like]: `%${keyword}%` } },
                         { '$team.subleague.sub_league_name$': { [Op.like]: `%${keyword}%` } },
