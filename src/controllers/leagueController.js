@@ -434,13 +434,22 @@ const searchPlayer = async (req, res) => {
   try {
       const { unique_id, sub_league_id } = req.body;
 
-      // Step 1: Fetch User ID using unique_id
-      const user = await User.findOne({ where: { unique_id } });
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
+      if (!unique_id || !sub_league_id) {
+          return res.status(400).json({ message: 'unique_id and sub_league_id are required.' });
       }
 
-      // Step 2: Fetch all teams that have joined the subleague
+      // Step 1: Fetch all users matching the partial unique_id
+      const users = await User.findAll({
+          where: {
+              unique_id: { [Op.like]: `%${unique_id}%` }
+          }
+      });
+
+      if (users.length === 0) {
+          return res.status(404).json({ message: 'No users found matching the provided unique_id.' });
+      }
+
+      // Step 2: Fetch all teams associated with the provided sub_league_id
       const teamsInSubleague = await Team.findAll({
           where: { sub_league_id },
           attributes: ['id'] // Fetch only team IDs
@@ -448,22 +457,36 @@ const searchPlayer = async (req, res) => {
 
       const teamIds = teamsInSubleague.map(team => team.id);
 
-      // Step 3: Check if the user is already in any of those teams
-      const alreadyJoined = await TeamPlayer.findOne({
-          where: {
-              player_id: user.id,
-              team_id: teamIds // Checking if the user is part of any of these teams
-          }
-      });
+      // Step 3: Filter users who have already joined the subleague
+      const usersNotJoined = [];
 
-      // Step 4: Return Response
-      if (alreadyJoined) {
-          return res.status(400).json({
-              message: `The user has already joined this subleague with another team.`
+      for (const user of users) {
+          const alreadyJoined = await TeamPlayer.findOne({
+              where: {
+                  player_id: user.id,
+                  team_id: teamIds
+              }
+          });
+
+          // If the user is not found in the subleague, add to the results
+          if (!alreadyJoined) {
+              usersNotJoined.push(user);
+          }
+      }
+
+      // Step 4: Return the filtered list
+      if (usersNotJoined.length === 0) {
+          return res.status(200).json({
+            status: 'OK',
+            users: []
           });
       }
 
-      return res.status(200).json({ status: 'OK', message: 'User can join this subleague' });
+      return res.status(200).json({
+          status: 'OK',
+          users: usersNotJoined
+      });
+      
   } catch (error) {
       console.error('Error checking subleague participation:', error);
       res.status(500).json({ message: 'Server error', error });
