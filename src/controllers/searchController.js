@@ -88,21 +88,40 @@ const globalSearch = async (req, res) => {
                 where: {
                     [Op.or]: [
                         { sub_league_name: { [Op.like]: `%${keyword}%` } },
-                        { sub_league_id: keyword }, // Exact match for ID
+                        { sub_league_id: keyword },
                         { '$league.league_name$': { [Op.like]: `%${keyword}%` } },
-                        { '$league.league_id$': keyword } // Exact match for ID
+                        { '$league.league_id$': keyword }
                     ]
                 },
                 include: [
                     {
                         model: League,
                         as: 'league',
-                        attributes: ['league_name', 'league_id']
+                        attributes: { exclude: [] } // Fetch all columns of League
                     }
                 ]
             });
-        }
         
+            // ✅ Search Directly in the Leagues Table if keyword matches only leagues
+            const leagueResults = await League.findAll({
+                where: {
+                    [Op.or]: [
+                        { league_name: { [Op.like]: `%${keyword}%` } },
+                        { league_id: keyword }
+                    ]
+                },
+                include: [
+                    {
+                        model: Subleague,
+                        as: 'subleagues',
+                        attributes: { exclude: [] } // Fetch all columns of Subleague
+                    }
+                ]
+            });
+        
+            // ✅ Merge both results to avoid missing data
+            results = [...results, ...leagueResults];
+        }
 
         // ✅ If Join Leagues filter is applied
         else if (join_leagues) {
