@@ -12,6 +12,6 @@ apiRouter.use('/league', leagueRoutes);
 apiRouter.use('/organization', organizationRoutes);
 apiRouter.use('/user', userRoutes);
 apiRouter.use('/team', teamRoutes);
-apiRouter.use('/search', searchRoute);
+apiRouter.use('/global-search', searchRoute);
 
 module.exports = apiRouter;

@@ -1,7 +1,7 @@
 const { Op, fn, col } = require('sequelize');
 const { TeamPlayer, User, Team, Subleague, League, Joinleague } = require('../models');
 
-const searchAPI = async (req, res) => {
+const globalSearch = async (req, res) => {
     try {
         const { keyword } = req.query;
         const {
@@ -142,4 +142,4 @@ const searchAPI = async (req, res) => {
     }
 };
 
-module.exports = { searchAPI };
+module.exports = { globalSearch };

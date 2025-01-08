@@ -432,7 +432,7 @@ const getJoinLeague = async (req, res) => {
   }
 };
 
-const checkSubleagueParticipation = async (req, res) => {
+const searchPlayer = async (req, res) => {
   try {
     const { unique_id, sub_league_id } = req.body;
 
@@ -472,4 +472,5 @@ const checkSubleagueParticipation = async (req, res) => {
   }
 };
 
-module.exports = { checkSubleagueParticipation, getJoinLeague, getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
+module.exports = { searchPlayer, getJoinLeague, getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
+

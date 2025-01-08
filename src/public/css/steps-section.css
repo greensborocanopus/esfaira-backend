@@ -1,0 +1,1476 @@
+.location-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    background-image: url(../image/map.svg);
+    background-position: center 75%;
+    background-repeat: no-repeat;
+    background-size: 43% 43%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s linear 0.4s, visibility 0.4s linear 0.4s;
+}
+body[data-step="3"] .location-background {
+    opacity: 1;
+    visibility: visible;
+}
+
+.logo {
+    position: relative;
+    padding-bottom: 4.5rem;
+}
+.logo::after {
+    position: absolute;
+    content: '';
+    left: 0;
+    bottom: -2px;
+    height: 2px;
+    background-color: #ffae00;
+}
+.logo img {
+    max-width: 100%;
+    height: auto;
+}
+
+.controls-steps {
+    font-size: 0;
+    line-height: 1;
+    margin-right: 3rem;
+    overflow: hidden;
+}
+.controls-steps .title {
+    display: -ms-flexbox;
+    display: flex;
+
+    padding-top: 4rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s linear 0.4s;
+}
+.controls-steps .title-content {
+    font-size: 3rem;
+    line-height: 1.14;
+    font-weight: 700;
+    transition: transform 0.4s linear 0.4s;
+    color: #fff;
+}
+
+@media (min-width: 576px) {
+    .logo::after {
+        width: calc(((54rem - 28px) / 12 * 2) - 1px);
+    }
+    .controls-steps .title {
+        width: calc(51rem / 12 * 30);
+    }
+    .controls-steps .title-content {
+        width: calc(51rem / 12 * 6);
+    }
+
+    body[data-step="1"] .controls-steps .gender-title {
+        transform: translateX(0);
+    }
+    body[data-step="1"] .controls-steps .id-title {
+        transform: translateX(-51rem);
+    }
+    body[data-step="1"] .controls-steps .location-title {
+        transform: translateX(calc((51rem / 12 * 6) - 102rem));
+    }
+    body[data-step="1"] .controls-steps .birth-title {
+        transform: translateX(-102rem);
+    }
+    body[data-step="1"] .controls-steps .info-title {
+        transform: translateX(calc((51rem / 12 * 6) - 153rem));
+    }
+
+    body[data-step="2"] .controls-steps .gender-title {
+        transform: translateX(calc((51rem / 12 * 6) - 51rem));
+    }
+    body[data-step="2"] .controls-steps .id-title {
+        transform: translateX(calc((51rem / 12 * 6) - 51rem));
+    }
+    body[data-step="2"] .controls-steps .location-title {
+        transform: translateX(calc((51rem / 12 * 6) - 102rem));
+    }
+    body[data-step="2"] .controls-steps .birth-title {
+        transform: translateX(-102rem);
+    }
+    body[data-step="2"] .controls-steps .info-title {
+        transform: translateX(calc((51rem / 12 * 6) - 153rem));
+    }
+
+    body[data-step="3"] .controls-steps .gender-title {
+        transform: translateX(calc((51rem / 12 * 6) - 51rem));
+    }
+    body[data-step="3"] .controls-steps .id-title {
+        transform: translateX(-51rem);
+    }
+    body[data-step="3"] .controls-steps .location-title {
+        transform: translateX(-51rem);
+    }
+    body[data-step="3"] .controls-steps .birth-title {
+        transform: translateX(-102rem);
+    }
+    body[data-step="3"] .controls-steps .info-title {
+        transform: translateX(calc((51rem / 12 * 6) - 153rem));
+    }
+
+    body[data-step="4"] .controls-steps .gender-title {
+        transform: translateX(calc((51rem / 12 * 6) - 51rem));
+    }
+    body[data-step="4"] .controls-steps .id-title {
+        transform: translateX(-51rem);
+    }
+    body[data-step="4"] .controls-steps .location-title {
+        transform: translateX(calc((51rem / 12 * 6) - 102rem));
+    }
+    body[data-step="4"] .controls-steps .birth-title {
+        transform: translateX(calc((51rem / 12 * 6) - 102rem));
+    }
+    body[data-step="4"] .controls-steps .info-title {
+        transform: translateX(calc((51rem / 12 * 6) - 153rem));
+    }
+
+    body[data-step="5"] .controls-steps .gender-title {
+        transform: translateX(calc((51rem / 12 * 6) - 51rem));
+    }
+    body[data-step="5"] .controls-steps .id-title {
+        transform: translateX(-51rem);
+    }
+    body[data-step="5"] .controls-steps .location-title {
+        transform: translateX(calc((51rem / 12 * 6) - 102rem));
+    }
+    body[data-step="5"] .controls-steps .birth-title {
+        transform: translateX(-102rem);
+    }
+    body[data-step="5"] .controls-steps .info-title {
+        transform: translateX(-102rem);
+    }
+}
+
+@media (min-width: 768px) {
+    .logo::after {
+        width: calc(((72rem - 28px) / 12 * 2) - 1px);
+    }
+    .controls-steps .title {
+        width: calc(69rem / 12 * 30);
+    }
+    .controls-steps .title-content {
+        width: calc(69rem / 12 * 6);
+    }
+
+    body[data-step="1"] .controls-steps .gender-title {
+        transform: translateX(0);
+    }
+    body[data-step="1"] .controls-steps .id-title {
+        transform: translateX(-69rem);
+    }
+    body[data-step="1"] .controls-steps .location-title {
+        transform: translateX(calc((69rem / 12 * 6) - 138rem));
+    }
+    body[data-step="1"] .controls-steps .birth-title {
+        transform: translateX(-138rem);
+    }
+    body[data-step="1"] .controls-steps .info-title {
+        transform: translateX(calc((69rem / 12 * 6) - 207rem));
+    }
+
+    body[data-step="2"] .controls-steps .gender-title {
+        transform: translateX(calc((69rem / 12 * 6) - 69rem));
+    }
+    body[data-step="2"] .controls-steps .id-title {
+        transform: translateX(calc((69rem / 12 * 6) - 69rem));
+    }
+    body[data-step="2"] .controls-steps .location-title {
+        transform: translateX(calc((69rem / 12 * 6) - 138rem));
+    }
+    body[data-step="2"] .controls-steps .birth-title {
+        transform: translateX(-138rem);
+    }
+    body[data-step="2"] .controls-steps .info-title {
+        transform: translateX(calc((69rem / 12 * 6) - 207rem));
+    }
+
+    body[data-step="3"] .controls-steps .gender-title {
+        transform: translateX(calc((69rem / 12 * 6) - 69rem));
+    }
+    body[data-step="3"] .controls-steps .id-title {
+        transform: translateX(-69rem);
+    }
+    body[data-step="3"] .controls-steps .location-title {
+        transform: translateX(-69rem);
+    }
+    body[data-step="3"] .controls-steps .birth-title {
+        transform: translateX(-138rem);
+    }
+    body[data-step="3"] .controls-steps .info-title {
+        transform: translateX(calc((69rem / 12 * 6) - 207rem));
+    }
+
+    body[data-step="4"] .controls-steps .gender-title {
+        transform: translateX(calc((69rem / 12 * 6) - 69rem));
+    }
+    body[data-step="4"] .controls-steps .id-title {
+        transform: translateX(-69rem);
+    }
+    body[data-step="4"] .controls-steps .location-title {
+        transform: translateX(calc((69rem / 12 * 6) - 138rem));
+    }
+    body[data-step="4"] .controls-steps .birth-title {
+        transform: translateX(calc((69rem / 12 * 6) - 138rem));
+    }
+    body[data-step="4"] .controls-steps .info-title {
+        transform: translateX(calc((69rem / 12 * 6) - 207rem));
+    }
+
+    body[data-step="5"] .controls-steps .gender-title {
+        transform: translateX(calc((69rem / 12 * 6) - 69rem));
+    }
+    body[data-step="5"] .controls-steps .id-title {
+        transform: translateX(-69rem);
+    }
+    body[data-step="5"] .controls-steps .location-title {
+        transform: translateX(calc((69rem / 12 * 6) - 138rem));
+    }
+    body[data-step="5"] .controls-steps .birth-title {
+        transform: translateX(-138rem);
+    }
+    body[data-step="5"] .controls-steps .info-title {
+        transform: translateX(-138rem);
+    }
+}
+
+@media (min-width: 992px) {
+    .logo::after {
+        width: calc(((96rem - 28px) / 12) - 1px);
+    }
+    .controls-steps .title {
+        width: calc(93rem / 12 * 15);
+    }
+    .controls-steps .title-content {
+        width: calc(93rem / 12 * 3);
+    }
+
+    body[data-step="1"] .controls-steps .gender-title {
+        transform: translateX(0);
+    }
+    body[data-step="1"] .controls-steps .id-title {
+        transform: translateX(calc((93rem / 12 * 6) - 93rem));
+    }
+    body[data-step="1"] .controls-steps .location-title {
+        transform: translateX(calc((93rem / 12 * 3) - 93rem ));
+    }
+    body[data-step="1"] .controls-steps .birth-title {
+        transform: translateX(-93rem);
+    }
+    body[data-step="1"] .controls-steps .info-title {
+        transform: translateX(calc((93rem / 12 * 9) - 186rem));
+    }
+
+    body[data-step="2"] .controls-steps .gender-title {
+        transform: translateX(calc((93rem / 12 * 9) - 93rem));
+    }
+    body[data-step="2"] .controls-steps .id-title {
+        transform: translateX(calc((93rem / 12 * 9) - 93rem));
+    }
+    body[data-step="2"] .controls-steps .location-title {
+        transform: translateX(calc((93rem / 12 * 3) - 93rem));
+    }
+    body[data-step="2"] .controls-steps .birth-title {
+        transform: translateX(-93rem);
+    }
+    body[data-step="2"] .controls-steps .info-title {
+        transform: translateX(calc((93rem / 12 * 9) - 186rem));
+    }
+
+    body[data-step="3"] .controls-steps .gender-title {
+        transform: translateX(calc((93rem / 12 * 9) - 93rem));
+    }
+    body[data-step="3"] .controls-steps .id-title {
+        transform: translateX(calc((93rem / 12 * 6) - 93rem));
+    }
+    body[data-step="3"] .controls-steps .location-title {
+        transform: translateX(calc((93rem / 12 * 6) - 93rem));
+    }
+    body[data-step="3"] .controls-steps .birth-title {
+        transform: translateX(-93rem);
+    }
+    body[data-step="3"] .controls-steps .info-title {
+        transform: translateX(calc((93rem / 12 * 9) - 186rem));
+    }
+
+    body[data-step="4"] .controls-steps .gender-title {
+        transform: translateX(calc((93rem / 12 * 9) - 93rem));
+    }
+    body[data-step="4"] .controls-steps .id-title {
+        transform: translateX(calc((93rem / 12 * 6) - 93rem));
+    }
+    body[data-step="4"] .controls-steps .location-title {
+        transform: translateX(calc((93rem / 12 * 3) - 93rem));
+    }
+    body[data-step="4"] .controls-steps .birth-title {
+        transform: translateX(calc((93rem / 12 * 3) - 93rem));
+    }
+    body[data-step="4"] .controls-steps .info-title {
+        transform: translateX(calc((93rem / 12 * 9) - 186rem));
+    }
+
+    body[data-step="5"] .controls-steps .gender-title {
+        transform: translateX(calc((93rem / 12 * 9) - 93rem));
+    }
+    body[data-step="5"] .controls-steps .id-title {
+        transform: translateX(calc((93rem / 12 * 6) - 93rem));
+    }
+    body[data-step="5"] .controls-steps .location-title {
+        transform: translateX(calc((93rem / 12 * 3) - 93rem));
+    }
+    body[data-step="5"] .controls-steps .birth-title {
+        transform: translateX(-93rem);
+    }
+    body[data-step="5"] .controls-steps .info-title {
+        transform: translateX(-93rem);
+    }
+}
+
+@media (min-width: 1200px) {
+    .logo::after {
+        width: calc(((114rem - 28px) / 12) - 1px);
+    }
+    .controls-steps .title {
+        width: calc(111rem / 12 * 15);
+    }
+    .controls-steps .title-content {
+        width: calc((111rem / 12 * 3) - 4rem);
+    }
+
+    body[data-step="1"] .controls-steps .gender-title {
+        transform: translateX(0);
+    }
+    body[data-step="1"] .controls-steps .id-title {
+        transform: translateX(calc((111rem / 12 * 6) - 111rem + 8rem));
+    }
+    body[data-step="1"] .controls-steps .location-title {
+        transform: translateX(calc((111rem / 12 * 3) - 111rem + 12rem));
+    }
+    body[data-step="1"] .controls-steps .birth-title {
+        transform: translateX(calc(-111rem + 16rem));
+    }
+    body[data-step="1"] .controls-steps .info-title {
+        transform: translateX(calc((111rem / 12 * 9) - 222rem + 20rem));
+    }
+
+    body[data-step="2"] .controls-steps .gender-title {
+        transform: translateX(calc((111rem / 12 * 9) - 111rem + 4rem));
+    }
+    body[data-step="2"] .controls-steps .id-title {
+        transform: translateX(calc((111rem / 12 * 9) - 111rem + 4rem));
+    }
+    body[data-step="2"] .controls-steps .location-title {
+        transform: translateX(calc((111rem / 12 * 3) - 111rem + 12rem));
+    }
+    body[data-step="2"] .controls-steps .birth-title {
+        transform: translateX(calc(-111rem + 16rem));
+    }
+    body[data-step="2"] .controls-steps .info-title {
+        transform: translateX(calc((111rem / 12 * 9) - 222rem + 20rem));
+    }
+
+    body[data-step="3"] .controls-steps .gender-title {
+        transform: translateX(calc((111rem / 12 * 9) - 111rem + 4rem));
+    }
+    body[data-step="3"] .controls-steps .id-title {
+        transform: translateX(calc((111rem / 12 * 6) - 111rem + 8rem));
+    }
+    body[data-step="3"] .controls-steps .location-title {
+        transform: translateX(calc((111rem / 12 * 6) - 111rem + 8rem));
+    }
+    body[data-step="3"] .controls-steps .birth-title {
+        transform: translateX(calc(-111rem + 16rem));
+    }
+    body[data-step="3"] .controls-steps .info-title {
+        transform: translateX(calc((111rem / 12 * 9) - 222rem + 20rem));
+    }
+
+    body[data-step="4"] .controls-steps .gender-title {
+        transform: translateX(calc((111rem / 12 * 9) - 111rem + 4rem));
+    }
+    body[data-step="4"] .controls-steps .id-title {
+        transform: translateX(calc((111rem / 12 * 6) - 111rem + 8rem));
+    }
+    body[data-step="4"] .controls-steps .location-title {
+        transform: translateX(calc((111rem / 12 * 3) - 111rem + 12rem));
+    }
+    body[data-step="4"] .controls-steps .birth-title {
+        transform: translateX(calc((111rem / 12 * 3) - 111rem + 12rem));
+    }
+    body[data-step="4"] .controls-steps .info-title {
+        transform: translateX(calc((111rem / 12 * 9) - 222rem + 20rem));
+    }
+
+    body[data-step="5"] .controls-steps .gender-title {
+        transform: translateX(calc((111rem / 12 * 9) - 111rem + 4rem));
+    }
+    body[data-step="5"] .controls-steps .id-title {
+        transform: translateX(calc((111rem / 12 * 6) - 111rem + 8rem));
+    }
+    body[data-step="5"] .controls-steps .location-title {
+        transform: translateX(calc((111rem / 12 * 3) - 111rem + 12rem));
+    }
+    body[data-step="5"] .controls-steps .birth-title {
+        transform: translateX(calc(-111rem + 16rem));
+    }
+    body[data-step="5"] .controls-steps .info-title {
+        transform: translateX(calc(-111rem + 16rem));
+    }
+}
+
+@media (min-width: 1470px) {
+    .logo::after {
+        width: calc(((147rem - 28px) / 12) - 1px);
+    }
+    .controls-steps .title {
+        width: calc(144rem / 12 * 15);
+    }
+    .controls-steps .title-content {
+        width: calc((144rem / 12 * 3) - 4rem);
+    }
+
+    body[data-step="1"] .controls-steps .gender-title {
+        transform: translateX(0);
+    }
+    body[data-step="1"] .controls-steps .id-title {
+        transform: translateX(calc((144rem / 12 * 6) - 144rem + 8rem));
+    }
+    body[data-step="1"] .controls-steps .location-title {
+        transform: translateX(calc((144rem / 12 * 3) - 144rem + 12rem));
+    }
+    body[data-step="1"] .controls-steps .birth-title {
+        transform: translateX(calc(-144rem + 16rem));
+    }
+    body[data-step="1"] .controls-steps .info-title {
+        transform: translateX(calc((144rem / 12 * 9) - 288rem + 20rem));
+    }
+
+    body[data-step="2"] .controls-steps .gender-title {
+        transform: translateX(calc((144rem / 12 * 9) - 144rem + 4rem));
+    }
+    body[data-step="2"] .controls-steps .id-title {
+        transform: translateX(calc((144rem / 12 * 9) - 144rem + 4rem));
+    }
+    body[data-step="2"] .controls-steps .location-title {
+        transform: translateX(calc((144rem / 12 * 3) - 144rem + 12rem));
+    }
+    body[data-step="2"] .controls-steps .birth-title {
+        transform: translateX(calc(-144rem + 16rem));
+    }
+    body[data-step="2"] .controls-steps .info-title {
+        transform: translateX(calc((144rem / 12 * 9) - 288rem + 20rem));
+    }
+
+    body[data-step="3"] .controls-steps .gender-title {
+        transform: translateX(calc((144rem / 12 * 9) - 144rem + 4rem));
+    }
+    body[data-step="3"] .controls-steps .id-title {
+        transform: translateX(calc((144rem / 12 * 6) - 144rem + 8rem));
+    }
+    body[data-step="3"] .controls-steps .location-title {
+        transform: translateX(calc((144rem / 12 * 6) - 144rem + 8rem));
+    }
+    body[data-step="3"] .controls-steps .birth-title {
+        transform: translateX(calc(-144rem + 16rem));
+    }
+    body[data-step="3"] .controls-steps .info-title {
+        transform: translateX(calc((144rem / 12 * 9) - 288rem + 20rem));
+    }
+
+    body[data-step="4"] .controls-steps .gender-title {
+        transform: translateX(calc((144rem / 12 * 9) - 144rem + 4rem));
+    }
+    body[data-step="4"] .controls-steps .id-title {
+        transform: translateX(calc((144rem / 12 * 6) - 144rem + 8rem));
+    }
+    body[data-step="4"] .controls-steps .location-title {
+        transform: translateX(calc((144rem / 12 * 3) - 144rem + 12rem));
+    }
+    body[data-step="4"] .controls-steps .birth-title {
+        transform: translateX(calc((144rem / 12 * 3) - 144rem + 12rem));
+    }
+    body[data-step="4"] .controls-steps .info-title {
+        transform: translateX(calc((144rem / 12 * 4) - 228rem + 20rem));
+    }
+
+    body[data-step="5"] .controls-steps .gender-title {
+        transform: translateX(calc((144rem / 12 * 9) - 144rem + 4rem));
+    }
+    body[data-step="5"] .controls-steps .id-title {
+        transform: translateX(calc((144rem / 12 * 6) - 144rem + 8rem));
+    }
+    body[data-step="5"] .controls-steps .location-title {
+        transform: translateX(calc((144rem / 12 * 3) - 144rem + 12rem));
+    }
+    body[data-step="5"] .controls-steps .birth-title {
+        transform: translateX(calc(-144rem + 16rem));
+    }
+    body[data-step="5"] .controls-steps .info-title {
+        transform: translateX(calc(-144rem + 16rem));
+    }
+}
+
+.controls-steps .arrows {
+    display: -ms-flexbox;
+    display: flex;
+
+    margin-top: 4.7rem;
+}
+.controls-steps .arrows .arrow-control:not(:last-child) {
+    margin-right: 1rem;
+}
+.controls-steps .arrows .arrow-control {
+    display: -ms-flexbox;
+    display: flex;
+
+    -ms-flex-pack: center;
+    justify-content: center;
+
+    -ms-flex-align: center;
+    align-items: center;
+
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,.7);
+}
+
+body[data-step="1"] .controls-steps .arrows .arrow-control.prev-arrow {
+    opacity: 0;
+    pointer-events: none;
+}
+body[data-step="5"] .controls-steps .arrows .arrow-control.next-arrow {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.controls-steps .arrows .arrow-control::before {
+    position: absolute;
+    content: '';
+    top: 3px;
+    left: 3px;
+    width: 5.2rem;
+    height: 5.2rem;
+    border-radius: 50%;
+    transition: border-color 0.2s linear;
+    border: 2px solid rgba(255,174,0,0);
+}
+.controls-steps .arrows .arrow-control:hover::before {
+    border-color: #ffae00;
+}
+.controls-steps .arrows .arrow-control .icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    font-size: 1rem;
+    position: relative;
+    transition: background-color 0.2s linear;
+    background-color: rgba(255,255,255,0);
+}
+.controls-steps .arrows .arrow-control:hover .icon {
+    background-color: rgba(255,255,255,.2);
+}
+.controls-steps .arrows .arrow-control .icon::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+}
+
+.group-of-steps {
+    overflow: hidden;
+}
+.group-of-steps .group-of-steps-content {
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.group-of-steps .group-of-steps-content .info-step {
+    transition: transform 0.4s linear 0.4s;
+}
+.group-of-steps .group-of-steps-content .birth-step {
+    transition: transform 0.4s linear 0.4s;
+}
+.group-of-steps .group-of-steps-content .location-step {
+    transition: transform 0.4s linear 0.4s;
+}
+.group-of-steps .group-of-steps-content .id-step {
+    transition: transform 0.4s linear 0.4s;
+}
+.group-of-steps .group-of-steps-content .gender-step {
+    transition: transform 0.4s linear 0.4s;
+}
+.group-of-steps .group-of-steps-content .options-steps-result {
+    transition: transform 0.4s linear 0.4s;
+}
+
+.group-of-steps .group-of-steps-content .info-step.working {
+    transition: transform 0.4s linear 0s;
+}
+.group-of-steps .group-of-steps-content .birth-step.working {
+    transition: transform 0.4s linear 0s;
+}
+.group-of-steps .group-of-steps-content .location-step.working {
+    transition: transform 0.4s linear 0s;
+}
+.group-of-steps .group-of-steps-content .id-step.working {
+    transition: transform 0.4s linear 0s;
+}
+.group-of-steps .group-of-steps-content .gender-step.working {
+    transition: transform 0.4s linear 0s;
+}
+
+@media (min-width: 576px) {
+    body[data-step="1"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-51rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-102rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((51rem / 12 * 6) - 153rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-153rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(-153rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((51rem / 12 * 11) - 204rem + 1px), -100%);
+    }
+
+    body[data-step="2"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-51rem);
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-102rem);
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((51rem / 12 * 6) - 153rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc((51rem / 12 * 6) - 153rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(-204rem);
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((51rem / 12 * 10) - 204rem + 1px), -100%);
+    }
+
+    body[data-step="3"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-51rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-102rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(-102rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-153rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(-204rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((51rem / 12 * 9) - 204rem + 1px), -100%);
+    }
+
+    body[data-step="4"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-51rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-51rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((51rem / 12 * 6) - 153rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-153rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(-204rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((51rem / 12 * 8) - 204rem + 1px), -100%);
+    }
+
+    body[data-step="5"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(0);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-102rem);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((51rem / 12 * 6) - 153rem));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-153rem);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(-204rem);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((51rem / 12 * 7) - 204rem + 1px), -100%);
+    }
+}
+
+@media (min-width: 768px) {
+    body[data-step="1"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-69rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-138rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(-207rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-276rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((69rem / 12 * 8) - 276rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((69rem / 12 * 7) - 276rem + 1px), -100%);
+    }
+
+    body[data-step="2"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-69rem);
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-138rem);
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(-207rem);
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-207rem);
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((69rem / 12 * 8) - 345rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((69rem / 12 * 5) - 276rem + 1px), -100%);
+    }
+
+    body[data-step="3"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-69rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-138rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(-138rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-276rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((69rem / 12 * 8) - 345rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((69rem / 12 * 3) - 276rem + 1px), -100%);
+    }
+
+    body[data-step="4"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-69rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-69rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(-207rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-276rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((69rem / 12 * 8) - 345rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((69rem / 12 * 1) - 276rem + 1px), -100%);
+    }
+
+    body[data-step="5"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(0);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-138rem);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(-207rem);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-276rem);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((69rem / 12 * 8) - 345rem));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((69rem / 12 * 11) - 345rem + 1px), -100%);
+    }
+}
+
+@media (min-width: 992px) {
+    body[data-step="1"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-93rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-186rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(-279rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-372rem);
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((93rem / 12 * 8) - 372rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((93rem / 12 * 7) - 372rem + 1px), -100%);
+    }
+
+    body[data-step="2"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-93rem);
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-186rem);
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(-279rem);
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-279rem);
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((93rem / 12 * 8) - 465rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((93rem / 12 * 5) - 372rem + 1px), -100%);
+    }
+
+    body[data-step="3"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-93rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-186rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(-186rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-372rem);
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((93rem / 12 * 8) - 465rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((93rem / 12 * 3) - 372rem + 1px), -100%);
+    }
+
+    body[data-step="4"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(-93rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-93rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(-279rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-372rem);
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((93rem / 12 * 8) - 465rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((93rem / 12 * 1) - 372rem + 1px), -100%);
+    }
+
+    body[data-step="5"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(0);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(-186rem);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(-279rem);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(-372rem);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((93rem / 12 * 8) - 465rem));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((93rem / 12 * 11) - 465rem + 1px), -100%);
+    }
+}
+
+@media (min-width: 1200px) {
+    body[data-step="1"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc((111rem / 12 * 8) - 111rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc((111rem / 12 * 3) - 111rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((111rem / 12 * 9) - 222rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc((111rem / 12 * 3) - 222rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((111rem / 12 * 7) - 222rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translateX(calc((111rem / 12 * 6) - 222rem));
+    }
+
+    body[data-step="2"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc((111rem / 12 * 8) - 111rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc((111rem / 12 * 3) - 111rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((111rem / 12 * 9) - 222rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc((111rem / 12 * 9) - 222rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((111rem / 12 * 10) - 333rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translateX(calc((111rem / 12 * 5) - 222rem));
+    }
+
+    body[data-step="3"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc((111rem / 12 * 8) - 111rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc((111rem / 12 * 3) - 111rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((111rem / 12 * 3) - 111rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc((111rem / 12 * 3) - 222rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((111rem / 12 * 10) - 333rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translateX(calc((111rem / 12 * 4) - 222rem));
+    }
+
+    body[data-step="4"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc((111rem / 12 * 8) - 111rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc((111rem / 12 * 8) - 111rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((111rem / 12 * 9) - 222rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc((111rem / 12 * 3) - 222rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((111rem / 12 * 10) - 333rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translateX(calc((111rem / 12 * 3) - 222rem));
+    }
+
+    body[data-step="5"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(0);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc((111rem / 12 * 3) - 111rem));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((111rem / 12 * 9) - 222rem));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc((111rem / 12 * 3) - 222rem));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((111rem / 12 * 10) - 333rem));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translateX(calc((111rem / 12 * 2) - 222rem));
+    }
+}
+
+@media (min-width: 1470px) {
+	body[data-step="1"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc((144rem / 12 * 8) - 144rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc((144rem / 12 * 3) - 144rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((144rem / 12 * 9) - 288rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc((144rem / 12 * 3) - 288rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((144rem / 12 * 7) - 288rem));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translateX(calc((144rem / 12 * 6) - 288rem));
+    }
+
+    @supports (-ms-ime-align:auto) {
+        body[data-step="1"] .group-of-steps .group-of-steps-content .info-step {
+            transform: translateX(calc((144rem / 12 * 8) - 144rem - 1px));
+        }
+        body[data-step="1"] .group-of-steps .group-of-steps-content .birth-step {
+            transform: translateX(calc((144rem / 12 * 3) - 144rem - 1px));
+        }
+        body[data-step="1"] .group-of-steps .group-of-steps-content .location-step {
+            transform: translateX(calc((144rem / 12 * 9) - 288rem - 1px));
+        }
+        body[data-step="1"] .group-of-steps .group-of-steps-content .id-step {
+            transform: translateX(calc((144rem / 12 * 3) - 288rem - 1px));
+        }
+    }
+
+    body[data-step="2"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc((144rem / 12 * 8) - 144rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc((144rem / 12 * 3) - 144rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((144rem / 12 * 9) - 288rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc((144rem / 12 * 9) - 288rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((144rem / 12 * 10) - 432rem));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translateX(calc((144rem / 12 * 5) - 288rem));
+    }
+
+    @supports (-ms-ime-align:auto) {
+        body[data-step="2"] .group-of-steps .group-of-steps-content .info-step {
+            transform: translateX(calc((144rem / 12 * 8) - 144rem - 1px));
+        }
+        body[data-step="2"] .group-of-steps .group-of-steps-content .birth-step {
+            transform: translateX(calc((144rem / 12 * 3) - 144rem - 1px));
+        }
+        body[data-step="2"] .group-of-steps .group-of-steps-content .location-step {
+            transform: translateX(calc((144rem / 12 * 9) - 288rem - 1px));
+        }
+        body[data-step="2"] .group-of-steps .group-of-steps-content .gender-step {
+            transform: translateX(calc((144rem / 12 * 10) - 432rem - 1px));
+        }
+    }
+
+    body[data-step="3"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc((144rem / 12 * 8) - 144rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc((144rem / 12 * 3) - 144rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((144rem / 12 * 3) - 144rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc((144rem / 12 * 3) - 288rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((144rem / 12 * 10) - 432rem));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translateX(calc((144rem / 12 * 4) - 288rem));
+    }
+
+    @supports (-ms-ime-align:auto) {
+        body[data-step="3"] .group-of-steps .group-of-steps-content .info-step {
+            transform: translateX(calc((144rem / 12 * 8) - 144rem - 1px));
+        }
+        body[data-step="3"] .group-of-steps .group-of-steps-content .birth-step {
+            transform: translateX(calc((144rem / 12 * 3) - 144rem - 1px));
+        }
+        body[data-step="3"] .group-of-steps .group-of-steps-content .id-step {
+            transform: translateX(calc((144rem / 12 * 3) - 288rem - 1px));
+        }
+        body[data-step="3"] .group-of-steps .group-of-steps-content .gender-step {
+            transform: translateX(calc((144rem / 12 * 10) - 432rem - 1px));
+        }
+    }
+
+    body[data-step="4"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc((144rem / 12 * 8) - 144rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc((144rem / 12 * 8) - 144rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((144rem / 12 * 9) - 288rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc((144rem / 12 * 3) - 288rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((144rem / 12 * 10) - 432rem));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translateX(calc((144rem / 12 * 3) - 288rem));
+    }
+
+    @supports (-ms-ime-align:auto) {
+        body[data-step="4"] .group-of-steps .group-of-steps-content .info-step {
+            transform: translateX(calc((144rem / 12 * 8) - 144rem - 1px));
+        }
+        body[data-step="4"] .group-of-steps .group-of-steps-content .location-step {
+            transform: translateX(calc((144rem / 12 * 9) - 288rem - 1px));
+        }
+        body[data-step="4"] .group-of-steps .group-of-steps-content .id-step {
+            transform: translateX(calc((144rem / 12 * 3) - 288rem - 1px));
+        }
+        body[data-step="4"] .group-of-steps .group-of-steps-content .gender-step {
+            transform: translateX(calc((144rem / 12 * 10) - 432rem - 1px));
+        }
+    }
+
+    body[data-step="5"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(0);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc((144rem / 12 * 3) - 144rem));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc((144rem / 12 * 9) - 288rem));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc((144rem / 12 * 3) - 288rem));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc((144rem / 12 * 10) - 432rem));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translateX(calc((144rem / 12 * 2) - 288rem));
+    }
+
+    @supports (-ms-ime-align:auto) {
+        body[data-step="5"] .group-of-steps .group-of-steps-content .birth-step {
+            transform: translateX(calc((144rem / 12 * 3) - 144rem - 1px));
+        }
+        body[data-step="5"] .group-of-steps .group-of-steps-content .location-step {
+            transform: translateX(calc((144rem / 12 * 9) - 288rem - 1px));
+        }
+        body[data-step="5"] .group-of-steps .group-of-steps-content .id-step {
+            transform: translateX(calc((144rem / 12 * 3) - 288rem - 1px));
+        }
+        body[data-step="5"] .group-of-steps .group-of-steps-content .gender-step {
+            transform: translateX(calc((144rem / 12 * 10) - 432rem - 1px));
+        }
+    }
+}
+
+@media (max-width: 1199px) {
+    .steps-section {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+    }
+    .controls-steps {
+        margin-right: 0;
+        margin-bottom: 5rem;
+    }
+    .group-of-steps {
+        overflow: visible;
+    }
+}
+
+@media (max-width: 991px) {
+    .steps-section {
+        padding-top: 4.5rem;
+        padding-bottom: 4.5rem;
+    }
+    .logo {
+        padding-bottom: 3rem;
+    }
+    .controls-steps {
+        margin-bottom: 4.5rem;
+    }
+    .controls-steps .title {
+        padding-top: 2.8rem;
+    }
+    .controls-steps .title-content {
+        font-size: 2.4rem;
+    }
+    .controls-steps .arrows {
+        margin-top: 3.5rem;
+    }
+    .controls-steps .arrows .arrow-control {
+        width: 4rem;
+        height: 4rem;
+    }
+    .controls-steps .arrows .arrow-control::before {
+        width: 3.2rem;
+        height: 3.2rem;
+    }
+    .controls-steps .arrows .arrow-control .icon {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .steps-section {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+    .logo {
+        padding-bottom: 2rem;
+    }
+    .logo img {
+        max-width: 18rem;
+    }
+    .controls-steps {
+        margin-bottom: 4rem;
+    }
+    .controls-steps .title {
+        padding-top: 2.1rem;
+    }
+    .controls-steps .title-content {
+        font-size: 2rem;
+    }
+    .controls-steps .arrows {
+        margin-top: 2.6rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .steps-section {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+    .logo {
+        padding-bottom: 1rem;
+    }
+    .logo img {
+        max-width: 12rem;
+    }
+    .controls-steps {
+        margin-bottom: 4rem;
+    }
+    .controls-steps .title {
+        padding-top: 1.1rem;
+    }
+    .controls-steps .title-content {
+        font-size: 1.6rem;
+    }
+    .controls-steps .arrows {
+        margin-top: 1.6rem;
+    }
+
+    .logo::after {
+        width: calc(((100vw - 30px) / 12 * 1) - 1px);
+    }
+    .controls-steps .title {
+        width: calc(100vw / 12 * 30);
+    }
+    .controls-steps .title-content {
+        width: calc(100vw / 12 * 6);
+    }
+
+    body[data-step="1"] .controls-steps .gender-title {
+        transform: translateX(0);
+    }
+    body[data-step="1"] .controls-steps .id-title {
+        transform: translateX(-100vw);
+    }
+    body[data-step="1"] .controls-steps .location-title {
+        transform: translateX(calc((100vw / 12 * 6) - 200vw));
+    }
+    body[data-step="1"] .controls-steps .birth-title {
+        transform: translateX(-200vw);
+    }
+    body[data-step="1"] .controls-steps .info-title {
+        transform: translateX(calc((100vw / 12 * 6) - 300vw));
+    }
+
+    body[data-step="2"] .controls-steps .gender-title {
+        transform: translateX(calc((100vw / 12 * 6) - 100vw));
+    }
+    body[data-step="2"] .controls-steps .id-title {
+        transform: translateX(calc((100vw / 12 * 6) - 100vw));
+    }
+    body[data-step="2"] .controls-steps .location-title {
+        transform: translateX(calc((100vw / 12 * 6) - 200vw));
+    }
+    body[data-step="2"] .controls-steps .birth-title {
+        transform: translateX(-200vw);
+    }
+    body[data-step="2"] .controls-steps .info-title {
+        transform: translateX(calc((100vw / 12 * 6) - 300vw));
+    }
+
+    body[data-step="3"] .controls-steps .gender-title {
+        transform: translateX(calc((100vw / 12 * 6) - 100vw));
+    }
+    body[data-step="3"] .controls-steps .id-title {
+        transform: translateX(-100vw);
+    }
+    body[data-step="3"] .controls-steps .location-title {
+        transform: translateX(-100vw);
+    }
+    body[data-step="3"] .controls-steps .birth-title {
+        transform: translateX(-200vw);
+    }
+    body[data-step="3"] .controls-steps .info-title {
+        transform: translateX(calc((100vw / 12 * 6) - 300vw));
+    }
+
+    body[data-step="4"] .controls-steps .gender-title {
+        transform: translateX(calc((100vw / 12 * 6) - 100vw));
+    }
+    body[data-step="4"] .controls-steps .id-title {
+        transform: translateX(-100vw);
+    }
+    body[data-step="4"] .controls-steps .location-title {
+        transform: translateX(calc((100vw / 12 * 6) - 200vw));
+    }
+    body[data-step="4"] .controls-steps .birth-title {
+        transform: translateX(calc((100vw / 12 * 6) - 200vw));
+    }
+    body[data-step="4"] .controls-steps .info-title {
+        transform: translateX(calc((100vw / 12 * 6) - 300vw));
+    }
+
+    body[data-step="5"] .controls-steps .gender-title {
+        transform: translateX(calc((100vw / 12 * 6) - 100vw));
+    }
+    body[data-step="5"] .controls-steps .id-title {
+        transform: translateX(-100vw);
+    }
+    body[data-step="5"] .controls-steps .location-title {
+        transform: translateX(calc((100vw / 12 * 6) - 200vw));
+    }
+    body[data-step="5"] .controls-steps .birth-title {
+        transform: translateX(-200vw);
+    }
+    body[data-step="5"] .controls-steps .info-title {
+        transform: translateX(-200vw);
+    }
+}
+
+@media (max-width: 575px) {
+    body[data-step="1"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc(100vw - 200vw + 30px));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc(100vw - 300vw + 60px));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc(100vw - 400vw + 90px));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc(100vw - 500vw + 120px));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc(100vw - 500vw + 120px));
+    }
+    body[data-step="1"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc(100vw - 500vw + 120px), -100%);
+    }
+
+    body[data-step="2"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc(100vw - 200vw + 30px));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc(100vw - 300vw + 60px));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc(100vw - 400vw + 90px));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc(100vw - 400vw + 90px));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc(100vw - 600vw + 150px));
+    }
+    body[data-step="2"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((100vw - 500vw + 120px) - (((100vw - 30px) / 4) + 2px) + 1px), -100%);
+    }
+
+    body[data-step="3"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc(100vw - 200vw + 30px));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc(100vw - 300vw + 60px));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc(100vw - 300vw + 60px));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc(100vw - 500vw + 120px));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc(100vw - 600vw + 150px));
+    }
+    body[data-step="3"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((100vw - 500vw + 120px) - (((100vw - 30px) / 4) + 2px) + 1px), -100%);
+    }
+
+    body[data-step="4"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(calc(100vw - 200vw + 30px));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc(100vw - 200vw + 30px));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc(100vw - 400vw + 90px));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc(100vw - 500vw + 120px));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc(100vw - 600vw + 150px));
+    }
+    body[data-step="4"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((100vw - 500vw + 120px) - (((100vw - 30px) / 4) + 2px) + 1px), -100%);
+    }
+
+    body[data-step="5"] .group-of-steps .group-of-steps-content .info-step {
+        transform: translateX(0);
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .birth-step {
+        transform: translateX(calc(100vw - 300vw + 60px));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .location-step {
+        transform: translateX(calc(100vw - 400vw + 90px));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .id-step {
+        transform: translateX(calc(100vw - 500vw + 120px));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .gender-step {
+        transform: translateX(calc(100vw - 600vw + 150px));
+    }
+    body[data-step="5"] .group-of-steps .group-of-steps-content .options-steps-result {
+        transform: translate(calc((100vw - 500vw + 120px) - (((100vw - 30px) / 4) + 2px) + 1px), -100%);
+    }
+}

@@ -1,0 +1,89 @@
+.btn {
+    font-size: 1.4rem;
+    line-height: 1.5;
+    font-weight: 400;
+    border-radius: 0;
+    padding: 0.9rem 5.7rem 0.8rem 2.5rem;
+    position: relative;
+    border: 1px solid;
+    display: inline-block;
+    transition: all 0s linear;
+}
+.btn,
+.btn:active,
+.btn:focus,
+.btn:active:focus,
+.btn:hover {
+    border-color: rgba(255,255,255,.7);
+    background-color: transparent;
+    color: #fff;
+}
+.btn .icon {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 4rem;
+    height: 4rem;
+    font-size: 1rem;
+    line-height: 1;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ffae00 #ffae00 #ffae00 rgba(255,174,0,0);
+    background-color: rgba(255,174,0,.2);
+    transition: background-color 0.2s linear, border-color 0.2s linear;
+}
+.btn:hover .icon {
+    border-color: #ffae00;
+    background-color: #ffae00;
+}
+.btn .icon::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+    line-height: 1;
+    color: #fff;
+}
+
+.btn.btn-yellow {
+    padding: 0.9rem 2.5rem 0.8rem;
+    transition: background-color 0.2s linear;
+}
+.btn.btn-yellow,
+.btn.btn-yellow:active,
+.btn.btn-yellow:focus,
+.btn.btn-yellow:active:focus,
+.btn.btn-yellow:hover {
+    border-color: #ffae00;
+    background-color: #ffae00;
+    color: #fff;
+}
+.btn.btn-yellow:hover {
+    border-color: #ffae00;
+    background-color: rgba(255,174,0,0);
+    color: #fff;
+}
+
+.link,
+.link:active,
+.link:focus,
+.link:active:focus,
+.link:hover {
+    color: #ffae00;
+}
+.link:hover {
+    text-decoration: underline;
+}
+
+.buttons {
+    font-size: 0;
+    line-height: 1;
+    margin-bottom: -1.4rem;
+}
+.buttons .btn {
+    margin-bottom: 1.4rem;
+}
+.buttons > .btn:not(:nth-last-child(1)) {
+    margin-right: 1.4rem;
+}
