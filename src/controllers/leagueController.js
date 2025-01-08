@@ -226,7 +226,7 @@ const addSubleague = async (req, res) => {
     if (!reg_id) {
       return res.status(401).json({ message: 'Unauthorized. Please log in.' });
     }
-    let { organization, league, game_plays, kick_off_time_1, kick_off_time_2, sub_league_id, org_id, league_id, league_picture, sub_league_name, venue_details, venue_city, venue_state, venue_country, venue_continent, venue_zipcode, venue_lat, venue_long, season, website, category, gender, game_format, match_duration, minplayers_perteam, type_of_league_1, type_of_league_2, no_of_field_available, no_of_field_competing, quantity_of_groups, status, first_name, last_name, email, phone, currency, old_team, new_team, bank_name, country, address, price_per_team, bank_acc_no, company_name, date_added, gold_finalmatches, silver_finalmatches, bronze_finalmatches, tie_twoteams, tie_moreteams, yellowcards, missedmatch, miss_nxtmatch, group_allocated, fixture_allocated, league_unique_id, league_expired_date } = req.body;
+    let { organization, league, gameplayRows, sub_league_id, org_id, league_id, league_picture, sub_league_name, venue_details, venue_city, venue_state, venue_country, venue_continent, venue_zipcode, venue_lat, venue_long, season, website, category, gender, game_format, match_duration, minplayers_perteam, type_of_league_1, type_of_league_2, no_of_field_available, no_of_field_competing, quantity_of_groups, status, first_name, last_name, email, phone, currency, old_team, new_team, bank_name, country, address, price_per_team, bank_acc_no, company_name, date_added, gold_finalmatches, silver_finalmatches, bronze_finalmatches, tie_twoteams, tie_moreteams, yellowcards, missedmatch, miss_nxtmatch, group_allocated, fixture_allocated, league_unique_id, league_expired_date } = req.body;
 
     if (organization) {
       let existingOrganization = await Organization.findOne({ where: { organization_name: organization } });
@@ -235,7 +235,7 @@ const addSubleague = async (req, res) => {
       } else {
         existingOrganization = await Organization.create({
           organization_name: organization,
-          reg_id: 0,
+          reg_id: reg_id,
         });
         org_id = existingOrganization.org_id;
       }
@@ -247,7 +247,7 @@ const addSubleague = async (req, res) => {
       } else {
         existingLeague = await League.create({
           league_name: league,
-          reg_id: 0, // Example default value
+          reg_id: reg_id, // Example default value
         });
         league_id = existingLeague.league_id;
       }
@@ -315,12 +315,14 @@ const addSubleague = async (req, res) => {
     });
 
     // Store the Gameplay data
-    await Gameplay.create({
-      sub_league_id: newSubleague.sub_league_id, // Use the generated sub_league_id
-      game_plays,
-      kick_off_time_1,
-      kick_off_time_2,
-    });
+    for (const row of gameplayRows) {
+      await Gameplay.create({
+        sub_league_id: newSubleague.sub_league_id, // Use the generated sub_league_id
+        game_plays: row.gameplayDays,
+        kick_off_time_1: row.kickoffStartTime,
+        kick_off_time_2: row.kickoffEndTime,
+      });
+    }
 
     return res.status(201).json({
       message: 'Subleague added successfully.',
@@ -334,105 +336,105 @@ const addSubleague = async (req, res) => {
 
 const joinLeague = async (req, res) => {
   try {
-      const { sub_league_id, team_id } = req.body;
-      const requested_reg_id = req.user.id; // Assuming the user is authenticated and id is available in the token
+    const { sub_league_id, team_id } = req.body;
+    const requested_reg_id = req.user.id; // Assuming the user is authenticated and id is available in the token
 
-      // Validate required fields
-      if (!sub_league_id || !team_id) {
-          return res.status(400).json({ message: 'Sub League ID and Team ID are required.' });
-      }
+    // Validate required fields
+    if (!sub_league_id || !team_id) {
+      return res.status(400).json({ message: 'Sub League ID and Team ID are required.' });
+    }
 
-      // Validate subleague and team existence
-      const subleague = await Subleague.findByPk(sub_league_id);
-      if (!subleague) {
-          return res.status(404).json({ message: 'Subleague not found.' });
-      }
+    // Validate subleague and team existence
+    const subleague = await Subleague.findByPk(sub_league_id);
+    if (!subleague) {
+      return res.status(404).json({ message: 'Subleague not found.' });
+    }
 
-      const team = await Team.findByPk(team_id);
-      if (!team) {
-          return res.status(404).json({ message: 'Team not found.' });
-      }
+    const team = await Team.findByPk(team_id);
+    if (!team) {
+      return res.status(404).json({ message: 'Team not found.' });
+    }
 
-      // Validate league admin exists in the Subleague
-      const leagueAdmin = await League.findOne({
-          where: { reg_id: subleague.reg_id },
-      });
-      if (!leagueAdmin) {
-          return res.status(404).json({ message: 'League admin not found.' });
-      }
+    // Validate league admin exists in the Subleague
+    const leagueAdmin = await League.findOne({
+      where: { reg_id: subleague.reg_id },
+    });
+    if (!leagueAdmin) {
+      return res.status(404).json({ message: 'League admin not found.' });
+    }
 
-      // Check if the team has already requested to join this league
-      const existingRequest = await Joinleague.findOne({
-          where: { sub_league_id, team_id, requested_reg_id },
-      });
-      if (existingRequest) {
-          return res.status(400).json({ message: 'Team has already requested to join this league.' });
-      }
+    // Check if the team has already requested to join this league
+    const existingRequest = await Joinleague.findOne({
+      where: { sub_league_id, team_id, requested_reg_id },
+    });
+    if (existingRequest) {
+      return res.status(400).json({ message: 'Team has already requested to join this league.' });
+    }
 
-      // Create the join request
-      const newJoinRequest = await Joinleague.create({
-          sub_league_id,
-          team_id,
-          league_admin_reg_id: subleague.reg_id,
-          requested_reg_id,
-          status: 0, // Default: Pending
-          is_seen: 0,
-          date_added: new Date(),
-      });
+    // Create the join request
+    const newJoinRequest = await Joinleague.create({
+      sub_league_id,
+      team_id,
+      league_admin_reg_id: subleague.reg_id,
+      requested_reg_id,
+      status: 0, // Default: Pending
+      is_seen: 0,
+      date_added: new Date(),
+    });
 
-      return res.status(201).json({ message: 'Join league request submitted successfully.', data: newJoinRequest });
+    return res.status(201).json({ message: 'Join league request submitted successfully.', data: newJoinRequest });
   } catch (error) {
-      console.error('Error while submitting join league request:', error);
-      return res.status(500).json({ message: 'Server error.', error });
+    console.error('Error while submitting join league request:', error);
+    return res.status(500).json({ message: 'Server error.', error });
   }
 };
 
 const getJoinLeague = async (req, res) => {
   try {
-      const userId = req.user.id; // Assuming user ID is stored in the request after authentication
+    const userId = req.user.id; // Assuming user ID is stored in the request after authentication
 
-      // Fetch all joined leagues for the logged-in user
-      const joinedLeagues = await Joinleague.findAll({
-          where: { requested_reg_id: userId },
+    // Fetch all joined leagues for the logged-in user
+    const joinedLeagues = await Joinleague.findAll({
+      where: { requested_reg_id: userId },
+      include: [
+        {
+          model: Subleague,
+          as: 'subleague',
+          attributes: ['sub_league_id', 'league_id', 'sub_league_name'],
           include: [
-              {
-                  model: Subleague,
-                  as: 'subleague',
-                  attributes: ['sub_league_id', 'league_id', 'sub_league_name'],
-                  include: [
-                      {
-                          model: League,
-                          as: 'league',
-                          attributes: ['league_id', 'league_name']
-                      }
-                  ]
-              }
-          ]
-      });
+            {
+              model: League,
+              as: 'league',
+              attributes: ['league_id', 'league_name'],
+            },
+          ],
+        },
+      ],
+    });
 
-      if (!joinedLeagues.length) {
-          return res.status(404).json({ message: 'No leagues found for this user' });
-      }
+    if (!joinedLeagues.length) {
+      return res.status(404).json({ message: 'No leagues found for this user' });
+    }
 
-      // Prepare response data
-      const response = joinedLeagues.map((join) => ({
-          join_league_id: join.join_league_id,
-          sub_league_id: join.sub_league_id,
-          sub_league_name: join.subleague.sub_league_name,
-          league_id: join.subleague.league.league_id,
-          league_name: join.subleague.league.league_name
-      }));
+    // Prepare response data
+    const response = joinedLeagues.map((join) => ({
+      join_league_id: join.join_league_id,
+      sub_league_id: join.sub_league_id,
+      sub_league_name: join.subleague.sub_league_name,
+      league_id: join.subleague.league.league_id,
+      league_name: join.subleague.league.league_name,
+    }));
 
-      return res.status(200).json({ leagues: response });
+    return res.status(200).json({ leagues: response });
   } catch (error) {
-      console.error('Error fetching joined leagues:', error);
-      return res.status(500).json({ message: 'Server error', error });
+    console.error('Error fetching joined leagues:', error);
+    return res.status(500).json({ message: 'Server error', error });
   }
 };
 
 const searchPlayer = async (req, res) => {
   try {
-      const { unique_id, sub_league_id } = req.body;
+    const { unique_id, sub_league_id } = req.body;
 
       if (!unique_id || !sub_league_id) {
           return res.status(400).json({ message: 'unique_id and sub_league_id are required.' });
@@ -455,7 +457,7 @@ const searchPlayer = async (req, res) => {
           attributes: ['id'] // Fetch only team IDs
       });
 
-      const teamIds = teamsInSubleague.map(team => team.id);
+    const teamIds = teamsInSubleague.map((team) => team.id);
 
       // Step 3: Filter users who have already joined the subleague
       const usersNotJoined = [];
@@ -488,10 +490,10 @@ const searchPlayer = async (req, res) => {
       });
       
   } catch (error) {
-      console.error('Error checking subleague participation:', error);
-      res.status(500).json({ message: 'Server error', error });
+    console.error('Error checking subleague participation:', error);
+    res.status(500).json({ message: 'Server error', error });
   }
 };
 
-
 module.exports = { searchPlayer, getJoinLeague, getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
+
