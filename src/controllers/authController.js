@@ -190,6 +190,33 @@ const forgotPassword = async (req, res) => {
     // Generate the reset link pointing to the backend
     const resetLink = `http://localhost:3100/api/auth/reset-password-form?token=${resetToken}`;
 
+    const emailHTML = `
+        <div style="width: 700px; margin: 0 auto;">
+            <div style="background: #2f353a; padding: 15px 10px; text-align: left;">
+                <a href="http://localhost:3100/register">
+                    <img src="http://localhost:3100/assets/register/image/form-logo.png" alt="Esfaira" style="height:30px;">
+                </a>
+            </div>
+            <div style="padding: 15px; border: #CCC 1px solid; border-top: none; border-bottom: none; text-align: center;">
+                <div>
+                    <strong style="font-size: 18px;">Dear: ${user.name}</strong>
+                </div>
+                <div style="padding-top:5px; font-size: 16px;">
+                    Please click the below button to reset your account password.
+                </div>
+                <div style="padding-top:20px;">
+                    <a href="${resetLink}" 
+                       style="background: #2f353a; color: #FFF; font-weight: 700; padding: 10px 15px; 
+                              display: inline-block; border-radius: 5px; text-decoration: none; font-size: 15px;">
+                        Click Here to Reset Password
+                    </a>
+                </div>
+            </div>
+            <div style="background: #F4F4F4; padding: 15px; text-align: center; border: #CCC 1px solid; border-top: none;">
+                Powered by
+                <a href="http://localhost:3100" style="color:#ffae00;">ESFAIRA</a>
+            </div>
+        </div>`;
     // Send the reset link via email
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
@@ -203,7 +230,7 @@ const forgotPassword = async (req, res) => {
       from: process.env.ADMIN_EMAIL_USER,
       to: email,
       subject: 'Password Reset Request',
-      text: `You requested a password reset. Click the link below to reset your password:\n\n${resetLink}\n\nIf you did not request this, please ignore this email.`,
+      html: emailHTML, // ✅ Sending the HTML content here
     });
 
     res.status(200).json({ message: 'Password reset link sent to your email.' });
@@ -213,7 +240,7 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-const resetPasswordScreen = async (req, res) => {
+const resetPasswordForm = async (req, res) => {
   const { token } = req.query;
   console.log('token==> ', token);
 
@@ -230,32 +257,16 @@ const resetPasswordScreen = async (req, res) => {
   });
 };
 
-const resetPasswordForm = async (req, res) => {
-  const { token } = req.query;
-  console.log('token==> ', token);
-
-  if (!token) {
-    return res.status(400).send('Invalid or missing reset token.');
-  }
-
-  const htmlFilePath = path.join(__dirname, '../public/html/resetPassword.html');
-  res.sendFile(htmlFilePath, (err) => {
-    if (err) {
-      console.error('Error serving the reset password form:', err);
-      res.status(500).send('Error serving the reset password form.');
-    }
-  });
-};
-
 const resetPassword = async (req, res) => {
-  const { token, newPassword, confirmPassword } = req.body;
-  console.log('token, newPassword, confirmPassword==>>> ', token, newPassword, confirmPassword);
+  const { token, password, cpassword } = req.body;
+  console.log('req.body==>>>', req.body);
+  console.log('token, newPassword, confirmPassword==>>> ', token, password, cpassword);
 
-  if (!token || !newPassword || !confirmPassword) {
+  if (!token || !password || !cpassword) {
     return res.status(400).json({ message: 'All fields are required.' });
   }
 
-  if (newPassword !== confirmPassword) {
+  if (password !== cpassword) {
     return res.status(400).json({ message: 'New password and confirm password do not match.' });
   }
 
@@ -272,7 +283,7 @@ const resetPassword = async (req, res) => {
     }
 
     // Check if the new password matches the old password
-    const isNewPasswordSameAsOld = await bcrypt.compare(newPassword, user.password);
+    const isNewPasswordSameAsOld = await bcrypt.compare(password, user.password);
     if (isNewPasswordSameAsOld) {
       return res.status(400).json({
         message: 'New password cannot be the same as the old password.',
@@ -280,7 +291,7 @@ const resetPassword = async (req, res) => {
     }
 
     // Hash the new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Update the user's password and clear the reset token
     await user.update({
@@ -480,7 +491,6 @@ module.exports = {
   login,
   register,
   forgotPassword,
-  resetPasswordScreen,
   resetPasswordForm,
   resetPassword,
   resetPasswordSuccess,

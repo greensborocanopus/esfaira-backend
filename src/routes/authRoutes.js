@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUnusedEcode, getEcode, login, register, forgotPassword, resetPasswordForm, resetPassword, resetPasswordSuccess, invalidToken,  updatePassword, requestEcode, verifyEcode, addEcode, resetPasswordScreen } = require('../controllers/authController');
+const { getUnusedEcode, getEcode, login, register, forgotPassword, resetPasswordForm, resetPassword, resetPasswordSuccess, invalidToken,  updatePassword, requestEcode, verifyEcode, addEcode } = require('../controllers/authController');
 const authMiddleware = require('../middleware/authMiddleware'); // Ensure the user is logged in for updatePassword
 const upload = require('../middleware/upload');
 
@@ -9,7 +9,6 @@ router.post('/login', login);
 router.post('/register', upload.single('photo'), register);
 
 router.post('/forgot-password', forgotPassword); // Public route
-router.get('/reset-password-screen', resetPasswordScreen); 
 router.get('/reset-password-form', resetPasswordForm); 
 router.post('/reset-password', resetPassword);
 router.get('/reset-password-success', resetPasswordSuccess);

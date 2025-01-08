@@ -1,0 +1,207 @@
+.birth-step {
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.birth-step .birth-step-element:not(:last-child) {
+    margin-right: 3rem;
+}
+
+@media (min-width: 576px) {
+    .birth-step .birth-step-element.birth-day,
+    .birth-step .birth-step-element.birth-month {
+        width: calc(((51rem - 60px) / 12) * 3);
+    }
+    .birth-step .birth-step-element.birth-year {
+        width: calc(((51rem - 60px) / 12) * 6);
+    }
+}
+
+@media (min-width: 768px) {
+    .birth-step .birth-step-element.birth-day,
+    .birth-step .birth-step-element.birth-month {
+        width: calc(((69rem - 60px) / 12) * 3);
+    }
+    .birth-step .birth-step-element.birth-year {
+        width: calc(((69rem - 60px) / 12) * 6);
+    }
+}
+
+@media (min-width: 992px) {
+    .birth-step .birth-step-element.birth-day,
+    .birth-step .birth-step-element.birth-month {
+        width: calc(((93rem - 60px) / 12) * 3);
+    }
+    .birth-step .birth-step-element.birth-year {
+        width: calc(((93rem - 60px) / 12) * 6);
+    }
+}
+
+@media (min-width: 1200px) {
+    .birth-step .birth-step-element.birth-day,
+    .birth-step .birth-step-element.birth-month {
+        width: calc((((111rem / 12 * 5) - 60px) / 7) * 2);
+    }
+    .birth-step .birth-step-element.birth-year {
+        width: calc((((111rem / 12 * 5) - 60px) / 7) * 3);
+    }
+}
+
+@media (min-width: 1470px) {
+    .birth-step .birth-step-element.birth-day,
+    .birth-step .birth-step-element.birth-month {
+        width: calc((((144rem / 12 * 5) - 60px) / 7) * 2);
+    }
+    .birth-step .birth-step-element.birth-year {
+        width: calc((((144rem / 12 * 5) - 60px) / 7) * 3);
+    }
+}
+
+.birth-step .birth-step-element .title {
+    font-size: 1.6rem;
+    line-height: 1.2;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #ffae00;
+}
+
+.birth-step .birth-step-element .birth-selection input {
+    width: 100%;
+    border-width: 0px;
+    border-radius: 0;
+    outline-style: none!important;
+    height: 5rem;
+    font-size: 3.8rem;
+    line-height: 4.8rem;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(255, 255, 255, .2);
+}
+
+#birth_month_step_chosen {
+    width: 100%;
+    border-width: 0px;
+    border-radius: 0;
+    outline-style: none !important;
+    height: 5rem;
+    font-size: 1.8rem;
+    line-height: 4.8rem;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(255, 255, 255, .2);
+}
+
+#birth_month_step_chosen a.chosen-single {
+    background: rgb(102, 92, 116);
+    border: none;
+    color: #fff;
+    height: 5rem;
+    padding: 11px;
+    border-radius: 0;
+}
+
+#birth_month_step_chosen a.chosen-single div {
+    padding: 12px 0;
+}
+
+#birth_month_step_chosen .chosen-drop {
+    background: rgb(102, 92, 116);
+    border-radius: 0;
+    opacity: 1;
+}
+
+#birth_month_step_chosen .chosen-results {
+    background: rgb(102, 92, 116);
+    border-radius: 0;
+    opacity: 1;
+    color: #fff;
+}
+
+.birth-step .birth-step-element .birth-selection input::-webkit-input-placeholder {
+    color: #fff;
+}
+
+.birth-step .birth-step-element .birth-selection input:-moz-placeholder {
+    color: #fff;
+}
+
+.birth-step .birth-step-element .birth-selection input::-moz-placeholder {
+    color: #fff;
+}
+
+.birth-step .birth-step-element .birth-selection input:-ms-input-placeholder {
+    color: #fff;
+}
+
+.birth-step .birth-step-element .birth-selection input:focus {
+    color: #fff;
+}
+
+.birth-step .birth-step-element .birth-selection input:focus::-webkit-input-placeholder {
+    color: #fff;
+}
+
+.birth-step .birth-step-element .birth-selection input:focus:-moz-placeholder {
+    color: #fff;
+}
+
+.birth-step .birth-step-element .birth-selection input:focus::-moz-placeholder {
+    color: #fff;
+}
+
+.birth-step .birth-step-element .birth-selection input:focus:-ms-input-placeholder {
+    color: #fff;
+}
+
+.birth-step .birth-step-element .required-field {
+    font-size: 1.6rem;
+    line-height: 1.2;
+    margin-top: 0.7rem;
+    color: rgba(255, 255, 255, .7);
+}
+
+@media (max-width: 991px) {
+    .birth-step .birth-step-element .birth-selection input {
+        height: 10rem;
+        font-size: 3.2rem;
+    }
+    .birth-step .birth-step-element .required-field {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .birth-step .birth-step-element .title {
+        font-size: 1.4rem;
+        margin-bottom: 1.2rem;
+    }
+    .birth-step .birth-step-element .birth-selection input {
+        height: 8rem;
+        font-size: 2.8rem;
+    }
+    .birth-step .birth-step-element .required-field {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .birth-step .birth-step-element:not(:last-child) {
+        margin-right: 1rem;
+    }
+    .birth-step .birth-step-element.birth-day,
+    .birth-step .birth-step-element.birth-month {
+        width: calc((((100vw - 30px) - 20px) / 12) * 3);
+    }
+    .birth-step .birth-step-element.birth-year {
+        width: calc((((100vw - 30px) - 20px) / 12) * 6);
+    }
+    .birth-step .birth-step-element .birth-selection input {
+        height: 5rem;
+        font-size: 2rem;
+    }
+    .birth-step .birth-step-element .required-field {
+        font-size: 1rem;
+    }
+}

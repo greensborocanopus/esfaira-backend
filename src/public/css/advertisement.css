@@ -1,0 +1,177 @@
+.custom-checkbox {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.custom-checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 27px;
+  width: 27px;
+  border: 1px solid #929292;
+  border-radius: 4px;
+}
+
+/* When the checkbox is checked, add a blue background */
+.custom-checkbox input:checked ~ .custom-checkmark {
+  background-color: #000000;
+  border: none;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.custom-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.custom-checkbox input:checked ~ .custom-checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.custom-checkbox .custom-checkmark:after {
+    left: 10px;
+    top: 3px;
+    width: 8px;
+    height: 19px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.label-text {
+    vertical-align: middle;
+    color: #152744;
+}
+.brand-logo-box .upload-pho {
+    height: 202px;
+    border-width: 2px;
+}
+.upload-pho {
+    border: 3px dashed #b5b5b5;
+    background: #f2f2f2;
+    position: relative;
+    width: 140px;
+    display: flex;
+    align-items: center;
+    transition: all 500ms ease-in-out;
+}
+
+.brand-logo-box .upload-pho .upload-icon {
+    border: 0;
+    width: auto;
+    padding: 0;
+}
+.upload-pho .upload-icon {
+    position: relative;
+    background: transparent;
+    border: 2px dashed #b5b5b5;
+    height: 130px;
+    width: 130px;
+    border-radius: 100%;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    transition: all 500ms ease-in-out;
+}
+.upload-icon {
+    background: #000 url(../images/upload-icon.png) no-repeat 20px 7px;
+    width: auto;
+    display: flex;
+    height: auto;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: #fff;
+    font-size: 14px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.brand-logo-box .upload-pho .upload-icon span {
+    font-size: 18px;
+    text-transform: uppercase;
+    line-height: 1.5;
+    top: 0;
+}
+
+.upload-pho .upload-icon span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    color: #b5b5b5;
+    font-size: 50px;
+    line-height: normal;
+    top: -10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    bottom: 0;
+    justify-content: center;
+}
+.popouterbox .popup-block {
+    max-width: 950px;
+    width: 100%;
+}
+.brand-detail {
+    width: 195px;
+}
+.upload-btn {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    width: 142px;
+}
+.brand-flex {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+    border-left:#cccccc;
+    padding-left: 65px;
+}
+.upload-btn span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #50d57e;
+    width: 100%;
+    height: 60px;
+    color: #fff;
+    padding: 8px 5px;
+    font-family: proximabold;
+    font-size: 20px;
+    margin-top: 20px;
+    transition: all 300ms ease-in-out;
+}
+table {
+    width: 90%;
+    margin-bottom: 30px;
+}
+table {
+    background-color: none;
+     border: none; 
+}

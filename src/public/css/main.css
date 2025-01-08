@@ -1,0 +1,18 @@
+@import url("fonts.css");
+@import url("bootstrap-reboot.min.css");
+@import url("bootstrap-grid.min.css");
+@import url("font.icon.icomoon.css");
+@import url("general.css");
+@import url("buttons.css");
+@import url("chosen.css");
+/* @import url("container-gridded.css"); */
+/* @import url("steps-section.css"); */
+@import url("gender-step.css");
+/* @import url("id-step.css"); */
+/* @import url("location-step.css"); */
+/* @import url("birth-step.css"); */
+@import url("info-step.css");
+/* @import url("options-steps-result.css"); */
+@import url("register.css");
+
+@import url("footer.css");
