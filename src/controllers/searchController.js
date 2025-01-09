@@ -176,8 +176,14 @@ const globalSearch = async (req, res) => {
                             {
                                 model: Subleague,
                                 as: 'subleague',
-                                attributes: ['sub_league_name'],
-                                include: [{ model: League, as: 'league', attributes: ['league_name'] }]
+                                attributes: { exclude: [] }, // ✅ Fetch all fields of Subleague
+                                include: [
+                                    {
+                                        model: League,
+                                        as: 'league',
+                                        attributes: { exclude: [] } // ✅ Fetch all fields of League
+                                    }
+                                ]                            
                             }
                         ]
                     }
