@@ -1,5 +1,6 @@
 const { Op, fn, col } = require('sequelize');
-const { TeamPlayer, User, Team, Subleague, League, Joinleague } = require('../models');
+const { TeamPlayer, User, Team, Subleague, League, Joinleague, Gameplay } = require('../models');
+const gameplay = require('../models/gameplay');
 
 const globalSearch = async (req, res) => {
     try {
@@ -99,6 +100,11 @@ const globalSearch = async (req, res) => {
                         model: League,
                         as: 'league',
                         attributes: { exclude: [] } // Fetch all columns of League
+                    },
+                    {
+                        model: Gameplay,
+                        as: 'gameplays',
+                        attributes: { exclude: [] } // Fetch all columns of Gameplays
                     }
                 ]
             });
@@ -115,7 +121,14 @@ const globalSearch = async (req, res) => {
                     {
                         model: Subleague,
                         as: 'subleagues',
-                        attributes: { exclude: [] } // Fetch all columns of Subleague
+                        attributes: { exclude: [] }, // Fetch all columns of Subleague
+                        include: [
+                            {
+                                model: Gameplay,
+                                as: 'gameplays',
+                                attributes: { exclude: [] }
+                            }
+                        ]
                     }
                 ]
             });
@@ -124,13 +137,18 @@ const globalSearch = async (req, res) => {
             const formattedResponse = {
                 subleagues: subleagueResults.map(subleague => ({
                     ...subleague.get(),
-                    league: subleague.league ? [subleague.league.get()] : []
+                    league: subleague.league ? [subleague.league.get()] : [],
+                    gameplays: subleague.gameplays ? subleague.gameplays.map(gameplay => gameplay.get()) : []
                 })),
                 leagues: leagueResults.map(league => ({
                     ...league.get(),
-                    subleagues: league.subleagues.map(subleague => subleague.get())
+                    subleagues: league.subleagues ? league.subleagues.map(subleague => ({
+                        ...subleague.get(),
+                        gameplays: subleague.gameplays ? subleague.gameplays.map(gameplay => gameplay.get()) : []
+                    })) : [], // ✅ Added check for undefined subleagues
                 }))
             };
+            
         
             results = formattedResponse;
         }
@@ -202,7 +220,34 @@ const globalSearch = async (req, res) => {
                     }
                 ]
             });
+
+            // ✅ Format the response into a more structured format
+            // const formattedResponse = {
+            //     players: results.map(result => ({
+            //         ...result.player.get(), // Flattening player object
+            //         team: result.team ? {
+            //             ...result.team.get(), // Flattening team object
+            //             subleague: result.team.subleague ? {
+            //                 ...result.team.subleague.get(), // Flattening subleague object
+            //                 league: result.team.subleague.league ? result.team.subleague.league.get() : null
+            //             } : null
+            //         } : null
+            //     })),
+            //     teams: results.map(result => ({
+            //         ...result.team.get(),
+            //         subleague: result.team.subleague ? {
+            //             ...result.team.subleague.get(),
+            //             league: result.team.subleague.league ? result.team.subleague.league.get() : null
+            //         } : null
+            //     })),
+            //     subleagues: results.map(result => result.team?.subleague?.get()).filter(Boolean),
+            //     leagues: results.map(result => result.team?.subleague?.league?.get()).filter(Boolean)
+            // };
+
+            // results = formattedResponse;
         }
+
+
 
         res.status(200).json({ results });
     } catch (error) {
