@@ -84,7 +84,8 @@ const globalSearch = async (req, res) => {
 
         // ✅ If Leagues filter is applied, search in both Leagues and Subleagues
         else if (leagues) {
-            results = await Subleague.findAll({
+            // Fetch subleagues matching the keyword and their associated leagues
+            const subleagueResults = await Subleague.findAll({
                 where: {
                     [Op.or]: [
                         { sub_league_name: { [Op.like]: `%${keyword}%` } },
@@ -102,7 +103,7 @@ const globalSearch = async (req, res) => {
                 ]
             });
         
-            // ✅ Search Directly in the Leagues Table if keyword matches only leagues
+            // ✅ Search Directly in the Leagues Table
             const leagueResults = await League.findAll({
                 where: {
                     [Op.or]: [
@@ -119,9 +120,21 @@ const globalSearch = async (req, res) => {
                 ]
             });
         
-            // ✅ Merge both results to avoid missing data
-            results = [...results, ...leagueResults];
+            // ✅ Format response as requested
+            const formattedResponse = {
+                subleagues: subleagueResults.map(subleague => ({
+                    ...subleague.get(),
+                    league: subleague.league ? [subleague.league.get()] : []
+                })),
+                leagues: leagueResults.map(league => ({
+                    ...league.get(),
+                    subleagues: league.subleagues.map(subleague => subleague.get())
+                }))
+            };
+        
+            results = formattedResponse;
         }
+        
 
         // ✅ If Join Leagues filter is applied
         else if (join_leagues) {
