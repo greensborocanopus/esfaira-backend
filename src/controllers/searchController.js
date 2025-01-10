@@ -1,6 +1,6 @@
 const { Op, fn, col } = require('sequelize');
 const { TeamPlayer, User, Team, Subleague, League, Joinleague, Gameplay } = require('../models');
-const gameplay = require('../models/gameplay');
+const { sequelize } = require('../models');
 
 const globalSearch = async (req, res) => {
     try {
@@ -40,15 +40,18 @@ const globalSearch = async (req, res) => {
 
         // ✅ Age Range Filter (Calculating date range from age_small to age_big)
         if (age_small && age_big) {
-            const currentDate = new Date();
-            const maxDate = new Date(currentDate.getFullYear() - age_small, 0, 1); // Jan 1st for younger limit
-            const minDate = new Date(currentDate.getFullYear() - age_big, 11, 31); // Dec 31st for older limit
+            const currentYear = new Date().getFullYear();
+            const minYear = currentYear - age_big;
+            const maxYear = currentYear - age_small;
         
-            // ✅ Checking dob in TeamPlayers table (not Users)
-            whereClause['dob'] = {
-                [Op.between]: [minDate, maxDate]
+            // Use Sequelize.literal for raw SQL expressions
+            whereClause = {
+                [Op.and]: [
+                    sequelize.literal(`CAST(SUBSTRING_INDEX(TeamPlayer.dob, ' ', -1) AS UNSIGNED) BETWEEN ${minYear} AND ${maxYear}`)
+                ]
             };
-        }        
+        }
+        
         
         if (unique_id) {
             whereClause['$player.unique_id'] = unique_id;
@@ -210,12 +213,18 @@ const globalSearch = async (req, res) => {
                                 attributes: { exclude: [] }, // ✅ Fetch all fields of Subleague
                                 include: [
                                     {
+                                        model: Gameplay,                
+                                        as: 'gameplays',                
+                                        attributes: { exclude: [] } // ✅ Fetch all fields of Gameplay
+                                    },
+                                    {
                                         model: League,
                                         as: 'league',
                                         attributes: { exclude: [] } // ✅ Fetch all fields of League
                                     }
                                 ]                            
                             }
+
                         ]
                     }
                 ]
