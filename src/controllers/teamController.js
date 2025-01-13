@@ -71,7 +71,7 @@ exports.createTeam = async (req, res) => {
     // ✅ Create a notification entry in the Notifications table
     await Notification.create({
       description: user.name,  // Updated description
-      desc_other: `Sent request to join ${subleague.sub_league_name}`,
+      desc_other: `Sent request to join league${subleague.sub_league_name}`,
       type: 'LeagueAdminToJoinLeague',
       notif_flag: 'Pending',
       datetime: new Date(),
@@ -191,3 +191,71 @@ exports.getTeamsBySubleagueId = async (req, res) => {
       res.status(500).json({ message: 'Server error occurred.' });
   }
 };
+
+exports.requestToJoinTeam = async (req, res) => {
+  try {
+      const { team_id, sub_league_id } = req.body;
+
+      const user = await User.findByPk(req.user.id);
+
+      if (!user) {
+          return res.status(404).json({ message: 'User not found.' });
+      }
+
+      // Validate team existence
+      const team = await Team.findByPk(team_id);
+      if (!team) {
+          return res.status(404).json({ message: 'Team not found.' });
+      }
+
+      // Validate subleague existence
+      const subleague = await Subleague.findByPk(sub_league_id, {
+          attributes: ['sub_league_name', 'reg_id']
+      });
+      if (!subleague) {
+          return res.status(404).json({ message: 'Subleague not found.' });
+      }
+
+      // Check if a notification already exists for the same request
+      const existingRequest = await Notification.findOne({
+          where: {
+              team_id,
+              subleage_id: sub_league_id,
+              reg_id: subleague.reg_id,
+              sentby_reg_id: req.user.id,
+              notif_flag: 'Pending'
+          }
+      });
+
+      if (existingRequest) {
+          return res.status(400).json({ message: 'A request to join this team already exists.' });
+      }
+
+      // Create a notification
+      const notification = await Notification.create({
+          description: user.name,
+          desc_other: `Sent request to join team ${team.name} in ${subleague.sub_league_name}`,
+          type: 'PlayerToTeamJoinRequest',
+          notif_flag: 'Pending',
+          datetime: new Date(),
+          reg_id: team.user_id, // Team manager or league admin's ID
+          sentby_reg_id: req.user.id, // Requesting user's ID
+          path: `/teams/${team_id}`,
+          subleage_id: sub_league_id,
+          team_id: team_id,
+          is_seen: false,
+          is_done: false
+      });
+
+      res.status(201).json({
+          message: 'Request to join team has been sent successfully.',
+          notification
+      });
+  } catch (error) {
+      console.error('Error creating request to join team:', error);
+      res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+
+
