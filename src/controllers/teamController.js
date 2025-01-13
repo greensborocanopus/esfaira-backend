@@ -1,8 +1,27 @@
-const { Team, TeamPlayer, User } = require('../models');
+const { Team, TeamPlayer, User, Subleague, Joinleague, Notification } = require('../models');
+const user = require('../models/user');
+const { Op } = require('sequelize');
 
 exports.createTeam = async (req, res) => {
   try {
     const { name, sub_league_id, players } = req.body;
+
+    const { id } = req.user;
+
+    const user = await User.findByPk(id);
+
+    // Fetch the subleague name using the provided sub_league_id
+    const subleague = await Subleague.findOne({
+      where: { sub_league_id },
+      attributes: ['sub_league_name', 'reg_id'],
+    });
+
+    console.log('subleague.reg_id', subleague.reg_id);
+    
+    if (!subleague) {
+      return res.status(404).json({ message: 'Subleague not found' });
+    }
+    
 
     // Check if all provided player IDs exist
     if (players && players.length > 0) {
@@ -13,7 +32,7 @@ exports.createTeam = async (req, res) => {
         where: {
           id: playerIds,
         },
-        attributes: ['id'],
+        attributes: ['id', 'name'],
       });
 
       const existingPlayerIds = existingPlayers.map((player) => player.id);
@@ -48,6 +67,23 @@ exports.createTeam = async (req, res) => {
       }));
       await TeamPlayer.bulkCreate(teamPlayers);
     }
+
+    // ✅ Create a notification entry in the Notifications table
+    await Notification.create({
+      description: user.name,  // Updated description
+      desc_other: `Sent request to join ${subleague.sub_league_name}`,
+      type: 'LeagueAdminToJoinLeague',
+      notif_flag: 'Pending',
+      datetime: new Date(),
+      reg_id: subleague.reg_id, 
+      sentby_reg_id: req.user.id, // ID of the logged-in user
+      path: `/teams/${team.id}`,
+      subleage_id: sub_league_id,
+      team_id: team.id,
+      is_seen: false,
+      is_done: false
+    });
+    
 
     res.status(201).json({ message: 'Team created successfully', team });
   } catch (error) {
@@ -95,5 +131,63 @@ exports.getTeamById = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.getTeamsBySubleagueId = async (req, res) => {
+  try {
+      const userId = req.user.id; // Assuming you have user info available in req.user
+
+      // Step 1: Fetch all subleagues where the reg_id matches the logged-in user's ID
+      const subleagues = await Subleague.findAll({
+          where: { reg_id: userId },
+          attributes: ['sub_league_id', 'sub_league_name']
+      });
+
+      if (!subleagues.length) {
+          return res.status(404).json({ message: 'No subleagues found for the logged-in user.' });
+      }
+
+      // Step 2: Extract subleague IDs
+      const subleagueIds = subleagues.map(subleague => subleague.sub_league_id);
+
+      // Step 3: Check in the Notifications table where subleague_id matches and notif_flag is 'Approved'
+      const approvedNotifications = await Notification.findAll({
+          where: {
+              subleage_id: { [Op.in]: subleagueIds },
+              notif_flag: 'Accepted'
+          },
+          attributes: ['subleage_id', 'team_id']
+      });
+
+      // Step 4: Extract approved subleague IDs
+      //const approvedSubleagueIds = approvedNotifications.map(notif => notif.subleage_id);
+      const approvedTeamIds = approvedNotifications.map(notif => notif.team_id);
+
+      if (!approvedTeamIds.length) {
+          return res.status(404).json({ message: 'No approved subleagues found for the logged-in user.' });
+      }
+
+      // Step 5: Fetch teams associated with the approved subleagues
+      const teams = await Team.findAll({
+          where: { id: { [Op.in]: approvedTeamIds } },
+          include: [
+              {
+                  model: Subleague,
+                  as: 'subleague',
+                  attributes: ['sub_league_name', 'league_id']
+              }
+          ]
+      });
+
+      if (!teams.length) {
+          return res.status(404).json({ message: 'No teams found for approved subleagues.' });
+      }
+
+      // Step 6: Send Response
+      res.status(200).json({ message: 'Teams retrieved successfully', teams });
+  } catch (error) {
+      console.error('Error fetching teams:', error);
+      res.status(500).json({ message: 'Server error occurred.' });
   }
 };
