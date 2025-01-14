@@ -241,6 +241,18 @@ const addSubleague = async (req, res) => {
       return res.status(404).json({ message: 'League not found.' });
     }
 
+    // ✅ Check if the subleague name already exists
+    const existingSubleague = await Subleague.findOne({ where: { sub_league_name } });
+    if (existingSubleague) {
+      return res.status(409).json({ message: 'Subleague name already exists.' });
+    }
+
+    // check if the website already exists
+    const existingWebsite = await Subleague.findOne({ where: { website } });
+    if (existingWebsite) {
+      return res.status(409).json({ message: 'Website already exists.' });
+    }
+
     // ✅ Create the subleague directly
     const newSubleague = await Subleague.create({ org_id, league_id, league_picture, sub_league_name, reg_id, venue_details, venue_city, venue_state, venue_country, venue_continent, venue_zipcode, venue_lat, venue_long, season, website, category, gender, game_format, match_duration, minplayers_perteam, type_of_league_1, type_of_league_2, no_of_field_available, no_of_field_competing, quantity_of_groups, status, first_name, last_name, email, phone, currency, old_team, new_team, bank_name, country, address, price_per_team, bank_acc_no, company_name, date_added, gold_finalmatches, silver_finalmatches, bronze_finalmatches, tie_twoteams, tie_moreteams, yellowcards, missedmatch, miss_nxtmatch, group_allocated, fixture_allocated, league_unique_id, league_expired_date });
 
