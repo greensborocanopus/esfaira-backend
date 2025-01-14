@@ -137,7 +137,7 @@ exports.getTeamById = async (req, res) => {
 exports.getTeamsBySubleague = async (req, res) => {
   try {
       const userId = req.user.id; // Assuming you have user info available in req.user
-
+      
       // Step 1: Fetch all subleagues where the reg_id matches the logged-in user's ID
       const subleagues = await Subleague.findAll({
           where: { reg_id: userId },
@@ -157,7 +157,7 @@ exports.getTeamsBySubleague = async (req, res) => {
               subleage_id: { [Op.in]: subleagueIds },
               notif_flag: 'Accepted'
           },
-          attributes: ['subleage_id', 'team_id']
+          attributes: ['subleage_id', 'team_id', 'notif_flag']
       });
 
       // Step 4: Extract approved subleague IDs
@@ -176,7 +176,14 @@ exports.getTeamsBySubleague = async (req, res) => {
                   model: Subleague,
                   as: 'subleague',
                   attributes: ['sub_league_name', 'league_id']
-              }
+              },
+              {
+                model: Notification,
+                as: 'notifications',
+                where: { notif_flag: 'Accepted' },
+                attributes: ['notif_flag'],
+                required: false
+            }
           ]
       });
 
@@ -218,7 +225,14 @@ exports.getTeamsBySubleagueId = async (req, res) => {
                   model: Subleague,
                   as: 'subleague',
                   attributes: ['sub_league_name', 'league_id']
-              }
+              },
+              {
+                model: Notification,
+                as: 'notifications',
+                //where: { notif_flag: 'Accepted' },
+                attributes: ['notif_flag'],
+                required: false
+            }
           ]
       });
 

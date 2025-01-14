@@ -25,6 +25,16 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       });
+
+      // models/Team.js
+      Team.hasMany(models.Notification, {
+        foreignKey: 'team_id',
+        as: 'notifications',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
+
+    
     }
   }
 
