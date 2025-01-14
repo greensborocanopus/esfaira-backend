@@ -221,112 +221,33 @@ const getSubleagueById = async (req, res) => {
 
 const addSubleague = async (req, res) => {
   try {
-    const reg_id = req.user?.id; // Ensure you have authentication middleware configured
+    const reg_id = req.user?.id; // Ensure the user is authenticated
 
     if (!reg_id) {
       return res.status(401).json({ message: 'Unauthorized. Please log in.' });
     }
-    let { organization, league, gameplayRows, sub_league_id, org_id, league_id, league_picture, sub_league_name, venue_details, venue_city, venue_state, venue_country, venue_continent, venue_zipcode, venue_lat, venue_long, season, website, category, gender, game_format, match_duration, minplayers_perteam, type_of_league_1, type_of_league_2, no_of_field_available, no_of_field_competing, quantity_of_groups, status, first_name, last_name, email, phone, currency, old_team, new_team, bank_name, country, address, price_per_team, bank_acc_no, company_name, date_added, gold_finalmatches, silver_finalmatches, bronze_finalmatches, tie_twoteams, tie_moreteams, yellowcards, missedmatch, miss_nxtmatch, group_allocated, fixture_allocated, league_unique_id, league_expired_date } = req.body;
 
-    if (organization) {
-      let existingOrganization = await Organization.findOne({ where: { organization_name: organization } });
-      if (existingOrganization) {
-        org_id = existingOrganization.org_id;
-      } else {
-        existingOrganization = await Organization.create({
-          organization_name: organization,
-          reg_id: reg_id,
-        });
-        org_id = existingOrganization.org_id;
-      }
-    }
-    if (league) {
-      let existingLeague = await League.findOne({ where: { League_name: league } });
-      if (existingLeague) {
-        league_id = existingLeague.league_id;
-      } else {
-        existingLeague = await League.create({
-          league_name: league,
-          reg_id: reg_id, // Example default value
-        });
-        league_id = existingLeague.league_id;
-      }
-    }
-    // Validation for required fields
+    // Destructure values directly from the payload
+    const { org_id, league_id, league_picture, sub_league_name, venue_details, venue_city, venue_state, venue_country, venue_continent, venue_zipcode, venue_lat, venue_long, season, website, category, gender, game_format, match_duration, minplayers_perteam, type_of_league_1, type_of_league_2, no_of_field_available, no_of_field_competing, quantity_of_groups, status, first_name, last_name, email, phone, currency, old_team, new_team, bank_name, country, address, price_per_team, bank_acc_no, company_name, date_added, gold_finalmatches, silver_finalmatches, bronze_finalmatches, tie_twoteams, tie_moreteams, yellowcards, missedmatch, miss_nxtmatch, group_allocated, fixture_allocated, league_unique_id, league_expired_date } = req.body;
+
+    // ✅ Validate required fields
     if (!league_id || !sub_league_name || !season || price_per_team == null) {
       return res.status(400).json({ message: 'Required fields are missing.' });
     }
 
-    // Create subleague in the database
-    const newSubleague = await Subleague.create({
-      sub_league_id,
-      org_id,
-      league_id,
-      league_picture,
-      sub_league_name,
-      reg_id,
-      venue_details,
-      venue_city,
-      venue_state,
-      venue_country,
-      venue_continent,
-      venue_zipcode,
-      venue_lat,
-      venue_long,
-      season,
-      website,
-      category,
-      gender,
-      game_format,
-      match_duration,
-      minplayers_perteam,
-      type_of_league_1,
-      type_of_league_2,
-      no_of_field_available,
-      no_of_field_competing,
-      quantity_of_groups,
-      status,
-      first_name,
-      last_name,
-      email,
-      phone,
-      currency,
-      old_team,
-      new_team,
-      bank_name,
-      country,
-      address,
-      price_per_team,
-      bank_acc_no,
-      company_name,
-      date_added,
-      gold_finalmatches,
-      silver_finalmatches,
-      bronze_finalmatches,
-      tie_twoteams,
-      tie_moreteams,
-      yellowcards,
-      missedmatch,
-      miss_nxtmatch,
-      group_allocated,
-      fixture_allocated,
-      league_unique_id,
-      league_expired_date,
-    });
-
-    // Store the Gameplay data
-    for (const row of gameplayRows) {
-      await Gameplay.create({
-        sub_league_id: newSubleague.sub_league_id, // Use the generated sub_league_id
-        game_plays: row.gameplayDays,
-        kick_off_time_1: row.kickoffStartTime,
-        kick_off_time_2: row.kickoffEndTime,
-      });
+    // ✅ Check if the league exists
+    const existingLeague = await League.findOne({ where: { league_id } });
+    if (!existingLeague) {
+      return res.status(404).json({ message: 'League not found.' });
     }
 
+    // ✅ Create the subleague directly
+    const newSubleague = await Subleague.create({ org_id, league_id, league_picture, sub_league_name, reg_id, venue_details, venue_city, venue_state, venue_country, venue_continent, venue_zipcode, venue_lat, venue_long, season, website, category, gender, game_format, match_duration, minplayers_perteam, type_of_league_1, type_of_league_2, no_of_field_available, no_of_field_competing, quantity_of_groups, status, first_name, last_name, email, phone, currency, old_team, new_team, bank_name, country, address, price_per_team, bank_acc_no, company_name, date_added, gold_finalmatches, silver_finalmatches, bronze_finalmatches, tie_twoteams, tie_moreteams, yellowcards, missedmatch, miss_nxtmatch, group_allocated, fixture_allocated, league_unique_id, league_expired_date });
+
+    // ✅ Return success response
     return res.status(201).json({
       message: 'Subleague added successfully.',
-      subleague: newSubleague,
+      subleague: newSubleague
     });
   } catch (error) {
     console.error('Error adding subleague:', error);
