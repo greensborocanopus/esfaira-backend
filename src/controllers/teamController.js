@@ -134,7 +134,7 @@ exports.getTeamById = async (req, res) => {
   }
 };
 
-exports.getTeamsBySubleagueId = async (req, res) => {
+exports.getTeamsBySubleague = async (req, res) => {
   try {
       const userId = req.user.id; // Assuming you have user info available in req.user
 

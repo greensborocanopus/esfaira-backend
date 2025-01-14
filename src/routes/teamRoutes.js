@@ -1,10 +1,10 @@
 const express = require('express');
-const { createTeam, getTeams, getTeamById, getTeamsBySubleagueId, requestToJoinTeam } = require('../controllers/teamController');
+const { createTeam, getTeams, getTeamById, getTeamsBySubleague, requestToJoinTeam } = require('../controllers/teamController');
 const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-router.get('/subleague', authMiddleware, getTeamsBySubleagueId);
+router.get('/subleague', authMiddleware, getTeamsBySubleague);
 router.post('/join-request', authMiddleware, requestToJoinTeam);
 router.post('/', authMiddleware, createTeam);
 router.get('/', authMiddleware, getTeams);
