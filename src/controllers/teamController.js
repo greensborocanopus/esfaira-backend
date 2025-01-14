@@ -134,7 +134,7 @@ exports.getTeamById = async (req, res) => {
   }
 };
 
-exports.getTeamsBySubleagueId = async (req, res) => {
+exports.getTeamsBySubleague = async (req, res) => {
   try {
       const userId = req.user.id; // Assuming you have user info available in req.user
 
@@ -185,6 +185,48 @@ exports.getTeamsBySubleagueId = async (req, res) => {
       }
 
       // Step 6: Send Response
+      res.status(200).json({ message: 'Teams retrieved successfully', teams });
+  } catch (error) {
+      console.error('Error fetching teams:', error);
+      res.status(500).json({ message: 'Server error occurred.' });
+  }
+};
+
+exports.getTeamsBySubleagueId = async (req, res) => {
+  try {
+      const { sub_league_id } = req.params; // Getting sub_league_id from URL parameters
+      console.log(req.params);
+      if (!sub_league_id) {
+          return res.status(400).json({ message: 'Subleague ID is required.' });
+      }
+
+      // Step 1: Verify if the subleague exists
+      const subleague = await Subleague.findOne({
+          where: { sub_league_id },
+          attributes: ['sub_league_id', 'sub_league_name']
+      });
+
+      if (!subleague) {
+          return res.status(404).json({ message: 'Subleague not found.' });
+      }
+
+      // Step 2: Fetch all teams associated with the provided subleague ID
+      const teams = await Team.findAll({
+          where: { sub_league_id },
+          include: [
+              {
+                  model: Subleague,
+                  as: 'subleague',
+                  attributes: ['sub_league_name', 'league_id']
+              }
+          ]
+      });
+
+      if (!teams.length) {
+          return res.status(404).json({ message: 'No teams found for this subleague.' });
+      }
+
+      // Step 3: Send Response
       res.status(200).json({ message: 'Teams retrieved successfully', teams });
   } catch (error) {
       console.error('Error fetching teams:', error);
