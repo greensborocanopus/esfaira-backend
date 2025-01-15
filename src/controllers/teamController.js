@@ -1,6 +1,6 @@
 const { Team, TeamPlayer, User, Subleague, Joinleague, Notification, Gameplay, League } = require('../models');
 const user = require('../models/user');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 exports.createTeam = async (req, res) => {
   try {
@@ -172,6 +172,11 @@ exports.getTeamsBySubleague = async (req, res) => {
       const teams = await Team.findAll({
           where: { id: { [Op.in]: approvedTeamIds } },
           include: [
+            {
+                model: User,
+                as: 'manager',
+                attributes: ['name']
+            },
               {
                   model: Subleague,
                   as: 'subleague',
@@ -192,9 +197,16 @@ exports.getTeamsBySubleague = async (req, res) => {
                 model: Notification,
                 as: 'notifications',
                 where: { notif_flag: 'Accepted' },
-                attributes: ['notif_flag'],
-                required: false
-            }
+                attributes: ['notif_flag', 'sentby_reg_id'],
+                required: false,
+              //   include: [
+              //     {
+              //         model: User,
+              //         as: 'sender', // Ensure this matches the alias defined in the model association
+              //         attributes: ['name']  // Fetch the name of the user who sent the notification
+              //     }
+              // ]
+            },
           ]
       });
 
