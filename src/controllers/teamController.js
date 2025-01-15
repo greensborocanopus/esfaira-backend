@@ -1,4 +1,4 @@
-const { Team, TeamPlayer, User, Subleague, Joinleague, Notification } = require('../models');
+const { Team, TeamPlayer, User, Subleague, Joinleague, Notification, Gameplay } = require('../models');
 const user = require('../models/user');
 const { Op } = require('sequelize');
 
@@ -175,7 +175,13 @@ exports.getTeamsBySubleague = async (req, res) => {
               {
                   model: Subleague,
                   as: 'subleague',
-                  attributes: ['sub_league_name', 'league_id']
+                  //attributes: ['sub_league_name', 'league_id']
+                  include: [
+                      {
+                        model: Gameplay,
+                        as: 'gameplays',
+                      }
+                  ]
               },
               {
                 model: Notification,
