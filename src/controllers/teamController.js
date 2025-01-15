@@ -197,7 +197,7 @@ exports.getTeamsBySubleague = async (req, res) => {
                 model: Notification,
                 as: 'notifications',
                 where: { notif_flag: 'Accepted' },
-                attributes: ['notif_flag', 'sentby_reg_id'],
+                attributes: ['notif_id', 'notif_flag', 'sentby_reg_id'],
                 required: false,
               //   include: [
               //     {
