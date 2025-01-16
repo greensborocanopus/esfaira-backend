@@ -1,4 +1,4 @@
-const { TeamPlayer, User, Joinleague, League, Subleague, Organization, Gameplay, Team } = require('../models'); // Import the League model
+const { TeamPlayer, User, Joinleague, League, Subleague, Organization, Gameplay, Team, Notification } = require('../models'); // Import the League model
 const { Op } = require('sequelize');
 
 // API to add a league
@@ -389,48 +389,94 @@ const joinLeague = async (req, res) => {
   }
 };
 
+// const getJoinLeague = async (req, res) => {
+//   try {
+//     const userId = req.user.id; // Assuming user ID is stored in the request after authentication
+
+//     // Fetch all joined leagues for the logged-in user
+//     const joinedLeagues = await Joinleague.findAll({
+//       where: { requested_reg_id: userId },
+//       include: [
+//         {
+//           model: Subleague,
+//           as: 'subleague',
+//           attributes: ['sub_league_id', 'league_id', 'sub_league_name'],
+//           include: [
+//             {
+//               model: League,
+//               as: 'league',
+//               attributes: ['league_id', 'league_name'],
+//             },
+//           ],
+//         },
+//       ],
+//     });
+
+//     if (!joinedLeagues.length) {
+//       return res.status(404).json({ message: 'No leagues found for this user' });
+//     }
+
+//     // Prepare response data
+//     const response = joinedLeagues.map((join) => ({
+//       join_league_id: join.join_league_id,
+//       sub_league_id: join.sub_league_id,
+//       sub_league_name: join.subleague.sub_league_name,
+//       league_id: join.subleague.league.league_id,
+//       league_name: join.subleague.league.league_name,
+//     }));
+
+//     return res.status(200).json({ leagues: response });
+//   } catch (error) {
+//     console.error('Error fetching joined leagues:', error);
+//     return res.status(500).json({ message: 'Server error', error });
+//   }
+// };
+
+
 const getJoinLeague = async (req, res) => {
   try {
     const userId = req.user.id; // Assuming user ID is stored in the request after authentication
 
-    // Fetch all joined leagues for the logged-in user
-    const joinedLeagues = await Joinleague.findAll({
-      where: { requested_reg_id: userId },
+    // Step 1: Fetch all notifications where sentby_reg_id matches the user ID
+    const notifications = await Notification.findAll({
+      where: { sentby_reg_id: userId , notif_flag: 'Accepted' },
+      attributes: ['subleage_id'], // Fetch only subleage_id
+    });
+
+    if (!notifications.length) {
+      return res.status(404).json({ message: 'No leagues found for the user.' });
+    }
+
+    // Step 2: Extract unique subleague IDs
+    const subleagueIds = notifications.map((notif) => notif.subleage_id);
+
+    // Step 3: Fetch all subleague details using the extracted subleague IDs
+    const subleagues = await Subleague.findAll({
+      where: { sub_league_id: { [Op.in]: subleagueIds } },
       include: [
         {
-          model: Subleague,
-          as: 'subleague',
-          attributes: ['sub_league_id', 'league_id', 'sub_league_name'],
-          include: [
-            {
-              model: League,
-              as: 'league',
-              attributes: ['league_id', 'league_name'],
-            },
-          ],
+          model: League,
+          as: 'league',
+          attributes: ['league_id', 'league_name'], // Include related league details
         },
       ],
     });
 
-    if (!joinedLeagues.length) {
-      return res.status(404).json({ message: 'No leagues found for this user' });
+    if (!subleagues.length) {
+      return res.status(404).json({ message: 'No subleague details found for the user.' });
     }
 
-    // Prepare response data
-    const response = joinedLeagues.map((join) => ({
-      join_league_id: join.join_league_id,
-      sub_league_id: join.sub_league_id,
-      sub_league_name: join.subleague.sub_league_name,
-      league_id: join.subleague.league.league_id,
-      league_name: join.subleague.league.league_name,
-    }));
-
-    return res.status(200).json({ leagues: response });
+    // Step 4: Send response
+    return res.status(200).json({
+      message: 'Joined leagues retrieved successfully.',
+      subleagues,
+    });
   } catch (error) {
     console.error('Error fetching joined leagues:', error);
     return res.status(500).json({ message: 'Server error', error });
   }
 };
+
 
 const searchPlayer = async (req, res) => {
   try {
