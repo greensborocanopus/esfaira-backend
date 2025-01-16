@@ -472,7 +472,19 @@ const getJoinLeague = async (req, res) => {
      const subLeagues = await Subleague.findAll({
        where: { sub_league_id: {
         [Sequelize.Op.in]: subLeagueIds, // Use Sequelize's IN operator
-      }, },
+      },
+    },
+    include: [
+      {
+        model: League,
+        as: 'league',
+        //attributes: ['league_id', 'league_name']
+      },
+      {
+        model: Gameplay,
+        as: 'gameplays',
+      }
+    ]
      });
  
      if (!subLeagues.length) {
