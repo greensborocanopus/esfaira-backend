@@ -252,7 +252,7 @@ exports.getTeamsBySubleagueId = async (req, res) => {
               {
                   model: Subleague,
                   as: 'subleague',
-                  attributes: ['sub_league_name', 'league_id','venue_details', 'season', 'price_per_team'],
+                  //attributes: ['sub_league_name', 'league_id','venue_details', 'season', 'price_per_team'],
                   include: [
                     {
                       model: Gameplay,
