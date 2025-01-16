@@ -83,7 +83,7 @@ const getUserById = async (req, res) => {
 const getAllUsers = async (req, res) => {
     try {
         const users = await User.findAll({
-            attributes: ['id', 'name', 'email', 'gender', 'place', 'dob', 'photo'],
+            attributes: ['id', 'unique_id','name', 'email', 'gender', 'place', 'dob', 'photo'],
         });
         
         if (!users || users.length === 0) {

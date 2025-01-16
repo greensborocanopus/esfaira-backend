@@ -2,6 +2,7 @@ const express = require('express');
 const { getUnusedEcode, getEcode, login, register, forgotPassword, resetPasswordForm, resetPassword, resetPasswordSuccess, invalidToken,  updatePassword, requestEcode, verifyEcode, addEcode } = require('../controllers/authController');
 const authMiddleware = require('../middleware/authMiddleware'); // Ensure the user is logged in for updatePassword
 const upload = require('../middleware/upload');
+const { getAllUsers } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -20,5 +21,8 @@ router.post('/request-ecode', requestEcode); // Request an ecode
 router.post('/verify-ecode', verifyEcode); // New ecode verification route
 router.get('/ecode', getEcode); // New ecode verification route
 router.get('/unused-ecode', getUnusedEcode); // New ecode verification route
+router.get('/users', getAllUsers); // New ecode verification route
+
+
 
 module.exports = router;
