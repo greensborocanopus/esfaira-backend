@@ -216,7 +216,7 @@ exports.getTeamsBySubleague = async (req, res) => {
       }
 
       // Step 6: Send Response
-      res.status(200).json({ message: 'Teams retrieved successfully', teams });
+      res.status(200).json({ teams });
   } catch (error) {
       console.error('Error fetching teams:', error);
       res.status(500).json({ message: 'Server error occurred.' });
