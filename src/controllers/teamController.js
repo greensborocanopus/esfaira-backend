@@ -223,6 +223,45 @@ exports.getTeamsBySubleague = async (req, res) => {
   }
 };
 
+exports.updateStatus = async (req, res) => {
+  try {
+    const { team_id, action } = req.body;
+
+    // Validate input
+    if (!team_id || !action) {
+      return res.status(400).json({ error: 'team_id and action are required.' });
+    }
+
+    // Normalize action to handle case-insensitivity
+    const normalizedAction = action.trim().toLowerCase();
+
+    if (normalizedAction !== 'accepted' && normalizedAction !== 'rejected') {
+      return res.status(400).json({ error: 'Action must be Accepted or Rejected.' });
+    }
+
+    // Update the status in the database
+    const [updatedCount] = await Team.update(
+      { status: normalizedAction === 'accepted' ? 'Accepted' : 'Rejected' },
+      { where: { id: team_id } }
+    );
+
+    const [notificationUpdatedCount] = await Notification.update(
+      { notif_flag: normalizedAction === 'accepted' ? 'Accepted' : 'Rejected' },
+      { where: { team_id: team_id } }
+    );
+
+
+    if (updatedCount === 0) {
+      return res.status(404).json({ error: 'Team not found or no updates made.' });
+    }
+
+    return res.status(200).json({ message: 'Status updated successfully.' });
+  } catch (error) {
+    console.error('Error updating status:', error);
+    return res.status(500).json({ error: 'Internal server error.' });
+  }
+};
+
 exports.getTeamsBySubleagueId = async (req, res) => {
   try {
       const { sub_league_id } = req.params; // Getting sub_league_id from URL parameters
