@@ -58,7 +58,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(100),
         allowNull: false,
         defaultValue: '',
-      }
+      },
+      status: { 
+        type: DataTypes.STRING, 
+        allowNull: true 
+      }, // Add the status field
     },
     {
       sequelize,

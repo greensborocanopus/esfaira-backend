@@ -53,6 +53,7 @@ exports.createTeam = async (req, res) => {
       user_id: req.user.id, // Get the user ID from the authenticated user
       name,
       sub_league_id,
+      status: 'Pending',
     });
 
     // Create players associated with the team
@@ -151,26 +152,26 @@ exports.getTeamsBySubleague = async (req, res) => {
       // Step 2: Extract subleague IDs
       const subleagueIds = subleagues.map(subleague => subleague.sub_league_id);
 
-      // Step 3: Check in the Notifications table where subleague_id matches and notif_flag is 'Approved'
-      const approvedNotifications = await Notification.findAll({
-          where: {
-              subleage_id: { [Op.in]: subleagueIds },
-              notif_flag: 'Accepted'
-          },
-          attributes: ['subleage_id', 'team_id', 'notif_flag']
-      });
+      // // Step 3: Check in the Notifications table where subleague_id matches and notif_flag is 'Approved'
+      // const approvedNotifications = await Notification.findAll({
+      //     where: {
+      //         subleage_id: { [Op.in]: subleagueIds },
+      //         notif_flag: 'Accepted'
+      //     },
+      //     attributes: ['subleage_id', 'team_id', 'notif_flag']
+      // });
 
-      // Step 4: Extract approved subleague IDs
-      //const approvedSubleagueIds = approvedNotifications.map(notif => notif.subleage_id);
-      const approvedTeamIds = approvedNotifications.map(notif => notif.team_id);
+      // // Step 4: Extract approved subleague IDs
+      // //const approvedSubleagueIds = approvedNotifications.map(notif => notif.subleage_id);
+      // const approvedTeamIds = approvedNotifications.map(notif => notif.team_id);
 
-      if (!approvedTeamIds.length) {
-          return res.status(404).json({ message: 'No approved subleagues found for the logged-in user.' });
-      }
+      // if (!approvedTeamIds.length) {
+      //     return res.status(404).json({ message: 'No approved subleagues found for the logged-in user.' });
+      // }
 
       // Step 5: Fetch teams associated with the approved subleagues
       const teams = await Team.findAll({
-          where: { id: { [Op.in]: approvedTeamIds } },
+          where: { sub_league_id: { [Op.in]: subleagueIds }, status: 'Accepted' },
           include: [
             {
                 model: User,
@@ -222,6 +223,45 @@ exports.getTeamsBySubleague = async (req, res) => {
   }
 };
 
+exports.updateStatus = async (req, res) => {
+  try {
+    const { team_id, action } = req.body;
+
+    // Validate input
+    if (!team_id || !action) {
+      return res.status(400).json({ error: 'team_id and action are required.' });
+    }
+
+    // Normalize action to handle case-insensitivity
+    const normalizedAction = action.trim().toLowerCase();
+
+    if (normalizedAction !== 'accepted' && normalizedAction !== 'rejected') {
+      return res.status(400).json({ error: 'Action must be Accepted or Rejected.' });
+    }
+
+    // Update the status in the database
+    const [updatedCount] = await Team.update(
+      { status: normalizedAction === 'accepted' ? 'Accepted' : 'Rejected' },
+      { where: { id: team_id } }
+    );
+
+    const [notificationUpdatedCount] = await Notification.update(
+      { notif_flag: normalizedAction === 'accepted' ? 'Accepted' : 'Rejected' },
+      { where: { team_id: team_id } }
+    );
+
+
+    if (updatedCount === 0) {
+      return res.status(404).json({ error: 'Team not found or no updates made.' });
+    }
+
+    return res.status(200).json({ message: 'Status updated successfully.' });
+  } catch (error) {
+    console.error('Error updating status:', error);
+    return res.status(500).json({ error: 'Internal server error.' });
+  }
+};
+
 exports.getTeamsBySubleagueId = async (req, res) => {
   try {
       const { sub_league_id } = req.params; // Getting sub_league_id from URL parameters
@@ -252,7 +292,7 @@ exports.getTeamsBySubleagueId = async (req, res) => {
               {
                   model: Subleague,
                   as: 'subleague',
-                  attributes: ['sub_league_name', 'league_id','venue_details', 'season', 'price_per_team'],
+                  //attributes: ['sub_league_name', 'league_id','venue_details', 'season', 'price_per_team'],
                   include: [
                     {
                       model: Gameplay,
