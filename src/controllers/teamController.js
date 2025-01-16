@@ -244,6 +244,11 @@ exports.getTeamsBySubleagueId = async (req, res) => {
       const teams = await Team.findAll({
           where: { sub_league_id },
           include: [
+            {
+              model: User,
+              as: 'manager',
+              attributes: ['name']
+            },
               {
                   model: Subleague,
                   as: 'subleague',
