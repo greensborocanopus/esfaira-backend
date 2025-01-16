@@ -273,7 +273,7 @@ exports.getTeamsBySubleagueId = async (req, res) => {
       // Step 1: Verify if the subleague exists
       const subleague = await Subleague.findOne({
           where: { sub_league_id },
-          attributes: ['sub_league_id', 'sub_league_name']
+          attributes: ['sub_league_id', 'sub_league_name', 'price_per_team']
       });
 
       if (!subleague) {
@@ -320,7 +320,30 @@ exports.getTeamsBySubleagueId = async (req, res) => {
       }
 
       // Step 3: Send Response
-      res.status(200).json({ message: 'Teams retrieved successfully', teams });
+      // Step 3: Calculate price_per_player for each team
+    const teamsWithPricePerPlayer = await Promise.all(
+      teams.map(async (team) => {
+        // Fetch total players for the team
+        const playerCount = await TeamPlayer.count({
+          where: { team_id: team.id },
+        });
+
+        // Calculate price_per_player
+        const pricePerPlayer =
+          playerCount > 0 ? subleague.price_per_team / playerCount : 0;
+
+        return {
+          ...team.toJSON(), // Convert team instance to plain object
+          price_per_player: pricePerPlayer,
+        };
+      })
+    );
+
+    // Step 4: Send Response
+    res.status(200).json({
+      message: 'Teams retrieved successfully',
+      teams: teamsWithPricePerPlayer,
+    });
   } catch (error) {
       console.error('Error fetching teams:', error);
       res.status(500).json({ message: 'Server error occurred.' });
