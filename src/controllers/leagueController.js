@@ -1,5 +1,5 @@
 const { TeamPlayer, User, Joinleague, League, Subleague, Organization, Gameplay, Team, Notification } = require('../models'); // Import the League model
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 
 // API to add a league
 // const addLeague = async (req, res) => {
@@ -437,39 +437,64 @@ const getJoinLeague = async (req, res) => {
   try {
     const userId = req.user.id; // Assuming user ID is stored in the request after authentication
 
-    // Step 1: Fetch all notifications where sentby_reg_id matches the user ID
-    const notifications = await Notification.findAll({
-      where: { sentby_reg_id: userId , notif_flag: 'Accepted' },
-      attributes: ['subleage_id'], // Fetch only subleage_id
+    const TeamPlayers = await TeamPlayer.findAll({
+      where: { player_id: userId },
+      attributes: ['team_id'], // Only fetch team_id
     });
 
-    if (!notifications.length) {
-      return res.status(404).json({ message: 'No leagues found for the user.' });
+    if (!TeamPlayers.length) {
+      return res.status(404).json({ message: 'No leagues found for this user' });
     }
 
-    // Step 2: Extract unique subleague IDs
-    const subleagueIds = notifications.map((notif) => notif.subleage_id);
+    const teamIds = TeamPlayers.map((player) => player.team_id);
 
-    // Step 3: Fetch all subleague details using the extracted subleague IDs
-    const subleagues = await Subleague.findAll({
-      where: { sub_league_id: { [Op.in]: subleagueIds } },
-      include: [
-        {
-          model: League,
-          as: 'league',
-          attributes: ['league_id', 'league_name'], // Include related league details
+    console.log('teamIds:', teamIds);
+
+     // Step 2: Check Teams table for Accepted status
+     const acceptedTeams = await Team.findAll({
+      where: {
+        id: {
+          [Sequelize.Op.in]: teamIds, // Use Sequelize's IN operator
         },
-      ],
+        status: 'Accepted', // Only fetch teams with status "Accepted"
+      },
+      attributes: ['id', 'sub_league_id'], // Fetch team ID and sub_league_id
     });
 
-    if (!subleagues.length) {
-      return res.status(404).json({ message: 'No subleague details found for the user.' });
+    if (!acceptedTeams.length) {
+      return res.status(404).json({ message: 'No accepted teams found for this user.' });
     }
+
+    // Extract sub_league_ids
+     const subLeagueIds = acceptedTeams.map((team) => team.sub_league_id);
+
+     // Step 3: Fetch details from the SubLeague table
+     const subLeagues = await Subleague.findAll({
+       where: { sub_league_id: {
+        [Sequelize.Op.in]: subLeagueIds, // Use Sequelize's IN operator
+      },
+    },
+    include: [
+      {
+        model: League,
+        as: 'league',
+        //attributes: ['league_id', 'league_name']
+      },
+      {
+        model: Gameplay,
+        as: 'gameplays',
+      }
+    ]
+     });
+ 
+     if (!subLeagues.length) {
+       return res.status(404).json({ message: 'No sub-leagues found for the accepted teams.' });
+     }
 
     // Step 4: Send response
     return res.status(200).json({
       message: 'Joined leagues retrieved successfully.',
-      subleagues,
+      subLeagues,
     });
   } catch (error) {
     console.error('Error fetching joined leagues:', error);
