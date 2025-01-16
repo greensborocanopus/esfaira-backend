@@ -53,6 +53,7 @@ exports.createTeam = async (req, res) => {
       user_id: req.user.id, // Get the user ID from the authenticated user
       name,
       sub_league_id,
+      status: 'Pending',
     });
 
     // Create players associated with the team
@@ -151,26 +152,26 @@ exports.getTeamsBySubleague = async (req, res) => {
       // Step 2: Extract subleague IDs
       const subleagueIds = subleagues.map(subleague => subleague.sub_league_id);
 
-      // Step 3: Check in the Notifications table where subleague_id matches and notif_flag is 'Approved'
-      const approvedNotifications = await Notification.findAll({
-          where: {
-              subleage_id: { [Op.in]: subleagueIds },
-              notif_flag: 'Accepted'
-          },
-          attributes: ['subleage_id', 'team_id', 'notif_flag']
-      });
+      // // Step 3: Check in the Notifications table where subleague_id matches and notif_flag is 'Approved'
+      // const approvedNotifications = await Notification.findAll({
+      //     where: {
+      //         subleage_id: { [Op.in]: subleagueIds },
+      //         notif_flag: 'Accepted'
+      //     },
+      //     attributes: ['subleage_id', 'team_id', 'notif_flag']
+      // });
 
-      // Step 4: Extract approved subleague IDs
-      //const approvedSubleagueIds = approvedNotifications.map(notif => notif.subleage_id);
-      const approvedTeamIds = approvedNotifications.map(notif => notif.team_id);
+      // // Step 4: Extract approved subleague IDs
+      // //const approvedSubleagueIds = approvedNotifications.map(notif => notif.subleage_id);
+      // const approvedTeamIds = approvedNotifications.map(notif => notif.team_id);
 
-      if (!approvedTeamIds.length) {
-          return res.status(404).json({ message: 'No approved subleagues found for the logged-in user.' });
-      }
+      // if (!approvedTeamIds.length) {
+      //     return res.status(404).json({ message: 'No approved subleagues found for the logged-in user.' });
+      // }
 
       // Step 5: Fetch teams associated with the approved subleagues
       const teams = await Team.findAll({
-          where: { id: { [Op.in]: approvedTeamIds } },
+          where: { sub_league_id: { [Op.in]: subleagueIds }, status: 'Accepted' },
           include: [
             {
                 model: User,
