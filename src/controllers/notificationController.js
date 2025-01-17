@@ -21,7 +21,7 @@ exports.getNotifications = async (req, res) => {
         }
 
         // Send the retrieved notifications
-        res.status(200).json({ notifications });
+        res.status(200).json(notifications );
     } catch (error) {
         console.error('Error fetching notifications:', error);
         res.status(500).json({ message: 'Server error occurred.' });
