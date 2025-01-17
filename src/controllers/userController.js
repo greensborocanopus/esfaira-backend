@@ -8,6 +8,9 @@ const fs = require('fs');
 const path = require('path');
 const upload = require('../middleware/upload'); // Adjust the path as per your project structure
 const nodemailer = require('nodemailer');
+const processedFiles = new Set(); // To track already moved files
+
+
 
 const getUser = async (req, res) => {
   try {
@@ -671,6 +674,116 @@ const rateVideo = async (req, res) => {
   }
 };
 
+const createAdvertisements = async (req, res) => {
+  try {
+    // Extract fields from request body
+    const reg_id = req.user.id;
+
+    //console.log('Files received:', req.files);
+
+
+    const {
+      gender,
+      age_first,
+      age_second,
+      advertisment_name,
+      audience_package,
+      campaign_start,
+      drp_country,
+      drp_state,
+      drp_city,
+      product_details,
+      product_price,
+    } = req.body;
+
+    if (!reg_id || !advertisment_name || !audience_package || !campaign_start) {
+      return res.status(400).json({
+        error: 'reg_id, advertisment_name, audience_package, and campaign_start are required fields.',
+      });
+    }
+
+    // File storage folder
+    const uploadDir = path.join(__dirname, '../../uploads/Advertisements');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    // Helper function to move files
+    const moveFile = (file) => {
+      if (file) {
+        const uploadDir = path.join(__dirname, '../../uploads/Advertisements');
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir, { recursive: true });
+        }
+    
+        const newFileName = `${Date.now()}-${file.originalname}`;
+        const newPath = path.join(uploadDir, newFileName);
+    
+        try {
+          if (!processedFiles.has(file.path)) {
+            if (fs.existsSync(file.path)) {
+              fs.renameSync(file.path, newPath); // Move file
+              processedFiles.add(file.path); // Mark file as processed
+              console.log(`File moved: ${file.path} -> ${newPath}`);
+              return newFileName; // Return only the filename
+            } else {
+              console.error(`Temporary file not found: ${file.path}`);
+              throw new Error(`Temporary file not found: ${file.path}`);
+            }
+          } else {
+            console.log(`File already processed: ${file.path}`);
+            return newFileName; // Return the filename if already processed
+          }
+        } catch (error) {
+          console.error(`Error moving file: ${error.message}`);
+          throw error;
+        }
+      }
+      return null;
+    };    
+
+    // Process uploaded files
+    const uploadLogo = moveFile(req.files?.uploadLogo?.[0]);
+    const slide_picture1 = moveFile(req.files?.slide_picture1?.[0]);
+    const slide_picture2 = moveFile(req.files?.slide_picture2?.[0]);
+    const slide_picture3 = moveFile(req.files?.slide_picture3?.[0]);
+    const slide_picture4 = moveFile(req.files?.slide_picture4?.[0]);
+
+    // Create advertisement in the database
+    const newAdvertisement = await Advertisement.create({
+      reg_id,
+      gender,
+      age_first,
+      age_second,
+      advertisment_name,
+      audience_package,
+      campaign_start,
+      drp_country,
+      drp_state,
+      drp_city,
+      uploadLogo,
+      slide_picture1,
+      slide_picture2,
+      slide_picture3,
+      slide_picture4,
+      product_details,
+      product_price,
+      created_at: new Date(), // Set current date for created_at
+      update_at: new Date(),  // Set current date for update_at
+    });
+
+    res.status(201).json({
+      message: 'Advertisement created successfully.',
+      advertisement: newAdvertisement,
+    });
+  } catch (error) {
+    console.error('Error creating advertisement:', error);
+    res.status(500).json({
+      error: 'An error occurred while creating the advertisement.',
+    });
+  }
+};
+
 const getAllAdvertisements = async (req, res) => {
   try {
     // Fetch all advertisements from the database
@@ -720,6 +833,7 @@ const getAdvertisementById = async (req, res) => {
 };
 
 module.exports = {
+  createAdvertisements,
   getUser,
   updateUser,
   getUserById,
