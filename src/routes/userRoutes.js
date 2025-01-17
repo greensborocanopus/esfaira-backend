@@ -5,7 +5,7 @@ const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
 const upload = require('../middleware/upload');
 const authMiddleware = require('../middleware/authMiddleware'); // Ensure the user is logged in for updatePassword
-const { getUser, updateUser, getUserById, getAllUsers, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, sendInvitation, rateVideo, getAllAdvertisements, getAdvertisementById, updateProfilePhoto } = require('../controllers/userController');
+const { getUser, updateUser, getUserById, getAllUsers, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, rateVideo, getAllAdvertisements, getAdvertisementById, updateProfilePhoto } = require('../controllers/userController');
 
 router.get('/', getUser);
 
@@ -33,7 +33,6 @@ router.get('/category/:id', getCategoryById); // get all videos associated with 
 router.get('/categories', getAllCategories); //get all categories
 router.post('/add-categories', addCategory); //get all categories
 
-router.post('/send-invitation', sendInvitation); // send invitations
 router.post('/rate-video', rateVideo); // rate videos
 router.get('/advertisements', getAllAdvertisements); // get advertisements
 router.get('/advertisements/:id', getAdvertisementById);

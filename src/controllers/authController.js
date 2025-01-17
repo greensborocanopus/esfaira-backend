@@ -4,7 +4,7 @@ const { allowedCategories } = require('../constants'); // Import allowed categor
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const { AppError, handleError } = require('../utils/errorHandler');
-const { Ecode, User } = require('../models'); // Import the Ecode model
+const { Ecode, User, Invitation } = require('../models'); // Import the Ecode model
 const { Op } = require('sequelize');
 const path = require('path');
 const fs = require('fs');
@@ -473,6 +473,93 @@ const requestEcode = async (req, res) => {
   }
 };
 
+const sendInvitation = async (req, res) => {
+  const userId = req.user.id;
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: 'Email is required' });
+  }
+
+  if (!userId) {
+    return res.status(400).json({ message: 'User ID is required' });
+  }
+
+  try {
+
+    const unusedEcode = await Ecode.findOne({
+      where: { is_used: false, is_send: false },
+    });
+
+    if (!unusedEcode) {
+      return handleError(new AppError('No unused e-codes are available.', 404), res);
+    }
+
+    // Check if the email is already invited
+    const existingInvitation = await Invitation.findOne({ where: { email } });
+    if (existingInvitation) {
+      return res.status(409).json({ message: 'Invitation already sent to this email.' });
+      // // Save the invitation in the database
+      // const newInvitation = await Invitation.create({ email });
+    }
+
+    const emailHTML = `<html>
+    <body>
+    <div style='width: 700px; margin: 0 auto;'>
+    <div style='background: #2f353a; padding: 15px 10px; text-align: left;'>
+      <a><img src='/assets/register/image/form-logo.png' alt='Esfaira' style='height:30px;'></a>	
+    </div>
+    <div style='padding: 15px; border: #CCC 1px solid; border-top: none; border-bottom: none;'>
+    <div>
+    <strong style='font-size: 18px;'>Your E-code is: <span style='text-transform: capitalize;'>${unusedEcode.ecode}</span></strong>
+    </div></br></br>
+    </div>
+    <div style='background: #F4F4F4; padding: 15px; text-align: center; border: #CCC 1px solid; border-top: none;'>Powered by 
+    <a style='color:#ffae00;'>ESFAIRA</a>
+    </div>
+    </div>
+    </body>
+    </html>`
+
+    // Nodemailer configuration
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.ADMIN_EMAIL_USER,
+        pass: process.env.ADMIN_EMAIL_PASS,
+      },
+    });
+
+    //const invitationLink = `https://huarisnaque.com/esfaira/index.php/register`;
+    const mailOptions = {
+      from: process.env.ADMIN_EMAIL_USER,
+      to: email,
+      subject: 'Invitation to Join Esfaira',
+      html: emailHTML,
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    // Save the invitation in the database
+    const newInvitation = await Invitation.create({
+      reg_id: userId,
+      email,
+    });
+
+    const EcodeId = unusedEcode.id;
+    await Ecode.update({ is_send: true }, { where: { id: EcodeId } });
+
+    res.status(200).json({
+      message: 'Invitation sent successfully',
+      invitation: newInvitation,
+    });
+  } catch (error) {
+    console.error('Error sending invitation:', error);
+    res.status(500).json({ message: 'Failed to send invitation', error: error.message });
+  }
+};
+
 const verifyEcode = async (req, res) => {
   const { ecode } = req.body;
 
@@ -531,6 +618,7 @@ module.exports = {
   invalidToken,
   updatePassword,
   requestEcode,
+  sendInvitation,
   verifyEcode,
   addEcode,
   getEcode,
