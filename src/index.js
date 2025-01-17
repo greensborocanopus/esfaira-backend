@@ -24,6 +24,7 @@ app.use(errorHandler);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // For URL-encoded form data
 
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/api', apiRouter);
 
 const PORT = process.env.PORT || 3100;

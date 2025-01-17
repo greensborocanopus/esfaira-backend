@@ -720,20 +720,19 @@ const createAdvertisements = async (req, res) => {
         const newPath = path.join(uploadDir, newFileName);
     
         try {
-          // Ensure the file exists and hasn't been processed yet
           if (!processedFiles.has(file.path)) {
             if (fs.existsSync(file.path)) {
               fs.renameSync(file.path, newPath); // Move file
               processedFiles.add(file.path); // Mark file as processed
               console.log(`File moved: ${file.path} -> ${newPath}`);
-              return newPath;
+              return `${process.env.BASE_URL}/uploads/Advertisements/${newFileName}`; // Return HTTP URL
             } else {
               console.error(`Temporary file not found: ${file.path}`);
               throw new Error(`Temporary file not found: ${file.path}`);
             }
           } else {
             console.log(`File already processed: ${file.path}`);
-            return newPath; // Return the new path if already processed
+            return `${process.env.BASE_URL}/uploads/Advertisements/${newFileName}`; // Return HTTP URL if already processed
           }
         } catch (error) {
           console.error(`Error moving file: ${error.message}`);
