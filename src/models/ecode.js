@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
     },
+    is_send: { type: DataTypes.BOOLEAN, defaultValue: false }, // New field
   });
 
   return Ecode;
