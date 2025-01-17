@@ -13,7 +13,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       is_used: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       used_datetime: {
         type: Sequelize.DATE

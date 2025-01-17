@@ -412,6 +412,15 @@ const requestEcode = async (req, res) => {
   }
 
   try {
+
+    const unusedEcode = await Ecode.findOne({
+      where: { is_used: false, is_send: false },
+    });
+
+    if (!unusedEcode) {
+      return handleError(new AppError('No unused e-codes are available.', 404), res);
+    }
+
     // Email the admin about the ecode request
     const transporter = nodemailer.createTransport({
       service: 'Gmail', // Use your email service provider
@@ -421,18 +430,43 @@ const requestEcode = async (req, res) => {
       },
     });
 
-    const adminEmail = process.env.ADMIN_EMAIL; // Admin's email address
+    const emailHTML = `<html>
+      <body>
+      <div style='width: 700px; margin: 0 auto;'>
+      <div style='background: #2f353a; padding: 15px 10px; text-align: left;'>
+        <a><img src='/assets/register/image/form-logo.png' alt='Esfaira' style='height:30px;'></a>	
+      </div>
+      <div style='padding: 15px; border: #CCC 1px solid; border-top: none; border-bottom: none;'>
+      <div>
+      <strong style='font-size: 18px;'>Your E-code is: <span style='text-transform: capitalize;'>${unusedEcode.ecode}</span></strong>
+      </div></br></br>
+      </div>
+      <div style='background: #F4F4F4; padding: 15px; text-align: center; border: #CCC 1px solid; border-top: none;'>Powered by 
+      <a style='color:#ffae00;'>ESFAIRA</a>
+      </div>
+      </div>
+      </body>
+      </html>`
+
+    //const adminEmail = process.env.ADMIN_EMAIL; // Admin's email address
 
     const mailOptions = {
       from: process.env.ADMIN_EMAIL_USER,
-      to: adminEmail,
+      to: email,
       subject: 'Ecode Request',
-      text: `User Requesting Ecode:\nEmail: ${email}`,
+      html: emailHTML,
     };
 
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({ message: 'Your ecode request has been sent to the admin.' });
+    unusedEcode.is_send = true;
+
+    await unusedEcode.save();
+
+    res.status(200).json({
+      message: 'E-code sent successfully to the user.',
+      ecode: unusedEcode.ecode,
+    });  
   } catch (error) {
     console.error('Error sending email to admin:', error);
     handleError(new AppError('Failed to send email to the admin.', 500), res);
