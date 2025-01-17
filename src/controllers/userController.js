@@ -624,58 +624,6 @@ const addCategory = async (req, res) => {
   }
 };
 
-const sendInvitation = async (req, res) => {
-  const { email } = req.body;
-
-  if (!email) {
-    return res.status(400).json({ message: 'Email is required' });
-  }
-
-  try {
-    // Check if the email is already invited
-    const existingInvitation = await Invitation.findOne({ where: { email } });
-    if (!existingInvitation) {
-      //return res.status(409).json({ message: 'Invitation already sent to this email.' });
-      // Save the invitation in the database
-      const newInvitation = await Invitation.create({ email });
-    }
-    // Nodemailer configuration
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.ADMIN_EMAIL_USER,
-        pass: process.env.ADMIN_EMAIL_PASS,
-      },
-    });
-
-    const invitationLink = `https://huarisnaque.com/esfaira/index.php/register`;
-    const mailOptions = {
-      from: process.env.ADMIN_EMAIL_USER,
-      to: email,
-      subject: 'Invitation to Join Esfaira',
-      text: `Hi,
-  
-  You have been invited to join Esfaira. Please click on the link below to register:
-  
-  ${invitationLink}
-  
-  Thank you,
-  The Esfaira Team`,
-    };
-
-    // Send the email
-    await transporter.sendMail(mailOptions);
-
-    res.status(200).json({
-      message: 'Invitation sent successfully',
-      invitation: newInvitation,
-    });
-  } catch (error) {
-    console.error('Error sending invitation:', error);
-    res.status(500).json({ message: 'Failed to send invitation', error: error.message });
-  }
-};
-
 const rateVideo = async (req, res) => {
   const { rating, video_id, user_id } = req.body;
   //const user_id = req.user.id; // Assuming the user is authenticated and their ID is available.
@@ -792,7 +740,6 @@ module.exports = {
   getCategoryById,
   getAllCategories,
   addCategory,
-  sendInvitation,
   rateVideo,
   getAllAdvertisements,
   getAdvertisementById,
