@@ -26,6 +26,16 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true, // Allow null initially
+        references: {
+          model: 'Users', // Name of the users table
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      },
       is_send: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
