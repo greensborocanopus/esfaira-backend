@@ -246,7 +246,7 @@ exports.updateStatus = async (req, res) => {
     );
 
     const [notificationUpdatedCount] = await Notification.update(
-      { notif_flag: normalizedAction === 'accepted' ? 'Accepted' : 'Rejected' },
+      { notif_flag: normalizedAction === 'accepted' ? 'Accepted' : 'Rejected', is_seen: true, is_done: true },
       { where: { team_id: team_id } }
     );
 

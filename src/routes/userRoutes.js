@@ -5,7 +5,7 @@ const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
 const upload = require('../middleware/upload');
 const authMiddleware = require('../middleware/authMiddleware'); // Ensure the user is logged in for updatePassword
-const { getUser, updateUser, getUserById, getAllUsers, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, rateVideo, getAllAdvertisements, getAdvertisementById, updateProfilePhoto } = require('../controllers/userController');
+const { createAdvertisements, getUser, updateUser, getUserById, getAllUsers, addCountry, addState, addCity, getCountries, getStates, getCities, getCountryById, getStateById, getCityById, getStateByCountry, getCityByState, addVideo, getCategoryById, getAllCategories, addCategory, rateVideo, getAllAdvertisements, getAdvertisementById, updateProfilePhoto } = require('../controllers/userController');
 
 router.get('/', getUser);
 
@@ -34,6 +34,18 @@ router.get('/categories', getAllCategories); //get all categories
 router.post('/add-categories', addCategory); //get all categories
 
 router.post('/rate-video', rateVideo); // rate videos
+
+router.post('/advertisements',
+    upload.fields([
+      { name: 'uploadLogo', maxCount: 1 },
+      { name: 'slide_picture1', maxCount: 1 },
+      { name: 'slide_picture2', maxCount: 1 },
+      { name: 'slide_picture3', maxCount: 1 },
+      { name: 'slide_picture4', maxCount: 1 },
+    ]),
+    authMiddleware,
+    createAdvertisements
+  );
 router.get('/advertisements', getAllAdvertisements); // get advertisements
 router.get('/advertisements/:id', getAdvertisementById);
 
