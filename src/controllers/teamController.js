@@ -428,7 +428,7 @@ exports.getJoinedTeams = async (req, res) => {
     const acceptedTeamPlayers = await TeamPlayer.findAll({
       where: {
         player_id: req.user.id,
-        status: 'accepted', // Check for accepted status
+        //status: 'accepted', // Check for accepted status
       },
       //attributes: ['team_id'], // Only fetch team_id
     });
@@ -474,7 +474,7 @@ exports.getJoinedTeams = async (req, res) => {
             model: TeamPlayer,
             as: 'players',
             attributes: ['player_id', 'team_id', 'status'],
-            where: { status: 'accepted' }, 
+            //where: { status: 'accepted' }, 
           }
       ]
     });
@@ -483,20 +483,23 @@ exports.getJoinedTeams = async (req, res) => {
       where: {
         Player_id: req.user.id
       },
-      attributes: ['id', 'player_id', 'first_name', 'last_name', 'status'],
+      attributes: ['id', 'player_id', 'first_name', 'last_name'],
     })
 
      // Add price per player calculation
      const teamsWithPricePerPlayer = await Promise.all(
       teams.map(async (team) => {
+
+        // Filter players with status 'accepted'
+        const acceptedPlayers = team.players.filter(player => player.status === 'accepted');
+
         const pricePerTeam = team.subleague?.price_per_team || 0;
 
         // Count accepted players in the team
-        const playerCount = team.players.length;
+        const playerCount = acceptedPlayers.length;
 
         // Calculate price per player
         const pricePerPlayer = playerCount > 0 ? pricePerTeam / playerCount : 0;
-
         return {
           ...team.toJSON(),
           pricePerPlayer,
