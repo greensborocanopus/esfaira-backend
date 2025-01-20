@@ -469,7 +469,13 @@ exports.getJoinedTeams = async (req, res) => {
             //where: { notif_flag: 'Accepted' },
             attributes: ['notif_id', 'notif_flag', 'sentby_reg_id'],
             required: false
-        }
+          },
+          {
+            model: TeamPlayer,
+            as: 'players',
+            attributes: ['player_id', 'team_id', 'status'],
+            where: { status: 'accepted' }, 
+          }
       ]
     });
 
@@ -479,11 +485,29 @@ exports.getJoinedTeams = async (req, res) => {
       },
       attributes: ['id', 'player_id', 'first_name', 'last_name', 'status'],
     })
-    
+
+     // Add price per player calculation
+     const teamsWithPricePerPlayer = await Promise.all(
+      teams.map(async (team) => {
+        const pricePerTeam = team.subleague?.price_per_team || 0;
+
+        // Count accepted players in the team
+        const playerCount = team.players.length;
+
+        // Calculate price per player
+        const pricePerPlayer = playerCount > 0 ? pricePerTeam / playerCount : 0;
+
+        return {
+          ...team.toJSON(),
+          pricePerPlayer,
+        };
+      })
+    );
+
     // Respond with the list of joined teams
     res.status(200).json({
       Player,
-      teams,
+      teams: teamsWithPricePerPlayer,
     });
   } catch (error) {
     console.error('Error fetching joined teams:', error);
