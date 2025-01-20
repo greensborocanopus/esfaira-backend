@@ -415,5 +415,85 @@ exports.requestToJoinTeam = async (req, res) => {
   }
 };
 
+exports.getJoinedTeams = async (req, res) => {
+  try {
+    // Check if the user exists
+    const user = await User.findByPk(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    // Find all team players where the player ID matches the logged-in user and the status is 'accepted'
+    const acceptedTeamPlayers = await TeamPlayer.findAll({
+      where: {
+        player_id: req.user.id,
+        status: 'accepted', // Check for accepted status
+      },
+      //attributes: ['team_id'], // Only fetch team_id
+    });
+
+    // Extract team IDs from the result
+    const teamIds = acceptedTeamPlayers.map((tp) => tp.team_id);
+
+    // Fetch all teams with matching team IDs
+    const teams = await Team.findAll({
+      where: {
+        id: teamIds, // Match against the extracted team IDs
+      },
+    });
+
+    const Player = await TeamPlayer.findOne({
+      where: {
+        Player_id: req.user.id
+      },
+      attributes: ['id', 'player_id', 'first_name', 'last_name', 'status'],
+    })
+
+    // Respond with the list of joined teams
+    res.status(200).json({
+      Player,
+      teams,
+    });
+  } catch (error) {
+    console.error('Error fetching joined teams:', error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+exports.updatePlayerStatus = async (req, res) => {
+  try {
+    const { team_id, player_id, action } = req.body;
+
+    // Validate input
+    if (!team_id || !player_id || !action) {
+      return res.status(400).json({ error: 'team_id, player_id, and status are required.' });
+    }
+
+    // Normalize action to handle case-insensitivity
+    const normalizedAction = action.trim().toLowerCase();
+
+    if (normalizedAction !== 'accepted' && normalizedAction !== 'rejected') {
+      return res.status(400).json({ error: 'Action must be Accepted or Rejected.' });
+    }
+  
+    // Update player status
+    const [updatedCount] = await TeamPlayer.update(
+      { status: normalizedAction == 'accepted' ? 'accepted' : 'rejected' }, 
+      { where: { team_id, player_id } }
+    );
+
+    if (updatedCount > 0) {
+      res.status(200).json({ message: 'Player status updated successfully.' });
+    } else {
+      res.status(404).json({ error: 'Player not found.' });
+    }
+  } catch (error) {
+    console.error('Error updating player status:', error);
+    res.status(500).json({ error: 'Server error' });  
+  }
+};
+
+
 
 
