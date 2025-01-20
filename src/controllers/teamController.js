@@ -517,7 +517,9 @@ exports.getJoinedTeams = async (req, res) => {
 
 exports.updatePlayerStatus = async (req, res) => {
   try {
-    const { team_id, player_id, action } = req.body;
+
+    const player_id = req.user.id;
+    const { team_id, action } = req.body;
 
     // Validate input
     if (!team_id || !player_id || !action) {
