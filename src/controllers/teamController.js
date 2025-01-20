@@ -441,6 +441,36 @@ exports.getJoinedTeams = async (req, res) => {
       where: {
         id: teamIds, // Match against the extracted team IDs
       },
+      include: [
+        {
+          model: User,
+          as: 'manager',
+          attributes: ['name']
+        },
+          {
+              model: Subleague,
+              as: 'subleague',
+              //attributes: ['sub_league_name', 'league_id','venue_details', 'season', 'price_per_team'],
+              include: [
+                {
+                  model: League,
+                  as: 'league',
+                  //attributes: ['league_id', 'league_name']
+                },
+                {
+                  model: Gameplay,
+                  as: 'gameplays',
+                }
+              ]
+          },
+          {
+            model: Notification,
+            as: 'notifications',
+            //where: { notif_flag: 'Accepted' },
+            attributes: ['notif_id', 'notif_flag', 'sentby_reg_id'],
+            required: false
+        }
+      ]
     });
 
     const Player = await TeamPlayer.findOne({
@@ -449,7 +479,7 @@ exports.getJoinedTeams = async (req, res) => {
       },
       attributes: ['id', 'player_id', 'first_name', 'last_name', 'status'],
     })
-
+    
     // Respond with the list of joined teams
     res.status(200).json({
       Player,
