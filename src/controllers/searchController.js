@@ -227,7 +227,7 @@ const globalSearch = async (req, res) => {
                     {
                         model: User,
                         as: 'player',
-                        attributes: ['id', 'name', 'category_subcategory', 'place']
+                        attributes: ['id', 'name', 'category_subcategory', 'place', 'unique_id']
                     },
                     {
                         model: Team,
