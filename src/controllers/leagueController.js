@@ -166,12 +166,34 @@ const getSubleagues = async (req, res) => {
 
 const getLeagues = async (req, res) => {
   try {
+    const searchTerm = req.query.searchTerm; // Extract search term from query parameters
+
+    // Check if a search term is provided
+    if (!searchTerm) {
+      return res.status(400).json({ message: 'Search term is required.' });
+    }
+
+    // Fetch leagues based on the search term
     const leagues = await League.findAll({
-      //attributes: ['sub_league_name', 'venue_details', 'category', 'sub_league_id'], // Fetch specific Subleague fields
+      where: {
+        league_name: {
+          [Op.like]: `%${searchTerm}%`, // Match league name with the search term
+        },
+      },
+      // Optionally include related subleagues or other associations if needed
+      include: [
+        {
+          model: Subleague,
+          as: 'subleagues',
+          // attributes: ['sub_league_id', 'sub_league_name'],
+        },
+      ],
     });
+
+    // Return the matched leagues
     return res.status(200).json(leagues);
   } catch (error) {
-    console.error('Error fetching subleagues:', error);
+    console.error('Error fetching leagues:', error);
     res.status(500).json({ message: 'Server error.' });
   }
 };

@@ -176,29 +176,33 @@ const updateProfilePhoto = async (req, res) => {
         return res.status(400).json({ message: 'No photo uploaded.' });
       }
   
-      const uploadDir = path.join(__dirname, '../../uploads/Profile');
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
+      // File storage folder
+    const uploadDir = path.join(__dirname, '../../uploads/Profile');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    // Generate the new file name
+    const newFileName = `${Date.now()}-${req.file.originalname}`;
+    const newPhotoPath = path.join(uploadDir, newFileName);
+
+    // Move the uploaded file to the Profile folder
+    fs.renameSync(req.file.path, newPhotoPath);
+
+    // Convert the file path to a URL
+    const photoUrl = `${process.env.BASE_URL}/uploads/Profile/${newFileName}`;
+
+    // Remove the old photo if it exists
+    if (user.photo) {
+      const oldPhotoPath = user.photo.replace(process.env.BASE_URL, '').replace('/uploads', '../../uploads');
+      if (fs.existsSync(oldPhotoPath)) {
+        fs.unlinkSync(oldPhotoPath);
       }
-  
-      // Generate the new file name
-      const newFileName = `${Date.now()}-${req.file.originalname}`;
-      const newPhotoPath = path.join(uploadDir, newFileName);
-  
-      // Move the uploaded file to the Profile folder
-      fs.renameSync(req.file.path, newPhotoPath);
-  
-      // Remove the old photo if it exists
-      if (user.photo) {
-        const oldPhotoPath = user.photo;
-        if (fs.existsSync(oldPhotoPath)) {
-          fs.unlinkSync(oldPhotoPath);
-        }
-      }
-  
-      // Update the user's photo in the database
-      user.photo = newPhotoPath;
-      await user.save();
+    }
+
+    // Update the user's photo in the database
+    user.photo = photoUrl;
+    await user.save();
   
       res.status(200).json({ message: 'Profile photo updated successfully.', photo: newPhotoPath });
     } catch (error) {
