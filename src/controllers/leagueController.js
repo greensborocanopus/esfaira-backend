@@ -250,6 +250,32 @@ const addSubleague = async (req, res) => {
       return res.status(400).json({ message: 'Required fields are missing.' });
     }
 
+     // Fetch the league name using league_id
+     const leagueRecord = await League.findByPk(league_id);
+     if (!leagueRecord) {
+       return res.status(404).json({ message: 'League not found.' });
+     }
+ 
+     const leagueName = leagueRecord.league_name.replace(/\s+/g, '').toUpperCase(); // Remove spaces and convert to uppercase
+ 
+     // Generate a unique subleague ID
+     let isUnique = false;
+ 
+     while (!isUnique) {
+       const randomNumber = Math.floor(1000 + Math.random() * 9000); // Generate a random 4-digit number
+       league_unique_id = `${leagueName}-${randomNumber}`;
+ 
+       // Check if the generated ID already exists
+       const existingSubleague = await Subleague.findOne({ where: { league_unique_id } });
+       if (!existingSubleague) {
+         isUnique = true; // Exit loop if the ID is unique
+       }
+     }
+
+    // // Generate a unique subleague identifier
+    // const timestamp = Date.now();
+    // league_unique_id = `SUB-${timestamp}-${Math.floor(Math.random() * 1000)}`;
+
     // Create subleague in the database
     const newSubleague = await Subleague.create({
       sub_league_id,

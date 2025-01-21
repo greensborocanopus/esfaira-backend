@@ -1,10 +1,11 @@
-const { Op, fn, col } = require('sequelize');
+const { Op, fn, col, where } = require('sequelize');
 const { TeamPlayer, User, Team, Subleague, League, Joinleague, Gameplay } = require('../models');
 const { sequelize } = require('../models');
 
 const globalSearch = async (req, res) => {
     try {
         const { keyword } = req.query;
+        console.log('keyword:'. keyword);
         const {
             country,
             player_position,
@@ -94,6 +95,7 @@ const globalSearch = async (req, res) => {
                     [Op.or]: [
                         { sub_league_name: { [Op.like]: `%${keyword}%` } },
                         { sub_league_id: keyword },
+                        { league_unique_id: { [Op.like]: `%${keyword}%` } },
                         { '$league.league_name$': { [Op.like]: `%${keyword}%` } },
                         { '$league.league_id$': keyword }
                     ]
@@ -159,33 +161,58 @@ const globalSearch = async (req, res) => {
 
         // ✅ If Join Leagues filter is applied
         else if (join_leagues) {
-            const joinedLeagues = await Joinleague.findAll({
-                where: { requested_reg_id: req.user.id },
-                attributes: ['sub_league_id']
-            });
-            const joinedSubLeagueIds = joinedLeagues.map(jl => jl.sub_league_id);
-
-            results = await Subleague.findAll({
+            // Fetch joinLeagueResults
+            const teamPlayerTeamIds = await TeamPlayer.findAll({
                 where: {
-                    sub_league_id: { [Op.notIn]: joinedSubLeagueIds },
-                    [Op.or]: [
-                        { sub_league_name: { [Op.like]: `%${keyword}%` } },
-                        { '$league.league_name$': { [Op.like]: `%${keyword}%` } }
-                    ]
+                player_id: req.user.id,
+                status: 'accepted', // Check for accepted status
+                },
+                attributes: ['team_id'],
+            });
+            // Extract team IDs
+            const teamIds = teamPlayerTeamIds.map((tp) => tp.team_id);
+            // Fetch subleague IDs from the Teams table
+            const teamsWithSubLeagues = await Team.findAll({
+                where: {
+                    id: teamIds, // Match team IDs from TeamPlayer
+                    status: 'accepted', // Check for accepted status in Teams
+                },
+                attributes: ['sub_league_id'], // Fetch sub_league_id
+                });
+            // Extract sub_league_ids
+            const excludedSubLeagueIds = teamsWithSubLeagues.map((tp) => tp.sub_league_id);
+            
+            // Fetch subleagues the user is eligible to join
+            const results = await Subleague.findAll({
+                where: {
+                sub_league_id: { [Op.notIn]: excludedSubLeagueIds }, // Exclude already joined subleagues
+                [Op.or]: [
+                    { sub_league_name: { [Op.like]: `%${keyword}%` } },
+                    { sub_league_id: keyword },
+                    { league_unique_id: { [Op.like]: `%${keyword}%` } },
+                    { '$league.league_name$': { [Op.like]: `%${keyword}%` } },
+                    { '$league.league_id$': keyword }// Match keyword in league name
+                ],
                 },
                 include: [
-                    {
-                        model: League,
-                        as: 'league',
-                        attributes: ['league_name']
-                    }
-                ]
+                {
+                    model: League,
+                    as: 'league',
+                    attributes: ['league_name'], // Include league name
+                },
+                ],
+                });
+            
+            // Return the results
+            return res.status(200).json({
+            message: 'Eligible subleagues retrieved successfully.',
+            subleagues: results,
             });
-        }
+        }          
 
         // ✅ If No Exclusive Filter is Selected, Search Across All Tables
         else {
-            results = await TeamPlayer.findAll({
+            const teamPlayers = await TeamPlayer.findAll({
                 where: {
                     ...whereClause,
                     [Op.or]: [
@@ -229,31 +256,127 @@ const globalSearch = async (req, res) => {
                     }
                 ]
             });
+            
+            const userResults = await User.findAll({
+                where: {
+                    [Op.or]: [
+                        { unique_id: { [Op.like]: `%${keyword}%` } },
+                        { name: { [Op.like]: `%${keyword}%` } },
+                        { category_subcategory: { [Op.like]: `%${keyword}%` } },
+                        { place: { [Op.like]: `%${keyword}%` } }
+                    ]
+                },
+                //attributes: ['id', 'name', 'category_subcategory', 'place']
+            });
 
-            // ✅ Format the response into a more structured format
-            // const formattedResponse = {
-            //     players: results.map(result => ({
-            //         ...result.player.get(), // Flattening player object
-            //         team: result.team ? {
-            //             ...result.team.get(), // Flattening team object
-            //             subleague: result.team.subleague ? {
-            //                 ...result.team.subleague.get(), // Flattening subleague object
-            //                 league: result.team.subleague.league ? result.team.subleague.league.get() : null
-            //             } : null
-            //         } : null
-            //     })),
-            //     teams: results.map(result => ({
-            //         ...result.team.get(),
-            //         subleague: result.team.subleague ? {
-            //             ...result.team.subleague.get(),
-            //             league: result.team.subleague.league ? result.team.subleague.league.get() : null
-            //         } : null
-            //     })),
-            //     subleagues: results.map(result => result.team?.subleague?.get()).filter(Boolean),
-            //     leagues: results.map(result => result.team?.subleague?.league?.get()).filter(Boolean)
-            // };
+            const teamResults = await Team.findAll({
+                where: {
+                    [Op.or]: [
+                        { name: { [Op.like]: `%${keyword}%` } },
+                        { id: keyword },
+                        { user_id: keyword },
+                        { sub_league_id: keyword }, 
+                        { status: { [Op.like]: `%${keyword}%` } },
+                        { '$subleague.sub_league_name$': { [Op.like]: `%${keyword}%` } },
+                        { '$subleague.league.league_name$': { [Op.like]: `%${keyword}%` } }
+                    ]
+                },
+                include: [
+                    {
+                        model: Subleague,
+                        as: 'subleague',
+                        attributes: { exclude: [] }, // Fetch all columns of Subleague
+                        include: [
+                            {
+                                model: Gameplay,
+                                as: 'gameplays',
+                                attributes: { exclude: [] } // Fetch all columns of Gameplays
+                            },
+                            {
+                                model: League,
+                                as: 'league',
+                                attributes: { exclude: [] } // Fetch all columns of League
+                            }
+                        ]
+                    }
+                ]
+            });
 
-            // results = formattedResponse;
+            const subLeagueResults = await Subleague.findAll({
+                where: {
+                  [Op.or]: [
+                    { sub_league_name: { [Op.like]: `%${keyword}%` } },
+                    { sub_league_id: keyword },
+                    { league_unique_id: { [Op.like]: `%${keyword}%` } },
+                    { '$league.league_name$': { [Op.like]: `%${keyword}%` } },
+                  ],
+                },
+                include: [
+                  {
+                    model: League,
+                    as: 'league',
+                    attributes: { exclude: [] },
+                  },
+                  {
+                    model: Gameplay,
+                    as: 'gameplays',
+                    attributes: { exclude: [] },
+                  },
+                ],
+            });
+            
+            // Fetch joinLeagueResults
+            const teamPlayerTeamIds = await TeamPlayer.findAll({
+                where: {
+                  player_id: req.user.id,
+                  status: 'accepted', // Check for accepted status
+                },
+                attributes: ['team_id'],
+              });
+
+            // Extract team IDs
+            const teamIds = teamPlayerTeamIds.map((tp) => tp.team_id);
+
+            // Fetch subleague IDs from the Teams table
+            const teamsWithSubLeagues = await Team.findAll({
+            where: {
+                id: teamIds, // Match team IDs from TeamPlayer
+                status: 'accepted', // Check for accepted status in Teams
+            },
+            attributes: ['sub_league_id'], // Fetch sub_league_id
+            });
+
+            // Extract sub_league_ids
+            const excludedSubLeagueIds = teamsWithSubLeagues.map((tp) => tp.sub_league_id);
+            
+            // Fetch subleagues the user is eligible to join
+            const joinLeagueResults = await Subleague.findAll({
+                where: {
+                  sub_league_id: { [Op.notIn]: excludedSubLeagueIds }, // Exclude already joined subleagues
+                  [Op.or]: [
+                      { sub_league_name: { [Op.like]: `%${keyword}%` } },
+                      { sub_league_id: keyword },
+                      { league_unique_id: { [Op.like]: `%${keyword}%` } },
+                      { '$league.league_name$': { [Op.like]: `%${keyword}%` } },
+                      { '$league.league_id$': keyword }// Match keyword in league name
+                  ],
+                },
+                include: [
+                  {
+                    model: League,
+                    as: 'league',
+                    attributes: ['league_name'], // Include league name
+                  },
+                ],
+            });
+
+            return res.status(200).json({ 
+                teamPlayers,
+                userResults,
+                teamResults,
+                subLeagueResults,
+                joinLeagueResults
+            });
         }
 
 
