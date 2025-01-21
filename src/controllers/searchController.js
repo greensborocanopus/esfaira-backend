@@ -5,7 +5,12 @@ const { sequelize } = require('../models');
 const globalSearch = async (req, res) => {
     try {
         const { keyword } = req.query;
+
         console.log('keyword:'. keyword);
+        if(keyword.length == 0){
+           return res.status(400).json({ message: "Keyword is required" });
+        }
+        
         const {
             country,
             player_position,
