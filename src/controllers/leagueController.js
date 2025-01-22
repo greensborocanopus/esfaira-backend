@@ -1,5 +1,5 @@
 const { TeamPlayer, User, Joinleague, League, Subleague, Organization, Gameplay, Team, Notification } = require('../models'); // Import the League model
-const { Op, Sequelize } = require('sequelize');
+const { Op, Sequelize, where } = require('sequelize');
 
 // API to add a league
 // const addLeague = async (req, res) => {
@@ -120,9 +120,12 @@ const updateLeague = async (req, res) => {
 };
 
 const getSubleagues = async (req, res) => {
+  const userId = req.user.id; // Assuming user is authenticated and available in req.user
+
   try {
     // Fetch subleagues with associated leagues
     const subleagues = await Subleague.findAll({
+      where: { reg_id: userId },
       include: [
         {
           model: League,
