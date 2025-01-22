@@ -414,7 +414,7 @@ const requestEcode = async (req, res) => {
   try {
 
     const unusedEcode = await Ecode.findOne({
-      where: { is_used: false, is_send: false },
+      where: { is_used: false },
     });
 
     if (!unusedEcode) {
@@ -488,7 +488,7 @@ const sendInvitation = async (req, res) => {
   try {
 
     const unusedEcode = await Ecode.findOne({
-      where: { is_used: false, is_send: false },
+      where: { is_used: false },
     });
 
     if (!unusedEcode) {
