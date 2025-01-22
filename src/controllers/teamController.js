@@ -350,6 +350,94 @@ exports.getTeamsBySubleagueId = async (req, res) => {
   }
 };
 
+exports.getAcceptedTeamsBySubleagueId = async (req, res) => {
+  try {
+      const { sub_league_id } = req.params; // Getting sub_league_id from URL parameters
+      console.log(req.params);
+      if (!sub_league_id) {
+          return res.status(400).json({ message: 'Subleague ID is required.' });
+      }
+
+      // Step 1: Verify if the subleague exists
+      const subleague = await Subleague.findOne({
+          where: { sub_league_id },
+          attributes: ['sub_league_id', 'sub_league_name', 'price_per_team']
+      });
+
+      if (!subleague) {
+          return res.status(404).json({ message: 'Subleague not found.' });
+      }
+
+      // Step 2: Fetch all teams associated with the provided subleague ID
+      const teams = await Team.findAll({
+          where: { sub_league_id, status: 'accepted' },
+          include: [
+            {
+              model: User,
+              as: 'manager',
+              attributes: ['name']
+            },
+              {
+                  model: Subleague,
+                  as: 'subleague',
+                  //attributes: ['sub_league_name', 'league_id','venue_details', 'season', 'price_per_team'],
+                  include: [
+                    {
+                      model: League,
+                      as: 'league',
+                      //attributes: ['league_id', 'league_name']
+                    },
+                    {
+                      model: Gameplay,
+                      as: 'gameplays',
+                    }
+                  ]
+              },
+              {
+                model: Notification,
+                as: 'notifications',
+                //where: { notif_flag: 'Accepted' },
+                attributes: ['notif_id', 'notif_flag', 'sentby_reg_id'],
+                required: false
+            }
+          ]
+      });
+
+      if (!teams.length) {
+          return res.status(404).json({ message: 'No teams found for this subleague.' });
+      }
+
+      // Step 3: Send Response
+      // Step 3: Calculate price_per_player for each team
+    const teamsWithPricePerPlayer = await Promise.all(
+      teams.map(async (team) => {
+        // Fetch total players for the team
+        const playerCount = await TeamPlayer.count({
+          where: { team_id: team.id },
+        });
+
+        // Calculate price_per_player
+        const pricePerPlayer =
+          playerCount > 0 ? subleague.price_per_team / playerCount : 0;
+
+        return {
+          ...team.toJSON(), // Convert team instance to plain object
+          price_per_player: pricePerPlayer,
+        };
+      })
+    );
+
+    // Step 4: Send Response
+    res.status(200).json({
+      message: 'Teams retrieved successfully',
+      teams: teamsWithPricePerPlayer,
+    });
+  } catch (error) {
+      console.error('Error fetching teams:', error);
+      res.status(500).json({ message: 'Server error occurred.' });
+  }
+};
+
 exports.requestToJoinTeam = async (req, res) => {
   try {
       const { team_id, sub_league_id } = req.body;
