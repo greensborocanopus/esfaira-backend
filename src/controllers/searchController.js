@@ -6,7 +6,7 @@ const globalSearch = async (req, res) => {
     try {
         const { keyword } = req.query;
 
-        console.log('keyword:'. keyword);
+        console.log('keyword:', keyword);
         if(keyword.length == 0){
            return res.status(400).json({ message: "Keyword is required" });
         }
@@ -24,24 +24,64 @@ const globalSearch = async (req, res) => {
             unique_id,
         } = req.body;
 
+        //console.log('req.body:'. req.body);
+
+        console.log('keyword:', keyword);
+        console.log('Headers:', req.headers);
+        console.log('Body:', req.body);
+        
+        console.log('country:', country);
+        console.log('player_position:', player_position);
+        console.log('age_small:', age_small);
+        console.log('age_big:', age_big);
+        console.log('gender:', gender);
+        console.log('teams:', teams);
+        console.log('leagues:', leagues);
+        console.log('join_leagues:', join_leagues);
+        console.log('continent:', continent);
+        console.log('unique_id:', unique_id);
+        
+
         // Prepare filters
         let whereClause = {};
+        let whereClauseUser = {};
 
         // ✅ Country Filter
         if (country) {
+            console.log('country is here:', country);
             whereClause['$player.place$'] = { [Op.like]: `%${country}%` };
+            whereClauseUser['place'] = { [Op.like]: `%${country}%` };
         }
 
         // ✅ Player Position Filter
         if (player_position && player_position.length > 0) {
-            whereClause['$player.category_subcategory$'] = {
-                [Op.or]: player_position.map(pos => ({ [Op.like]: `%${pos}%` }))
-            };
-        }
+            // Add player_position filter for the associated player model
+            whereClause[Op.and] = [
+                ...(whereClause[Op.and] || []), // Preserve existing AND conditions
+                {
+                    '$player.category_subcategory$': {
+                        [Op.or]: player_position.map(pos => ({ [Op.like]: `%${pos}%` }))
+                    }
+                }
+            ];
+        
+            // Add player_position filter for direct User queries
+            whereClauseUser[Op.and] = [
+                ...(whereClauseUser[Op.and] || []), // Preserve existing AND conditions
+                {
+                    category_subcategory: {
+                        [Op.or]: player_position.map(pos => ({ [Op.like]: `%${pos}%` }))
+                    }
+                }
+            ];
+        }        
 
         // ✅ Gender Filter
         if (gender) {
+            console.log('gender is here:', gender);
+
             whereClause['$player.gender$'] = gender;
+            whereClauseUser['gender'] = gender;
         }
 
         // ✅ Age Range Filter (Calculating date range from age_small to age_big)
@@ -51,11 +91,15 @@ const globalSearch = async (req, res) => {
             const maxYear = currentYear - age_small;
         
             // Use Sequelize.literal for raw SQL expressions
-            whereClause = {
-                [Op.and]: [
-                    sequelize.literal(`CAST(SUBSTRING_INDEX(TeamPlayer.dob, ' ', -1) AS UNSIGNED) BETWEEN ${minYear} AND ${maxYear}`)
-                ]
-            };
+            whereClause[Op.and] = [
+                ...(whereClause[Op.and] || []),
+                sequelize.literal(`CAST(SUBSTRING_INDEX(TeamPlayer.dob, ' ', -1) AS UNSIGNED) BETWEEN ${minYear} AND ${maxYear}`)
+            ];
+        
+            whereClauseUser[Op.and] = [
+                ...(whereClauseUser[Op.and] || []),
+                sequelize.literal(`CAST(SUBSTRING_INDEX(dob, ' ', -1) AS UNSIGNED) BETWEEN ${minYear} AND ${maxYear}`)
+            ];
         }
         
         
@@ -219,10 +263,14 @@ const globalSearch = async (req, res) => {
         else {
             const teamPlayers = await TeamPlayer.findAll({
                 where: {
+                    
                     ...whereClause,
                     [Op.or]: [
                         { '$player.unique_id$': { [Op.like]: `%${keyword}%` } },
                         { '$player.name$': { [Op.like]: `%${keyword}%` } },
+                        { '$player.category_subcategory$': { [Op.like]: `%${keyword}%` } },
+                        { '$player.place$': { [Op.like]: `%${keyword}%` } },
+                        { '$player.gender$': { [Op.like]: `%${keyword}%` } },
                         { '$team.name$': { [Op.like]: `%${keyword}%` } },
                         { '$team.subleague.sub_league_name$': { [Op.like]: `%${keyword}%` } },
                         { '$team.subleague.league.league_name$': { [Op.like]: `%${keyword}%` } }
@@ -232,7 +280,7 @@ const globalSearch = async (req, res) => {
                     {
                         model: User,
                         as: 'player',
-                        attributes: ['id', 'name', 'category_subcategory', 'place', 'unique_id']
+                        attributes: ['id', 'name', 'category_subcategory', 'place', 'unique_id', 'gender', 'dob', 'email', 'photo'],
                     },
                     {
                         model: Team,
@@ -264,6 +312,7 @@ const globalSearch = async (req, res) => {
             
             const userResults = await User.findAll({
                 where: {
+                    ...whereClauseUser,
                     [Op.or]: [
                         { unique_id: { [Op.like]: `%${keyword}%` } },
                         { name: { [Op.like]: `%${keyword}%` } },

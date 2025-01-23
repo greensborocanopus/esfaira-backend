@@ -16,6 +16,9 @@ const app = express();
 //     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 //     credentials: true, // Allow credentials (e.g., cookies, authorization headers)
 // }));
+// Add body-parser middleware
+app.use(express.json()); // To parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // To parse URL-encoded bodies
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
