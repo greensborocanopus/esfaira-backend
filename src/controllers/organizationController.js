@@ -53,4 +53,18 @@ const addOrganization = async (req, res) => {
   }
 };
 
-module.exports = { searchOrganization, addOrganization };
+const getOrganizations = async (req, res) => {
+  try {
+    const organizations = await Organization.findAll();
+    if (!organizations) {
+      return res.status(404).json({ message: 'Organizations not found.' });
+    }
+    res.status(200).json(organizations);
+ 
+  } catch (error) {
+    console.error('Error fetching organization:', error);
+    res.status(500).json({ message: 'Server error.', error });
+  }
+};
+
+module.exports = { getOrganizations, searchOrganization, addOrganization };

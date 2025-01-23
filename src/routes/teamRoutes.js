@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAcceptedTeamsBySubleagueId, createTeam, getTeams, getTeamById, getTeamsBySubleague, requestToJoinTeam, getTeamsBySubleagueId, updateStatus, getJoinedTeams, updatePlayerStatus } = require('../controllers/teamController');
+const { getAcceptedTeamsBySubleagueId, createTeam, getTeams, getTeamById, getTeamsBySubleague, requestToJoinTeam, getTeamsBySubleagueId, updateStatus, getJoinedTeams, updatePlayerStatus, getPlayersByTeam, getAllPlayers } = require('../controllers/teamController');
 const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -11,6 +11,8 @@ router.get('/joined-subleague/:sub_league_id', authMiddleware, getAcceptedTeamsB
 router.post('/join-request', authMiddleware, requestToJoinTeam);
 router.get('/team-invitation', authMiddleware, getJoinedTeams);
 router.post('/team-status', authMiddleware, updatePlayerStatus);
+router.get('/players', getAllPlayers);
+router.get('/player/:id', getPlayersByTeam);
 
 router.post('/', authMiddleware, createTeam);
 router.get('/', authMiddleware, getTeams);
