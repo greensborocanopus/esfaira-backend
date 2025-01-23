@@ -93,6 +93,7 @@ exports.createTeam = async (req, res) => {
   }
 };
 
+// get all teams
 exports.getTeams = async (req, res) => {
   try {
     const teams = await Team.findAll({
@@ -110,6 +111,7 @@ exports.getTeams = async (req, res) => {
   }
 };
 
+// get teams by id
 exports.getTeamById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -135,6 +137,7 @@ exports.getTeamById = async (req, res) => {
   }
 };
 
+//get teams from all subleagues where the reg_id matches the logged-in user's ID
 exports.getTeamsBySubleague = async (req, res) => {
   try {
       const userId = req.user.id; // Assuming you have user info available in req.user
@@ -262,6 +265,7 @@ exports.updateStatus = async (req, res) => {
   }
 };
 
+// get teams by subleague id
 exports.getTeamsBySubleagueId = async (req, res) => {
   try {
       const { sub_league_id } = req.params; // Getting sub_league_id from URL parameters
@@ -350,6 +354,7 @@ exports.getTeamsBySubleagueId = async (req, res) => {
   }
 };
 
+//get teams by subleague id which are accepted
 exports.getAcceptedTeamsBySubleagueId = async (req, res) => {
   try {
       const { sub_league_id } = req.params; // Getting sub_league_id from URL parameters
@@ -438,6 +443,7 @@ exports.getAcceptedTeamsBySubleagueId = async (req, res) => {
   }
 };
 
+//for now we are using createTeam API to send joining requests
 exports.requestToJoinTeam = async (req, res) => {
   try {
       const { team_id, sub_league_id } = req.body;
@@ -503,6 +509,7 @@ exports.requestToJoinTeam = async (req, res) => {
   }
 };
 
+// get teams which user has requested to join
 exports.getJoinedTeams = async (req, res) => {
   try {
     // Check if the user exists
@@ -606,6 +613,7 @@ exports.getJoinedTeams = async (req, res) => {
   }
 };
 
+// update status of player to approve or reject the team joining request
 exports.updatePlayerStatus = async (req, res) => {
   try {
 
@@ -640,6 +648,41 @@ exports.updatePlayerStatus = async (req, res) => {
     res.status(500).json({ error: 'Server error' });  
   }
 };
+
+exports.getAllPlayers = async (req, res) => {
+  try {
+    const players = await TeamPlayer.findAll({
+      //attributes: ['id', 'first_name', 'last_name'],
+    });
+    res.status(200).json(players);
+  } catch (error) {
+    console.error('Error fetching players:', error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+}
+
+exports.getPlayersByTeam = async (req, res) => {
+  try {
+    const teamId = req.params.id;
+    const players = await TeamPlayer.findAll({
+      where: { team_id: teamId },
+      //attributes: ['player_id', 'first_name', 'last_name', 'status'],
+      include: [
+        {
+          model: Team,
+          as: 'team',
+          //attributes: ['team_name']
+        }
+      ]
+    });
+    res.status(200).json(players);
+  } catch (error) {
+    console.error('Error fetching players:', error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+}
+
+
 
 
 

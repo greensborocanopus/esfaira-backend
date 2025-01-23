@@ -608,5 +608,25 @@ const searchPlayer = async (req, res) => {
   }
 };
 
-module.exports = { searchPlayer, getJoinLeague, getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
+const getAllLeagues = async (req, res) => {
+  try {
+    const leagues = await League.findAll();
+    res.status(200).json(leagues);
+  } catch (error) {
+    console.error('Error fetching leagues:', error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+const getAllSubLeagues = async (req, res) => {
+  try {
+    const subleagues = await Subleague.findAll();
+    res.status(200).json(subleagues);
+  } catch (error) {
+    console.error('Error fetching subleagues:', error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+module.exports = { getAllLeagues, getAllSubLeagues, searchPlayer, getJoinLeague, getSubleagues, addLeague, updateLeague, getSubleagueById, addSubleague, getLeagues, joinLeague };
 
