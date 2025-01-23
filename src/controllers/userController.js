@@ -204,7 +204,7 @@ const updateProfilePhoto = async (req, res) => {
     user.photo = photoUrl;
     await user.save();
   
-      res.status(200).json({ message: 'Profile photo updated successfully.', photo: newPhotoPath });
+      res.status(200).json({ message: 'Profile photo updated successfully.', photo: photoUrl });
     } catch (error) {
       console.error('Error updating profile photo:', error);
       res.status(500).json({ message: 'Server error.', error });
