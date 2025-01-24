@@ -472,6 +472,7 @@ const requestEcode = async (req, res) => {
     console.log('unusedEcode.email', unusedEcode.email);
 
     await unusedEcode.save();
+    console.log('unusedEcode', unusedEcode);
 
     res.status(200).json({
       message: 'E-code sent successfully to the user.',
