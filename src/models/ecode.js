@@ -22,7 +22,14 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
     },
-    is_send: { type: DataTypes.BOOLEAN, defaultValue: false }, // New field
+    is_send: { type: DataTypes.BOOLEAN, defaultValue: false }, 
+    email: { 
+      type: DataTypes.STRING, 
+      allowNull: true,
+      validate: {
+        isEmail: true, // Ensures a valid email format
+      },
+    },
   });
 
   return Ecode;
