@@ -188,13 +188,13 @@ const forgotPassword = async (req, res) => {
     console.log('Updated User:', updatedUser);
 
     // Generate the reset link pointing to the backend
-    const resetLink = `http://35.89.29.41:3000/api/auth/reset-password-form?token=${resetToken}`;
+    const resetLink = `http://35.89.117.16:3000/api/auth/reset-password-form?token=${resetToken}`;
 
     const emailHTML = `
         <div style="width: 700px; margin: 0 auto;">
             <div style="background: #2f353a; padding: 15px 10px; text-align: left;">
-                <a href="http://localhost:3100/register">
-                    <img src="http://localhost:3100/assets/register/image/form-logo.png" alt="Esfaira" style="height:30px;">
+                <a href="http://35.89.117.16:3000/register">
+                    <img src="http://35.89.117.16:3000/assets/register/image/form-logo.png" alt="Esfaira" style="height:30px;">
                 </a>
             </div>
             <div style="padding: 15px; border: #CCC 1px solid; border-top: none; border-bottom: none; text-align: center;">
@@ -214,7 +214,7 @@ const forgotPassword = async (req, res) => {
             </div>
             <div style="background: #F4F4F4; padding: 15px; text-align: center; border: #CCC 1px solid; border-top: none;">
                 Powered by
-                <a href="http://localhost:3100" style="color:#ffae00;">ESFAIRA</a>
+                <a href="http://35.89.117.16:3000" style="color:#ffae00;">ESFAIRA</a>
             </div>
         </div>`;
     // Send the reset link via email
@@ -279,7 +279,7 @@ const resetPassword = async (req, res) => {
     });
 
     if (!user) {
-      return res.redirect('http://localhost:3100/api/auth/invalid-token');
+      return res.redirect('http://35.89.117.16:3000/api/auth/invalid-token');
     }
 
     // Check if the new password matches the old password
@@ -300,7 +300,7 @@ const resetPassword = async (req, res) => {
       reset_token_expiry: null,
     });
 
-    res.redirect('http://localhost:3100/api/auth/reset-password-success');
+    res.redirect('http://35.89.117.16:3000/api/auth/reset-password-success');
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error.' });
