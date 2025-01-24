@@ -20558,6 +20558,21 @@
             "state_id": "4120",
             "name": "Mstate_idlands",
             "country_id": "246"
-        }
+        },
+        {
+            "state_id": "4124",
+            "name": "Arica y Parinacota",
+            "country_id": "43"
+	    },
+	    {
+            "state_id": "4122",
+            "name": "Ñuble",
+            "country_id": "43"
+	    },
+	    {
+            "state_id": "4123",
+            "name": "Los Ríos",
+            "country_id": "43"
+	    }
     ]
 }
