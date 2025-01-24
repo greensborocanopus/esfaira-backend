@@ -469,6 +469,7 @@ const requestEcode = async (req, res) => {
     unusedEcode.is_send = true;
     console.log(email);
     unusedEcode.email = email;
+    console.log('unusedEcode.email', unusedEcode.email);
 
     await unusedEcode.save();
 
