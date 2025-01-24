@@ -494,10 +494,20 @@ const sendInvitation = async (req, res) => {
   }
 
   try {
+    const existingUsedInvitation = await Ecode.findOne({ where: { email, is_used: true } });
+    if (existingUsedInvitation) {
+      return res.status(400).json({ message: 'User already exists.' });
+    }
 
-    const unusedEcode = await Ecode.findOne({
-      where: { is_used: false },
-    });
+    let unusedEcode = await Ecode.findOne({ where: { email, is_used: false } });
+    if (!unusedEcode) {
+        unusedEcode = await Ecode.findOne({
+        where: { is_used: false },
+      });
+      if (!unusedEcode) {
+        return handleError(new AppError('No unused e-codes are available.', 404), res);
+      }    
+    }
 
     if (!unusedEcode) {
       return handleError(new AppError('No unused e-codes are available.', 404), res);
