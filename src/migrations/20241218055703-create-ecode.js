@@ -41,6 +41,13 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
+      email: {
+        type: Sequelize.STRING, // Add the email field
+        allowNull: true, // Allow null initially
+        validate: {
+          isEmail: true, // Validate that the value is a valid email address
+        },
+      },
     });
   },
   async down(queryInterface, Sequelize) {
