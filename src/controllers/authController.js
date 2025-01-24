@@ -601,48 +601,16 @@ const verifyEcode = async (req, res) => {
       return res.status(400).json({ message: 'Ecode is already used.' });
     }
 
-    // Send an email to the user confirming the ecode verification
-    const transporter = nodemailer.createTransport({
-      service: 'Gmail', // Use your email service provider
-      auth: {
-        user: process.env.ADMIN_EMAIL_USER, // Admin email credentials
-        pass: process.env.ADMIN_EMAIL_PASS,
-      },
-    });
+    // // Mark ecode as used
+    // ecodeEntry.is_used = true;
+    // ecodeEntry.used_datetime = new Date(); // Save the timestamp
+    // await ecodeEntry.save();
 
-    const emailHTML = `<html>
-      <body>
-      <div style='width: 700px; margin: 0 auto;'>
-      <div style='background: #2f353a; padding: 15px 10px; text-align: left;'>
-        <a><img src='/assets/register/image/form-logo.png' alt='Esfaira' style='height:30px;'></a>	
-      </div>
-      <div style='padding: 15px; border: #CCC 1px solid; border-top: none; border-bottom: none;'>
-      <div>
-      <strong style='font-size: 18px;'>Congratulations! Your E-code <span style='text-transform: capitalize;'>${ecodeEntry.ecode}</span> has been successfully verified.</strong>
-      </div></br></br>
-      </div>
-      <div style='background: #F4F4F4; padding: 15px; text-align: center; border: #CCC 1px solid; border-top: none;'>Powered by 
-      <a style='color:#ffae00;'>ESFAIRA</a>
-      </div>
-      </div>
-      </body>
-      </html>`;
-
-    const mailOptions = {
-      from: process.env.ADMIN_EMAIL_USER,
-      to: ecodeEntry.email, // Use the email associated with the ecode
-      subject: 'Ecode Verified Successfully',
-      html: emailHTML,
-    };
-
-    await transporter.sendMail(mailOptions);
-
-    // Mark ecode as used
-    ecodeEntry.is_used = true;
-    ecodeEntry.used_datetime = new Date(); // Save the timestamp
-    await ecodeEntry.save();
-
-    return res.status(200).json({ message: 'Ecode is valid and email sent successfully.' });
+    return res.status(200).json({
+       message: 'Ecode is valid',
+       email: ecodeEntry.email, // Include email in the response
+      }  
+    );
   } catch (error) {
     console.error('Error verifying ecode:', error);
     return res.status(500).json({ message: 'Server error.' });
