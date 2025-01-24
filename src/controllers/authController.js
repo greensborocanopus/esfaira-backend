@@ -467,6 +467,7 @@ const requestEcode = async (req, res) => {
     await transporter.sendMail(mailOptions);
 
     unusedEcode.is_send = true;
+    console.log(email);
     unusedEcode.email = email;
 
     await unusedEcode.save();
