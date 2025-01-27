@@ -132,11 +132,11 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { identifier, password } = req.body;
+  const { email, password } = req.body;
 
-  // Ensure both identifier and password are provided
-  if (!identifier || !password) {
-    return res.status(400).json({ message: 'Identifier and password are required.' });
+  // Ensure both email and password are provided
+  if (!email || !password) {
+    return res.status(400).json({ message: 'email and password are required.' });
   }
 
   try {
@@ -144,8 +144,8 @@ const login = async (req, res) => {
     const user = await User.findOne({
       where: {
         [Sequelize.Op.or]: [
-          { email: identifier }, // Check if identifier matches email
-          { unique_id: identifier }, // Check if identifier matches unique ID
+          { email: email }, // Check if email matches email
+          { unique_id: email }, // Check if email matches unique ID
         ],
       },
     });
