@@ -8,6 +8,7 @@ const { Ecode, User, Invitation } = require('../models'); // Import the Ecode mo
 const { Op } = require('sequelize');
 const path = require('path');
 const fs = require('fs');
+const { Sequelize } = require('sequelize');
 
 
 const generateUniqueId = async (name, dob) => {
@@ -130,27 +131,49 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { identifier, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required.' });
+  // Ensure both identifier and password are provided
+  if (!identifier || !password) {
+    return res.status(400).json({ message: 'Identifier and password are required.' });
   }
 
   try {
-    const user = await User.findOne({ where: { email } });
+    // Find the user using either email or unique ID
+    const user = await User.findOne({
+      where: {
+        [Sequelize.Op.or]: [
+          { email: identifier }, // Check if identifier matches email
+          { unique_id: identifier }, // Check if identifier matches unique ID
+        ],
+      },
+    });
+
+    // If user is not found
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
     }
 
+    // Validate the password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid credentials.' });
     }
 
-    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
-    res.status(200).json({ token });
+    // Generate a token for the user
+    const token = jwt.sign(
+      { id: user.id, email: user.email, unique_id: user.unique_id },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' } // Token expires in 7 days
+    );
+
+    // Respond with the generated token
+    res.status(200).json({
+      message: 'Login successful.',
+      token,
+    });
   } catch (error) {
-    console.error(error);
+    console.error('Error during login:', error);
     res.status(500).json({ message: 'Server error.' });
   }
 };
