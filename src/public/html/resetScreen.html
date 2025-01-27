@@ -23,6 +23,11 @@
             font-weight: bold;
             margin-bottom: 10px;
         }
+
+        .see-password.active {
+            color: #007bff; /* Example color for the active state */
+            cursor: pointer;
+        }
     </style>
 
     <script>
@@ -80,6 +85,31 @@
                 document.getElementById('errorMessage').textContent = 'Invalid or missing reset token.';
             }
         };
+
+                // Function to toggle password visibility
+document.addEventListener('DOMContentLoaded', function () {
+    const togglePasswordVisibility = (icon, input) => {
+        icon.addEventListener('click', () => {
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.add('active'); // Add a class for the 'visible' state (optional for styling)
+            } else {
+                input.type = 'password';
+                icon.classList.remove('active');
+            }
+        });
+    };
+
+    // Select all password input fields and their associated icons
+    const passwordFields = document.querySelectorAll('.form-item-password');
+    const eyeIcons = document.querySelectorAll('.see-password');
+
+    if (passwordFields.length === eyeIcons.length) {
+        passwordFields.forEach((field, index) => {
+            togglePasswordVisibility(eyeIcons[index], field);
+        });
+    }
+    });
     </script>
 </head>
 
