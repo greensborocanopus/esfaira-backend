@@ -1,5 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    // Create the Countries table
     await queryInterface.createTable('Countries', {
       id: {
         allowNull: false,
@@ -28,9 +29,21 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       },
+      currency: {
+        type: Sequelize.STRING(3),
+        allowNull: true,
+        references: {
+          model: 'Currencies', // Name of the referenced table
+          key: 'code',         // Column in the referenced table
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+      }
     });
   },
+
   down: async (queryInterface, Sequelize) => {
+    // Drop the Countries table and remove the currency column
     await queryInterface.dropTable('Countries');
   },
 };
