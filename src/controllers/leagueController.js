@@ -119,6 +119,7 @@ const updateLeague = async (req, res) => {
   }
 };
 
+// get subleagues created by the user
 const getSubleagues = async (req, res) => {
   const userId = req.user.id; // Assuming user is authenticated and available in req.user
 
@@ -167,6 +168,7 @@ const getSubleagues = async (req, res) => {
   }
 };
 
+// get leagues by searching
 const getLeagues = async (req, res) => {
   try {
     const searchTerm = req.query.searchTerm; // Extract search term from query parameters
@@ -477,6 +479,8 @@ const joinLeague = async (req, res) => {
 // };
 
 
+
+// get leagues joined by user
 const getJoinLeague = async (req, res) => {
   try {
     const userId = req.user.id; // Assuming user ID is stored in the request after authentication
@@ -544,7 +548,7 @@ const getJoinLeague = async (req, res) => {
   }
 };
 
-
+// check if player is elegible to join a league or not
 const searchPlayer = async (req, res) => {
   try {
     const { unique_id, sub_league_id } = req.body;
